@@ -1,0 +1,93 @@
+﻿@model AutoServiceManager.Website.Models.FilteringModels.CustomerFaultsPreviewModel
+@{
+    ViewBag.Title = "Status napraw";
+}
+
+<h1>Status napraw:</h1>
+@Scripts.Render("~/bundles/jquery")
+<div>
+    @using (Html.BeginForm("CustomerCarsPreview", "RepairStatus"))
+    {
+
+        <div>
+            @Html.ValidationSummary()
+            <table class="table borderless" style="padding: 0px">
+                <tr>
+                    <th>
+                        @Html.LabelFor(x => x.Manufacturer, new { @class = "control-label" })
+                    </th>
+                    <th>
+                        @Html.LabelFor(x => x.Model, new { @class = "control-label" })
+                    </th>
+                    <th>@Html.LabelFor(x => x.RegisterNumber, new { @class = "control-label" })</th>
+                    <th>
+                        @Html.LabelFor(x => x.Order, new { @class = "control-label" })
+                    </th>
+                    <th/>
+                    <th/>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.EditorFor(x => x.Manufacturer, new { @class = "form-control" })
+                    </td>
+                    <td>
+                        @Html.EditorFor(x => x.Model, new { @class = "form-control" })
+                    </td>
+                    <td>
+                        @Html.EditorFor(x => x.RegisterNumber, new { @class = "form-control" })
+                    </td>
+                    <td>
+                        @Html.EnumDropDownListFor(x => x.Order, new { @class = "form-control" })
+                    </td>
+                    <td>
+                        <input type="submit" value="Filtruj" class="btn btn-default" />
+                    </td>
+                    <td>
+                        <a id="clearFilter" href="@Url.Action("Index")" class="btn btn-danger" style="display: n">X</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    }
+</div>
+
+
+<div id="customerCars">
+    @Html.Partial("CustomerCarsPreview", Model.Cars)
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('form').submit(function (event) {
+            event.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("CustomerCarsPreview")',
+                data: $('form').serialize(),
+                success: function(result) {
+                    $("#customerCars").html(result);
+                    $("#clearFilter").show();
+                },
+                error: function(result) {
+                    alert("Cos poszlo zle" + result.responseText);
+                }
+            });
+        });
+
+        $("#clearFilter").click(function () {
+            $('form').resetForm();
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("CustomerCarsPreview")',
+                data: $('form').serialize(),
+                success: function(result) {
+                    $("#customerCars").html(result);
+                    $(this).hide();
+                },
+                error: function(result) {
+                    alert("Cos poszlo zle" + result.responseText);
+                }
+            });
+        });
+    });
+</script>

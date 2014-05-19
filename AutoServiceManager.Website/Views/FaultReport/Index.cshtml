@@ -1,0 +1,43 @@
+﻿@model IEnumerable<AutoServiceManager.Common.Model.Car>
+
+@{
+    ViewBag.Title = "Report";
+}
+<hr/>
+<h2>Zgłoś usterkę</h2>
+<p>Wybierz samochód z listy który chcesz zgłosić co naprawy</p>
+<p>@Html.ActionLink("Dodaj nowy", "Create", "Car", new { }, new { @class = "btn btn-primary" })</p>
+<table class="table table-striped">
+    <thead>
+        <tr >
+            <th width="200">Marka</th>
+            <th width="200">Model</thwidth>
+            <th width="200">Rok produkcji</th>
+            <th width="200">Nr. rejestracyjny</th>
+            <th width="200"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var car in Model)
+        {
+            <tr>
+                <td>
+                    @car.Model.Manufacturer.Name
+                </td>
+                <td>
+                    @car.Model.ModelName
+                </td>
+                <td>
+                    @car.ProductionYear
+                </td>
+                <td>
+                    @car.RegistrationNumber
+                </td>
+                <td>
+                    @Html.ActionLink("Zgłoś", "Report", new{id = car.ID}, new {@class ="btn btn-primary"})
+                </td>
+            </tr>
+        }
+    </tbody>
+    
+</table>

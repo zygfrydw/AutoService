@@ -1,0 +1,77 @@
+﻿@using AutoServiceManager.Common.Model
+@using AutoServiceManager.Website.Models
+@model Car
+
+@{
+    ViewBag.Title = "Utwórz";
+    CarModelList modelList = CarModelList.GetModelList();
+}
+@Scripts.Render("~/bundles/jqueryAndval")
+
+<h2>Utwórz samochód</h2>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary()
+
+        <div class="form-group">
+            @Html.Label("Producent", new {@class = "control-label col-md-2"})
+            <div class="col-md-10">
+                @Html.DropDownList("ManufacturerID", new SelectList(modelList.Manufacturers, "Value", "Text"), new {@class = "form-control"})
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.ModelID, new {@class = "control-label col-md-2"})
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.ModelID, new SelectList(modelList.Models, "Value", "Text"), new {@class = "form-control"})
+                @Html.ValidationMessageFor(model => model.ModelID)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ProductionYear, new {@class = "control-label col-md-2"})
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ProductionYear, new {@class = "form-control"})
+                @Html.ValidationMessageFor(model => model.ProductionYear)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.RegistrationNumber, new {@class = "control-label col-md-2"})
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.RegistrationNumber, new {@class = "form-control"})
+                @Html.ValidationMessageFor(model => model.RegistrationNumber)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Utwórz" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+
+
+    <script type="text/javascript">
+        $(function() {
+            $("#ManufacturerID").change(function() {
+                var val = $(this).val();
+                var subItems = "";
+                $.getJSON("@Url.Action("GetModels", "Car")", { id: val }, function(data) {
+                    $.each(data, function(index, item) {
+                        subItems += "<option value='" + item.Value + "'>" + item.Text + "</option>";
+                    });
+                    $("#ModelID").html(subItems);
+                });
+            });
+        });
+    </script>

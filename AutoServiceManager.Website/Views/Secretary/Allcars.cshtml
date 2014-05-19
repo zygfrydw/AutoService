@@ -1,0 +1,67 @@
+﻿@using AutoServiceManager.Website.Models
+@model CarList
+
+@{
+    ViewBag.Title = "Allcars";
+}
+
+<h2>Auta w bazie danych</h2>
+<div class="row">
+    <div class="col-md-6">
+        <ul class="list-inline">
+            <li>
+                @using (Html.BeginForm("Allcars", "Secretary", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "CreateCustomerForm" }))
+                {
+                    @Html.AntiForgeryToken();
+                    @Html.TextBoxFor(objects => Model.query);
+                }
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Rok Produkcji</th>
+                    <th>Numer rejestracyjny</th>
+                    <th>Marka</th>
+                    <th>Model</th>
+                    <th>Własciciel</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{int i = 0;}
+                @foreach (var item in Model.list)
+                {
+                    <tr>
+                        <td>
+                            #@i@{i++;}
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ProductionYear)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RegistrationNumber)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Model.Manufacturer.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Model.ModelName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Owner.FirstName)
+                            &nbsp
+                            @Html.DisplayFor(modelItem => item.Owner.SecondName)
+                        </td>
+                    </tr>
+                }
+            <tbody>
+        </table>
+    </div>
+</div>
+

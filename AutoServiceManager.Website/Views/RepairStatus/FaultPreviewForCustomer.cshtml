@@ -1,0 +1,51 @@
+﻿@using AutoServiceManager.Common.Model
+@using AutoServiceManager.Website.Models
+@model AutoServiceManager.Common.Model.Fault
+
+@Scripts.Render("~/bundles/jquery")
+<div>
+    <h4>Usterka zgłoszona @Model.IncomingDate.</h4>
+    <h5><strong>Stan naprawy:</strong> <span id="repairState" style="color: @Html.ColorFor(Model.RepairStatus)">@Html.DescriptionFor(Model.RepairStatus)</span></h5>
+    @if (Model.RepairStatus == Status.ReportedByCustomer)
+    {
+        <p>Niebawem skontaktujemy się z państwem aby uzgodnić dogodny termin</p>
+    } else if (Model.RepairStatus == Status.Approved)
+    {
+        <p><strong>Proszę o wizytę w serwisie</strong> @if (Model.IncomeToService != null)
+                                                       {
+                                                           @Model.IncomeToService.Value
+                                                       }</p>
+    }
+    else if (Model.RepairStatus == Status.NewInService)
+    {
+        <p>Gdy serwisant zapozna się z usterką zostanie wyznaczona przypuszczalna data zakończenia naprawy</p>
+    } else if (Model.RepairStatus == Status.InProgress)
+    {
+            if(Model.PredictedEndDate.HasValue)
+         {
+             <p><strong>Przewidywana data zakończenia</strong> @Model.PredictedEndDate.Value</p>
+         }
+         else
+         {
+             <p>Niebawem zostanie wyznaczona data zakończenia naprawy.</p>
+         }
+    } else if (Model.RepairStatus == Status.Done)
+    {
+        <p>Naprawa twojego samochodu została zakończona. Zapraszamy do po odbiór samochodu</p>
+        
+      
+    } else if (Model.RepairStatus == Status.Relesed)
+    {
+        if (Model.RealeseDate.HasValue)
+        {
+            <p>Samochód został odebrany z serwisu dnia @Model.RealeseDate.Value.</p>    
+        }
+       
+    }
+    <h6>@Html.LabelFor(m => Model.Decription)</h6>
+    <p>@Model.Decription</p>
+    @if (Model.RepairStatus == Status.Done || Model.RepairStatus == Status.Relesed)
+    {
+        <p><a class="btn btn-default">Faktura</a></p>
+    }
+</div>

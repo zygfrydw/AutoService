@@ -1,0 +1,87 @@
+﻿@Scripts.Render("~/bundles/jqueryAndval")
+
+<div id="PartialCar">
+    @Html.Partial("Car")
+</div>
+
+<div id="PartialUser">
+    @Html.Partial("User")
+</div>
+
+<script type="text/javascript">
+
+        $(document).ready(function () {
+            
+                $("#createCustomer").click(function () {
+
+                    $.ajax({
+                        url: "@Url.Action("AddPerson")",
+                        type: "POST",
+                        dataType:"json",
+                        data: $("#CreateCustomerForm").serialize(),
+                    statusCode: {
+                        400: function(xhr, status, err) {                           
+                       
+                        }
+                    },
+                    success: function (data)
+                    {
+                        console.log(data);
+                        if(data.Errors !== "undefined" && data.Errors) {
+                            for (var i = 0; i < data.Errors.length; i++) {
+                                alert(data.Errors[i]);
+                            }
+                        }
+                        if (data.Succeeded !== "undefined" && data.Succeeded == true) {
+                            alert("dodano urzytkownika");
+                            $("[name=OwnerID]").prepend("<option value=\"" + data.UserId + "\">" + data.UserName + "</option>");
+                            console.log("<option value=\"" + data.UserId + "\">" + data.UserName + "</option>");
+                        }
+                    }
+                    });
+                });
+
+            $("[name=OwnerID]").change(function () {
+                if ($(this).val()) {
+                    $("#PartialUser").hide();
+                } else {
+                    $("#PartialUser").show();
+                }
+
+            });
+           
+
+                $("#PartialUser").hide();
+
+                    $("#createCarButton").click(function () {
+                       
+                        $.ajax({
+                            url: "@Url.Action("AddCar")",
+                            type: "POST",
+                        dataType:"json",
+                        data: $("#CreateCarForm").serialize(),
+                        statusCode: {
+                            400: function(xhr, status, err) {                           
+                       
+                            }
+                        },
+                        success: function (data)
+                        {
+                            console.log(data);
+                            if (data.Errors !== "undefined" && data.Errors) {
+                                for (var i = 0; i < data.Errors.length; i++) {
+                                    alert(data.Errors[i]);
+                                }
+                            }
+                            if (data.Succeeded !== "undefined" && data.Succeeded == true) {
+                                alert("dodano auto");
+                            }
+                        }
+                    });
+                  });
+
+            
+
+        });
+
+</script>

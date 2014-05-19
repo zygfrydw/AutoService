@@ -1,0 +1,36 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <span >
+        <img class="pull-left" src="@Url.Content("~/Content/Images/car_title.png")" width="200" height="114"/>
+        <h1>Serwis samochodowy</h1>
+        <p class="lead">Witaj w naszym serwisie samochodowym</p>
+    </span>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Zgłoś usterkę</h2>
+        <p>
+            Zanim przyjedziesz do naszego serwisu, zgłoś nam usterkę, pomoże nam to wybrać dla ciebie najlepszy termi.
+        </p>
+        <p><a class="btn btn-default" href="@Url.Action("Index", "FaultReport")">Zgłoś usterkę &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Sprawdź status</h2>
+        <p>W każdej chwili możesz sprawdzić postęp naprawy twojego samochodu</p>
+        <p><a class="btn btn-default" href="@Url.Action("Index", "RepairStatus")">Sprawdź status &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Katalog części</h2>
+        <p>Sprawdzaj katalog i dodawaj nowe części</p>
+        <p><a class="btn btn-default" href="@Url.Action("Index", "CataloguePart")">Otwórz katalog &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Panel Sekretarki</h2>
+        <p>Sprawdzaj katalog i dodawaj nowe części</p>
+        <p><a class="btn btn-default" href="@Url.Action("Index", "Secretary")">Otwórz &raquo;</a></p>
+    </div>
+</div>

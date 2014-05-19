@@ -1,0 +1,42 @@
+﻿@using AutoServiceManager.Website.Models
+@model System.Collections.Generic.IEnumerable<AutoServiceManager.Website.Models.RepairStatusViewModel>
+
+@{
+    int i = 0;
+}
+<div class="panel-group" id="car-list">
+    @foreach (var car in Model)
+    {
+        <div class="panel panel-@Html.ClassFor(car.Status)">
+            <div class="panel-heading btn btn-block" data-toggle="collapse" data-parent="#car-list" href="#@i">
+                <div class="panel-title">
+                    <table style="border-spacing: 30px">
+                        <tr style="text-align: left">
+                            <td style="font-weight: bold; width: 150px">@car.Car.Model.Manufacturer.Name</td>
+                            <td style="width: 150px">@car.Car.Model.ModelName</td>
+                            <td>@car.Car.RegistrationNumber</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div id="@i" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <table class="table table-striped">
+
+                        @foreach (var fault in car.Faults)
+                        {
+                            <tr>
+                                <td> @Html.Partial("FaultPreviewForCustomer", fault)</td>
+                            </tr>
+                        }
+                    </table>
+
+                </div>
+
+
+            </div>
+        </div>
+                        i++;
+    }
+</div>

@@ -1,0 +1,15 @@
+﻿@model IQueryable<AutoServiceManager.Website.Controllers.UserPreview>
+
+@{
+    ViewBag.Title = "Lista użytkowników";
+}
+
+<h2>Lista urzytkowników</h2>
+@foreach (var user in Model)
+{
+    <div>
+        <ul>
+            <li>@user.Login - @user.FirstName @user.SecondName</li>
+        </ul>
+    </div>
+}
