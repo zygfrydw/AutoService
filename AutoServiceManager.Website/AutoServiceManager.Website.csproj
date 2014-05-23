@@ -294,6 +294,8 @@
     <Content Include="Views\Secretary\User.cshtml" />
     <Content Include="Views\RepairStatus\CustomerCarsPreview.cshtml" />
     <Content Include="Views\Secretary\Allcars.cshtml" />
+    <Content Include="Views\FaultReport\Edit.cshtml" />
+    <Content Include="Views\FaultReport\Changed.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
