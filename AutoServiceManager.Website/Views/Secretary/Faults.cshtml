@@ -1,0 +1,101 @@
+﻿@using AutoServiceManager.Website.Models
+@model FaultList
+
+@{
+    ViewBag.Title = "Allcars";
+}
+
+<h2>Auta w bazie danych</h2>
+<div class="row">
+    <div class="col-md-6">
+        <ul class="list-inline">
+            <li>
+                @using (Html.BeginForm("Allcars", "Secretary", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "CreateCustomerForm" }))
+                {
+                    @Html.AntiForgeryToken();
+                    @Html.TextBoxFor(objects => Model.query);
+                }
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th><!--NO-->
+                    <th>ID</th><!--ID-->
+                    <th>Model</th><!--CAR MODEL-->
+                    <th>Marka</th><!--CAR MANUFACTURER-->
+                    <th>Imie</th><!--NAME-->
+                    <th>Nazwisko</th><!--SURNAME-->
+
+                    <th>Data zgłoszenia</th>
+                    <th>Przewidywana data zakończenia</th>
+                    <th>Data zakończenia</th>
+                    <th>Data Wydania</th>
+                    <th>Status</th>
+                    <th>Opis</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{int i = 0;}
+                @foreach (var item in Model.list)
+                {
+                    <tr>
+                        <td>
+                            #@i@{i++;}
+                        </td>
+                        <td>
+                            @item.ID
+                        </td>
+                        <td>
+                            @item.RelatedCar.Model.ModelName
+                        </td>
+                        <td>
+                            @item.RelatedCar.Model.Manufacturer.Name
+                        </td>
+                        <td>
+                            @item.RelatedCar.Owner.FirstName
+                        </td>
+                        <td>
+                            @item.RelatedCar.Owner.SecondName
+                        </td>
+
+                        <td>
+                            @item.IncomingDate
+                        </td>
+                        <td>
+                            @item.PredictedEndDate
+                        </td>
+                        <td>
+                            @item.CloseDate
+                        </td>
+                        <td>
+                            @item.RealeseDate
+                        </td>
+
+                        <td>
+                            @Html.DescriptionFor(item.RepairStatus)
+                        </td>
+                        <td>
+                            @item.Decription.Substring(0, 10)...
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td></td>
+                </tr>
+            <tbody>
+        </table>
+    </div>
+</div>
+
+<div class="row">
+    <div id="createFault" class="col-md-6">
+
+    </div>
+</div>
+

@@ -192,6 +192,7 @@
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AuthorizeRoleAttribute.cs" />
+    <Compile Include="Models\FaultList.cs" />
     <Compile Include="Models\CarModelList.cs" />
     <Compile Include="Models\FilteringModels\CustomerFaultsPreviewModel.cs" />
     <Compile Include="Models\MvcHtmlHelpers.cs" />
@@ -294,6 +295,8 @@
     <Content Include="Views\Secretary\User.cshtml" />
     <Content Include="Views\RepairStatus\CustomerCarsPreview.cshtml" />
     <Content Include="Views\Secretary\Allcars.cshtml" />
+    <Content Include="Views\Secretary\Faults.cshtml" />
+    <Content Include="Views\Secretary\FaultCreate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

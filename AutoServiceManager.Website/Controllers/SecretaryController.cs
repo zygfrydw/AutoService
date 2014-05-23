@@ -41,19 +41,34 @@ namespace AutoServiceManager.Website.Controllers
             return View();
         }
 
-        // GET: /Allcars/
+        // POST: /Secretary/Allcars/
         [HttpPost]
         public ActionResult Allcars(CarList listWithQuery)
         {
             return View(listWithQuery.GetCarList());
         }
 
-        // GET: /Allcars/
+        // GET: /Secretary/Allcars/
         [HttpGet]
         public ActionResult Allcars()
         {
             return View(CarList.GetAllCarList());
         }
+
+
+        // GET: /Secretary/Faults/
+        [HttpGet]
+        public ActionResult Faults()
+        {
+            return View(FaultList.GetAllFaultList());
+        }
+        // POST: /Secretary/Faults/
+        [HttpPost]
+        public ActionResult Faults(FaultList ListOfFaults)
+        {
+            return View(FaultList.GetAllFaultList());
+        }
+
 
         // POST: /Secretary/AddPerson
         [HttpPost]

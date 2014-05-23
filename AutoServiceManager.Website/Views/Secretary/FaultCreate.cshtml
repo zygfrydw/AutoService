@@ -1,0 +1,66 @@
+﻿@using AutoServiceManager.Common.Model
+@using AutoServiceManager.Website.Models
+@model Fault
+
+@{
+    CarModelList modelList = CarModelList.GetModelList();
+    IEnumerable<SelectListItem> temp1 = modelList.Manufacturers;
+    PersonList personList = PersonList.GetPersonsList();
+}
+@Scripts.Render("~/bundles/jqueryAndval")
+@using (Html.BeginForm("AddCar", "Secretary", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "CreateCarForm" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <h4>Utwórz Samochód</h4>
+        <hr />
+        @Html.ValidationSummary()
+
+        <div class="form-group">
+            @Html.Label("Producent", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("ManufacturerID", new SelectList(modelList.Manufacturers, "Value", "Text"), new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.ModelID, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.ModelID, new SelectList(modelList.Models, "Value", "Text"), new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ModelID)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ProductionYear, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ProductionYear, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ProductionYear)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.RegistrationNumber, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.RegistrationNumber, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.RegistrationNumber)
+            </div>
+        </div>
+
+        <div class="form-group">
+            
+            <label class="control-label col-md-2">Właściciel</label>
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.OwnerID, new SelectList(personList.temp, "Value", "Text"), new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.OwnerID)
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-md-3"></div>
+            <div class="col-md-3">
+                <button type="button" class="btn btn-default" id="createCarButton">Dodaj Auto</button>
+            </div>
+        </div>
+
+    </div>
+}
