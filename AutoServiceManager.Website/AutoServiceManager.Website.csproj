@@ -297,6 +297,8 @@
     <Content Include="Views\Secretary\Allcars.cshtml" />
     <Content Include="Views\Secretary\Faults.cshtml" />
     <Content Include="Views\Secretary\FaultCreate.cshtml" />
+    <Content Include="Views\FaultReport\Edit.cshtml" />
+    <Content Include="Views\FaultReport\Changed.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
+using System.Linq;
 
 namespace AutoServiceManager.Common.Model
 {
@@ -75,6 +76,25 @@ namespace AutoServiceManager.Common.Model
         {
             return ID == other.ID;
         }
+
+        public Status? CarStatus
+        {
+            get
+            {
+
+                try
+                {
+                    return (from fault in Faults
+                        orderby fault.IncomingDate descending
+                        select fault.RepairStatus).First();
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+        }
+
 
         public override bool Equals(object obj)
         {

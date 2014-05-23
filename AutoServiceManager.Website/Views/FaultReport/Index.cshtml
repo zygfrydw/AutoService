@@ -1,4 +1,5 @@
-﻿@model IEnumerable<AutoServiceManager.Common.Model.Car>
+﻿@using AutoServiceManager.Common.Model
+@model IEnumerable<Car>
 
 @{
     ViewBag.Title = "Report";
@@ -34,10 +35,21 @@
                     @car.RegistrationNumber
                 </td>
                 <td>
-                    @Html.ActionLink("Zgłoś", "Report", new{id = car.ID}, new {@class ="btn btn-primary"})
+                @if (car.CarStatus == Status.ReportedByCustomer)
+                {
+                    @Html.ActionLink("Edytuj", "Edit", new { id = car.ID }, new { @class = "btn btn-primary" })
+                }
+                else
+                {
+                    @Html.ActionLink("Zgłoś", "Report", new { id = car.ID }, new { @class = "btn btn-primary" })
+                }
+
+
                 </td>
             </tr>
         }
     </tbody>
     
 </table>
+<hr/>
+<p >Aby zmodyfikować dane twojego samochodu skonktaktuj się z naszym działem obsługi klienta</p>

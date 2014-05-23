@@ -1,14 +1,12 @@
 ﻿@model AutoServiceManager.Common.Model.Fault
 @{
-    ViewBag.Title = "Zgłoś usterkę";
+    ViewBag.Title = "Edytuj zgłoszenie";
 }
 
-<h2>Opisz nam swoją usterkę</h2>
-@using(Html.BeginForm())
+<h2>Edytuj zgłoszoną usterkę</h2>
+@using(Html.BeginForm("Edit","FaultReport", Model.ID))
 {
-    @Html.HiddenFor(model => model.CarID)
-    @Html.Hidden("ID", Model.ID)
-
+    @Html.HiddenFor(model => model.ID)
     <div class="form-horizontal">
     <hr />
     @Html.ValidationSummary(true)
@@ -23,7 +21,7 @@
 
     <div class="form-group">
         <div class="col-md-2">
-            <input type="submit" value="Zgłoś" class="btn btn-default" />
+            <input type="submit" value="Modyfikuj" class="btn btn-default" />
         </div>
     </div>
 </div>
