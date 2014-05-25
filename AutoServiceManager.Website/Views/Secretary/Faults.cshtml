@@ -1,4 +1,6 @@
 ﻿@using AutoServiceManager.Website.Models
+@using AutoServiceManager.Common.Model
+
 @model FaultList
 
 @{
@@ -10,7 +12,7 @@
     <div class="col-md-6">
         <ul class="list-inline">
             <li>
-                @using (Html.BeginForm("Allcars", "Secretary", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "CreateCustomerForm" }))
+                @using (Html.BeginForm("Faults", "Secretary", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "CreateCustomerForm" }))
                 {
                     @Html.AntiForgeryToken();
                     @Html.TextBoxFor(objects => Model.query);
@@ -43,49 +45,72 @@
             <tbody>
                 @{int i = 0;}
                 @foreach (var item in Model.list)
+{
+    <tr data-name="ExistingFaultInTable">
+        <td>
+            #@i@{i++;}
+        </td>
+        <td>
+            @item.ID
+        </td>
+        <td>
+            @item.RelatedCar.Model.ModelName
+        </td>
+        <td>
+            @item.RelatedCar.Model.Manufacturer.Name
+        </td>
+        <td>
+            @item.RelatedCar.Owner.FirstName
+        </td>
+        <td>
+            @item.RelatedCar.Owner.SecondName
+        </td>
+
+        <td>
+            @item.IncomingDate
+        </td>
+        <td>
+            @item.PredictedEndDate
+        </td>
+        <td>
+            @item.CloseDate
+        </td>
+        <td>
+            @item.RealeseDate
+        </td>
+
+        <td>
+            @Html.DescriptionFor(item.RepairStatus)
+        </td>
+        <td>
+            @item.Decription.Substring(0, 10)...
+        </td>
+        <td style="display:none" data-name="jsonContainer">
+            @Json.Encode(new
                 {
-                    <tr>
-                        <td>
-                            #@i@{i++;}
-                        </td>
-                        <td>
-                            @item.ID
-                        </td>
-                        <td>
-                            @item.RelatedCar.Model.ModelName
-                        </td>
-                        <td>
-                            @item.RelatedCar.Model.Manufacturer.Name
-                        </td>
-                        <td>
-                            @item.RelatedCar.Owner.FirstName
-                        </td>
-                        <td>
-                            @item.RelatedCar.Owner.SecondName
-                        </td>
-
-                        <td>
-                            @item.IncomingDate
-                        </td>
-                        <td>
-                            @item.PredictedEndDate
-                        </td>
-                        <td>
-                            @item.CloseDate
-                        </td>
-                        <td>
-                            @item.RealeseDate
-                        </td>
-
-                        <td>
-                            @Html.DescriptionFor(item.RepairStatus)
-                        </td>
-                        <td>
-                            @item.Decription.Substring(0, 10)...
-                        </td>
-                    </tr>
-                }
-                <tr>
+                    ID = item.ID,
+                    CarID = item.CarID,
+                    RepairStatus = item.RepairStatus,
+                    IncomingDate = item.IncomingDate.ToString(),
+                    PredictedEndDate = item.PredictedEndDate.ToString(),
+                    CloseDate = item.CloseDate.ToString(),
+                    RealeseDate = item.RealeseDate.ToString()
+                })
+        </td>
+    </tr>
+}
+                <tr data-name="AddFaultInTable">
+                    <td></td>
+                    <td><i class="glyphicon glyphicon-plus" style=""></i>Dodaj</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                     <td></td>
                 </tr>
             <tbody>
@@ -95,7 +120,15 @@
 
 <div class="row">
     <div id="createFault" class="col-md-6">
-
+            @Html.Partial("FaultCreate", new Fault())
     </div>
 </div>
 
+<script>
+    $(function (){
+        $("[data-name=ExistingFaultInTable]").click(function () {
+            var object = jQuery.parseJSON($(this).children("[data-name=jsonContainer]").text());
+            console.log(object);
+        }); 
+    });
+</script>

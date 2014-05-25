@@ -1,66 +1,150 @@
-﻿@using AutoServiceManager.Common.Model
-@using AutoServiceManager.Website.Models
+﻿@using AutoServiceManager.Website.Models
+@using AutoServiceManager.Common.Model
+
 @model Fault
 
-@{
-    CarModelList modelList = CarModelList.GetModelList();
-    IEnumerable<SelectListItem> temp1 = modelList.Manufacturers;
-    PersonList personList = PersonList.GetPersonsList();
-}
-@Scripts.Render("~/bundles/jqueryAndval")
-@using (Html.BeginForm("AddCar", "Secretary", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "CreateCarForm" }))
+@using (Html.BeginForm("CreateFault", "Secretary", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "CreateCustomerForm"}))
 {
     @Html.AntiForgeryToken()
-    <div class="form-horizontal">
-        <h4>Utwórz Samochód</h4>
-        <hr />
-        @Html.ValidationSummary()
-
-        <div class="form-group">
-            @Html.Label("Producent", new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("ManufacturerID", new SelectList(modelList.Manufacturers, "Value", "Text"), new { @class = "form-control" })
-            </div>
+    
+    
+    <h4>Dodaj usterke</h4>
+    <hr/>
+    @Html.ValidationSummary()
+    <div class="form-group">
+        @Html.LabelFor(m => m.RepairStatus, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            <select id="RepairStatus" name="RepairStatus">
+                @foreach (Status suit in (Status[])Enum.GetValues(typeof(Status)))
+                {
+                    <option value="@((int)suit)">@Html.DescriptionFor(suit)</option>
+                }
+            </select>
         </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.ModelID, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.ModelID, new SelectList(modelList.Models, "Value", "Text"), new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.ModelID)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ProductionYear, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ProductionYear, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.ProductionYear)
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.RegistrationNumber, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.RegistrationNumber, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.RegistrationNumber)
-            </div>
-        </div>
-
-        <div class="form-group">
-            
-            <label class="control-label col-md-2">Właściciel</label>
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.OwnerID, new SelectList(personList.temp, "Value", "Text"), new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.OwnerID)
-            </div>
-        </div>
-
-
-        <div class="form-group">
-            <div class="col-md-3"></div>
-            <div class="col-md-3">
-                <button type="button" class="btn btn-default" id="createCarButton">Dodaj Auto</button>
-            </div>
-        </div>
-
     </div>
+
+   
+    <div class="form-group" data-name="singleCarDiv">
+        <label class="col-md-2 control-label" for="RepairStatus">Auto</label>
+        <div class="col-md-10">
+            <h4 data-name="singleCarText">...</h4>
+            @Html.TextBoxFor(m => m.CarID, new { @class = "form-control", @style = "display:none" })
+        </div>
+    </div>
+
+
+    <div data-name="searchCarDiv">
+        <label class="col-md-2 control-label" for="RepairStatus">Szukaj Auta</label>
+        <div class="form-group">
+            <input type="text" name="dynamicCarSearch" class="form-control" placeholder="Text input">
+        </div>
+        <div class="form-group">
+            <select style="max-width: 400px;width: 400px; " data-name="avalibleCars" multiple class="form-control"></select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Decription, new { @class = "control-label"})
+        <div>
+            @Html.TextAreaFor(m => m.Decription, 10,10, new {@class = "form-control", style = "max-width: 700px;"})
+            @Html.ValidationMessageFor(m => m.Decription)
+        </div>
+    </div>
+    
+    <div class="form-group">
+    @Html.LabelFor(m => m.IncomingDate, new { @class = "col-md-2 control-label" })
+    <div class="col-md-10">
+            @Html.TextBoxFor(m => m.IncomingDate, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.IncomingDate)
+        </div>
+    </div>
+    
+    <div class="form-group">
+    @Html.LabelFor(m => m.PredictedEndDate, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.PredictedEndDate, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.PredictedEndDate)
+        </div>
+    </div>
+    
+    <div class="form-group">
+    @Html.LabelFor(m => m.CloseDate, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.CloseDate, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.CloseDate)
+        </div>
+    </div>
+    
+    <div class="form-group">
+     @Html.LabelFor(m => m.RealeseDate, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.RealeseDate, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.RealeseDate)
+        </div>
+    </div>
+
+    <button data-name="AddEditFaultSubmit" type="submit" class="btn btn-default">Dodaj/Edytuj</button>
 }
+
+
+<script>
+    $(function () {
+        $("input[name=dynamicCarSearch]").change(function () {
+            $("[data-name=avalibleCars]").prop("disabled", true);
+            $("[data-name=avalibleCars]").html(null);
+            $.post("/Secretary/DynamicSearch/", { query: $("[name=dynamicCarSearch]").val() })
+                 .done(function (data) {
+                     $("[data-name=avalibleCars]").prop("disabled", false);
+                     $.each(data.cars, function (index, value) {
+                         console.log(value);
+                         var name = value.Manufacturer + " " + value.Model + "  Właściciel: " + value.OwnerName + " " + value.OwnerSurname
+                         $("[data-name=avalibleCars]").append('<option data-name="singleCar" value="' + value.ID + '">' + name + '</option>');
+                     });
+                     $("[data-name=singleCar]").click(function () {
+                         $("[data-name=singleCarText]").text($(this).text());
+                         $("[data-name=singleCarDiv]").show();
+                         $("[data-name=searchCarDiv]").hide();
+                         $("input[name=CarID]").val($(this).val());
+                     });
+                 }, "json");
+        })
+        $("[data-name=singleCarText]").click(function () {
+            $("[data-name=singleCarDiv]").hide();
+            $("[data-name=searchCarDiv]").show();
+        });
+        $("[data-name=singleCarDiv]").hide();
+    });
+    $(document).ready(function () {
+        $(window).keydown(function (event) {
+            if (event.keyCode == 13) {
+                event.preventDefault();
+                return false;
+            }
+        });
+
+        
+        var validateDateTime = function (textfield) {
+            var pattern = /(\d{2})\/(\d{2})\/(\d{4}) (\d{2}):(\d{2}):(\d{2})/
+            var reslult = pattern.test($(textfield).val());
+            console.log(reslult);
+            if (reslult) {
+                $(textfield).removeClass("input-validation-error");
+            } else {
+                $(textfield).addClass("input-validation-error");
+            }
+            return reslult;
+        }
+
+        $("[data-name=AddEditFaultSubmit]").click(function () {
+            var result = true;
+            result &= validateDateTime($("#IncomingDate"));
+            if (result == false) {
+                event.preventDefault();
+                return false;
+            }
+        })
+
+       
+     
+    });
+</script>

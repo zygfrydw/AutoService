@@ -44,10 +44,15 @@ namespace AutoServiceManager.Common.Model
 
     public class Fault
     {
+       
+
         public long ID { get; set; }
         [Required]
+        [DisplayName("Auto")]
         public long CarID { get; set; }
+        [DisplayName("Auto")]
         public Car RelatedCar { get; set; }
+        [DisplayName("Status Naprawy")]
         public Status RepairStatus { get; set; }
         [DataType(DataType.Date)]
         [DisplayName("Data zgłoszenia")]

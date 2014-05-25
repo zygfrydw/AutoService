@@ -34,7 +34,39 @@ namespace AutoServiceManager.Website.Controllers
              
         }
 
-        //
+
+        // GET: /Secretary/
+        [HttpPost]
+        public ActionResult CreateFault(Fault obj)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Faults.Add(obj);
+                db.SaveChanges();
+            }
+            return RedirectToAction("Faults");
+        }
+        
+
+        // GET: /Secretary/
+        [HttpPost]
+        public ActionResult DynamicSearch(String query)
+        {
+            CarList ListOfCars = CarList.GetAllCarList();
+            List<object> list = new List<object>();
+
+            foreach (var obj in ListOfCars.GetCarList(query).list){
+                list.Add(new {
+                    ID = obj.ID,
+                    OwnerName = obj.Owner.FirstName,
+                    OwnerSurname = obj.Owner.SecondName,
+                    Model = obj.Model.ModelName,
+                    Manufacturer = obj.Model.Manufacturer.Name
+                });
+            }
+            return Json(new { cars = list });
+        }
+
         // GET: /Secretary/
         public ActionResult Index()
         {

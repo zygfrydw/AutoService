@@ -10,6 +10,13 @@ namespace AutoServiceManager.Website
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js"));
+            /**
+             * He who fights with monsters should look to it that he himself does not become a monster.
+             * And when you gaze long into an abyss the abyss also gazes into you.
+             */
+
+            bundles.Add(new ScriptBundle("~/bundles/datetimepicker").Include("~/Scripts/bootstrap-datetimepicker.min.js"));
+     
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
@@ -28,7 +35,9 @@ namespace AutoServiceManager.Website
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/site.css",
+                      "~/Scripts/ui-lightness/jquery-ui-1.10.4.custom.css"));
+
         }
     }
 }
