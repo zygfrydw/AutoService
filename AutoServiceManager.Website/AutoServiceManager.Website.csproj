@@ -355,6 +355,7 @@
     <Content Include="Views\Secretary\FaultCreate.cshtml" />
     <Content Include="Views\FaultReport\Edit.cshtml" />
     <Content Include="Views\FaultReport\Changed.cshtml" />
+    <Content Include="Views\Shared\Invoice.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

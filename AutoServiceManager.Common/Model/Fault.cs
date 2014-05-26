@@ -35,13 +35,6 @@ namespace AutoServiceManager.Common.Model
         Relesed
     }
 
-    public class SubFault
-    {
-        public long ID { get; set; }
-        public string Description { get; set; }
-
-    }
-
     public class Fault
     {
        

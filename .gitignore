@@ -156,4 +156,6 @@ $RECYCLE.BIN/
 .DS_Store
 
 # Local database
-AutoServiceManager.Website/App_Data/
+AutoServiceManager.Website/App_Data/*
+*.mdf
+*.ldf

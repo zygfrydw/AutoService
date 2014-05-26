@@ -78,7 +78,14 @@
     <Compile Include="Model\DataContext.cs" />
     <Compile Include="Identity\IdentityModels.cs" />
     <Compile Include="Model\Fault.cs" />
+    <Compile Include="Invoice\Invoice.cs" />
+    <Compile Include="Invoice\InvoiceFactory.cs" />
+    <Compile Include="Model\Part.cs" />
+    <Compile Include="Model\PartOperation.cs" />
+    <Compile Include="Model\PartOperationType.cs" />
     <Compile Include="Model\Person.cs" />
+    <Compile Include="Model\WorkTime.cs" />
+    <Compile Include="Model\SubFault.cs" />
     <Compile Include="Model\Worker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
