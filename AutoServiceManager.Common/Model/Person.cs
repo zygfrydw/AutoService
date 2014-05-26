@@ -1,9 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AutoServiceManager.Common.Identity;
 
 namespace AutoServiceManager.Common.Model
@@ -11,11 +8,16 @@ namespace AutoServiceManager.Common.Model
     [ComplexType]
     public class AddressData
     {
-        [Required]
         [DisplayName("Miasto")]
-        public string City { get; set; }
+        public long CityId { get; set; }
+
+        [Required]
+        [NotMapped]
+        [DisplayName("Miasto")]
+        public string TempCity { get; set; }
+
         [DisplayName("Kraj")]
-        public string Country { get; set; }
+        public long CountryId { get; set; }
 
         [EmailAddress]
         [DisplayName("Adres email")]

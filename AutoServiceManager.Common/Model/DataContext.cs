@@ -24,6 +24,8 @@ namespace AutoServiceManager.Common.Model
         public DbSet<Part> UsedParts{ get; set; }
         public DbSet<WorkTime> WorkedTime{ get; set; }
         public DbSet<PartOperation> PartOperations{ get; set; }
+        public DbSet<City> Cities{ get; set; }
+        public DbSet<Country> Countries{ get; set; }
  
     }
 }

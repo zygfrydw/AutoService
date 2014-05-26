@@ -9,6 +9,8 @@ namespace AutoServiceManager.Common.Invoice
     {
         public Car Car { get; set; }
         public Customer Customer { get; set;}
+        public string City { get; set; }
+        public string Country { get; set; }
         public IEnumerable<Part> Parts { get; set; }
         public double WorkedHours { get; set; }
         [DataType(DataType.Currency)]

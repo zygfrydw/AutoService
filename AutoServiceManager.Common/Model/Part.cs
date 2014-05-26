@@ -9,7 +9,7 @@ namespace AutoServiceManager.Common.Model
         [Required]
         [DisplayName("Numer katalogowy")]
         public long CataloguePartId { get; set; }
-        public CataloguePart PartFromCatalogue { get; set; }
+        public virtual CataloguePart PartFromCatalogue { get; set; }
         [Required]
         [DisplayName("Cena sprzedarzy")]
         public decimal SoldPrice { get; set; }

@@ -62,17 +62,11 @@
   <ItemGroup>
     <Compile Include="DataAnnotations\ColorAttribute.cs" />
     <Compile Include="DataAnnotations\HtmlClassAttribute.cs" />
-    <Compile Include="Migrations\201404181308555_InitialCreate.cs" />
-    <Compile Include="Migrations\201404181308555_InitialCreate.Designer.cs">
-      <DependentUpon>201404181308555_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201404241743074_InharitigPersons.cs" />
-    <Compile Include="Migrations\201404241743074_InharitigPersons.Designer.cs">
-      <DependentUpon>201404241743074_InharitigPersons.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\CataloguePart.cs" />
     <Compile Include="Model\Car.cs" />
+    <Compile Include="Model\City.cs" />
+    <Compile Include="Model\Country.cs" />
     <Compile Include="Model\Customer.cs" />
     <Compile Include="Model\DatabaseInitializer.cs" />
     <Compile Include="Model\DataContext.cs" />
@@ -92,14 +86,6 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201404181308555_InitialCreate.resx">
-      <DependentUpon>201404181308555_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201404241743074_InharitigPersons.resx">
-      <DependentUpon>201404241743074_InharitigPersons.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
