@@ -21,6 +21,11 @@ namespace AutoServiceManager.Common.Model
         public DbSet<Fault> Faults { get; set; }
         public DbSet<SubFault> SubFaults { get; set; }
         public DbSet<CataloguePart> CatalogueParts { get; set; }
+        public DbSet<Part> UsedParts{ get; set; }
+        public DbSet<WorkTime> WorkedTime{ get; set; }
+        public DbSet<PartOperation> PartOperations{ get; set; }
+        public DbSet<City> Cities{ get; set; }
+        public DbSet<Country> Countries{ get; set; }
  
     }
 }

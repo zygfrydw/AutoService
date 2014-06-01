@@ -46,6 +46,6 @@
     <p>@Model.Decription</p>
     @if (Model.RepairStatus == Status.Done || Model.RepairStatus == Status.Relesed)
     {
-        <p><a class="btn btn-default">Faktura</a></p>
+        <p><a class="btn btn-default" href="@Url.Action("ShowInvoide", new {id = @Model.ID})">Faktura</a></p>
     }
 </div>

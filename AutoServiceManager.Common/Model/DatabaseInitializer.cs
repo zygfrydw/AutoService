@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,8 +19,64 @@ namespace AutoServiceManager.Common.Model
         {
             AddCarDatabase(db);
             AddAplicationRolesAndUsers(db);
+            AddCountries(db);
         }
-         private void AddCarDatabase(DataContext context)
+
+        private void AddCountries(DataContext db)
+        {
+            var countriesList = new string[]
+            {
+                "Monako",
+                "Malta",
+                "Watykan",
+                "Holandia",
+                "San Marino",
+                "Belgia",
+                "Wielka Brytania",
+                "Niemcy",
+                "Liechtenstein",
+                "Włochy",
+                "Szwajcaria",
+                "Andora",
+                "Luksemburg",
+                "Czechy",
+                "Mołdawia",
+                "Dania",
+                "Polska",
+                "Słowacja",
+                "Francja",
+                "Węgry",
+                "Portugalia",
+                "Albania",
+                "Serbia",
+                "Słowenia",
+                "Austria",
+                "Rumunia",
+                "Turcja",
+                "Ukraina",
+                "Grecja",
+                "Macedonia",
+                "Chorwacja",
+                "Hiszpania",
+                "Bośnia i Hercegowina",
+                "Bułgaria",
+                "Litwa",
+                "Irlandia",
+                "Czarnogóra",
+                "Białoruś",
+                "Łotwa",
+                "Estonia",
+                "Szwecja",
+                "Finlandia",
+                "Norwegia",
+                "Rosja",
+                "Kazachstan",
+                "Islandia"
+            };
+            db.Countries.AddOrUpdate(country => country.Name, countriesList.Select(x => new Country(){Name = x}).ToArray());
+        }
+
+        private void AddCarDatabase(DataContext context)
         {
             var carManufacturer = new CarManufacturer("Volkswagen");
             carManufacturer = context.AddIfDistinct(carManufacturer);

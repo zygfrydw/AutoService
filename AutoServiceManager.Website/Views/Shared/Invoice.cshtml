@@ -1,0 +1,60 @@
+﻿@model AutoServiceManager.Common.Invoice.Invoice
+           
+<div>
+    <h3>Faktura dla usterki @Model.FaultId</h3>
+    <hr/>
+    
+    <table class="table" style="font-size: 20; font-weight: bold">
+        <tr>
+            <th><address>
+                    @{
+                        var adress = @Model.Customer.Address;
+                    }
+                    @Model.Customer.FirstName @Model.Customer.SecondName<br/>
+                    @adress.Street<br/>
+                    @adress.ZipCode @Model.City<br/>
+                    @Model.Country<br/>
+                    @adress.Email <br/>
+                    @adress.PhoneNumber
+
+                </address>
+            </th>
+            <th>
+                <p>
+                    @Model.Car.Model.ModelName @Model.Car.Model.Manufacturer.Name<br/>
+                    @Model.Car.RegistrationNumber
+                </p>
+            </th>
+        </tr>    
+    </table>
+    
+    <table class="table">
+        <tr>
+            <th>Nazwa</th>
+            <th>Ilość</th>
+            <th>Cena jednostkowa</th>
+            <th>Koszt</th>
+        </tr>
+        @foreach (var part in Model.Parts)
+        {
+            <tr>
+                <td>@part.PartFromCatalogue.PartName</td>
+                <td>@part.Count</td>
+                <td>@part.SoldPrice</td>
+                <td>@part.Cost</td>
+            </tr>
+        }
+        <tr>
+            <td>Roboicizna</td>
+            <td>@Model.WorkedHours</td>
+            <td></td>
+            <td>@Model.WorkCosts</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td><strong>Suma:</strong></td>
+            <td><strong>@Model.TotalCost</strong></td>
+        </tr>
+    </table>
+</div>

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using AutoServiceManager.Common.Identity;
+using AutoServiceManager.Common.Invoice;
 using AutoServiceManager.Common.Model;
 using AutoServiceManager.Website.Models;
 using AutoServiceManager.Website.Models.FilteringModels;
@@ -88,6 +89,12 @@ namespace AutoServiceManager.Website.Controllers
             if(disposing)
                 db.Dispose();
             base.Dispose(disposing);
+        }
+
+        public ActionResult ShowInvoide(long id)
+        {
+            var invoice = InvoiceFactory.GetInvoiceForFaultId(id);
+            return View("Invoice", invoice);
         }
     }
 }

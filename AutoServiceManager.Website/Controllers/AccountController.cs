@@ -83,14 +83,23 @@ namespace AutoServiceManager.Website.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser() { UserName = model.UserName};
-                var result = await UserManager.CreateAsync(user, model.Password);
                 
+                var user = new ApplicationUser() {UserName = model.UserName};
+                var result = await UserManager.CreateAsync(user, model.Password);
+
                 if (result.Succeeded)
                 {
                     var db = new DataContext();
                     model.PersonData.RegistrationTime = DateTime.Now;
                     model.PersonData.UserID = user.Id;
+                    var cityName = model.PersonData.Address.TempCity;
+                    var city = db.Cities.FirstOrDefault(x => x.Name == cityName);
+                    if (city == null)
+                    {
+                        city = db.Cities.Add(new City {Name = cityName});
+                        db.SaveChanges();
+                    }
+                    model.PersonData.Address.CityId = city.Id;
                     db.People.Add(model.PersonData);
                     await db.SaveChangesAsync();
                     await UserManager.AddToRoleAsync(user.Id, ApplicationRoles.Customer.ToString());
@@ -101,6 +110,7 @@ namespace AutoServiceManager.Website.Controllers
                 {
                     AddErrors(result);
                 }
+               
             }
 
             // If we got this far, something failed, redisplay form
