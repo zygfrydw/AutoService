@@ -7,21 +7,60 @@
 
 <h2>Auta w bazie danych</h2>
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-12">
         <ul class="list-inline">
             <li>
-                @using (Html.BeginForm("Allcars", "Secretary", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "CreateCustomerForm" }))
+                @using (Html.BeginForm("Allcars", "Secretary", FormMethod.Post, new { @class = "form-inline searchFormAllCars" }))
                 {
+                    <div class="form-group">
+                        &nbsp;Szukaj:&nbsp;
+                        @Html.TextBoxFor(objects => Model.query, new { @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        <label class="sr-only" for="exampleInputPassword2">Grupuj po:</label>
+                        &nbsp;Sortuj po:&nbsp;
+                        <select class="form-control" name="order">
+                            <option value="ModelName">Modelu</option>
+                            <option value="ManufacturerName">Markce</option>
+                            <option value="OwnerFirstName">Imieniu właściciela</option>
+                            <option value="OwnerSecondName">Nazwisku właściciela</option>
+                            <option value="RegistrationNumber">Numere rejestracyjnym</option>
+                            <option value="ProductionYear">Roku produkcji</option>
+                        </select>
+
+
+                    <label class="sr-only" for="exampleInputPassword2">Grupuj po:</label>
+                        &nbsp;Wyróżnij użytkowników:&nbsp;
+                        <input type="checkbox" name="highlightDifferentUser" value="true">
+                    </div>
+                    
                     @Html.AntiForgeryToken();
-                    @Html.TextBoxFor(objects => Model.query);
+                    <button type="submit" class="btn btn-default">szukaj</button>
+                    <button type="button" id="clearForm" class="btn btn-default">Czyść</button>
                 }
             </li>
         </ul>
     </div>
 </div>
-
+<script>
+    var previouslySelectedOrder = "@Model.order";
+    var previouslySelectedQuery = "@Model.query"; 
+    var highlightDifferentUser = "@Model.highlightDifferentUser";
+    $(function () {
+        $("#query").val(previouslySelectedQuery);
+        $("[value=" + previouslySelectedOrder + "]").attr("selected", "true");
+        if (highlightDifferentUser == "true") {
+            $("[name=highlightDifferentUser]").attr("checked",true);
+        }
+        $("#clearForm").click(function () {
+            $("#query").val(null);
+            $("[name=highlightDifferentUser]").attr("checked", false);
+            $(".searchFormAllCars").submit();
+        });
+    });
+</script>
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-8">
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -34,9 +73,17 @@
                 </tr>
             </thead>
             <tbody>
-                @{int i = 0;}
+                @{int i = 0;
+                  string lastSecondName="";
+                  string lastFirstName="";
+                  }
+
                 @foreach (var item in Model.list)
                 {
+                    if (Model.highlightDifferentUser=="true" && lastSecondName != item.Owner.SecondName && lastFirstName != item.Owner.FirstName && i > 0)
+                    {
+                        <tr style="height:20px;"></tr><tr style="height:20px;"></tr>    
+                    }
                     <tr>
                         <td>
                             #@i@{i++;}
@@ -55,10 +102,13 @@
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.Owner.FirstName)
+                            @{lastFirstName = item.Owner.FirstName;}
                             &nbsp
                             @Html.DisplayFor(modelItem => item.Owner.SecondName)
+                            @{lastSecondName = item.Owner.SecondName;}
                         </td>
                     </tr>
+                    
                 }
             <tbody>
         </table>

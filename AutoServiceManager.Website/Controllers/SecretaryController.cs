@@ -11,6 +11,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using AutoServiceManager.Website.Models;
+using System.Web.Script.Serialization;
 
 
 namespace AutoServiceManager.Website.Controllers
@@ -101,6 +102,57 @@ namespace AutoServiceManager.Website.Controllers
             return View(FaultList.GetAllFaultList());
         }
 
+
+        // GET: /Secretary/AllUsers/
+        [HttpGet]
+        public ActionResult AllUsers()
+        {
+            var temp = new UserList();
+            return View(temp.GetUserList());
+        }
+        [HttpPost]
+        public ActionResult AllUsers(UserList temp)
+        {
+            return View(temp.GetUserList());
+        }
+
+
+        // GET: /Secretary/NewUser/
+        [HttpGet]
+        public ActionResult Newuser()
+        {
+            return View(new RegisterViewModel());
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Newuser(RegisterViewModel model,string roles)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new ApplicationUser() { UserName = model.UserName };
+                var result = await UserManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    var db = new DataContext();
+                    model.PersonData.RegistrationTime = DateTime.Now;
+                    model.PersonData.UserID = user.Id;
+                    db.People.Add(model.PersonData);
+                    await db.SaveChangesAsync();
+
+                    JavaScriptSerializer js = new JavaScriptSerializer();
+                    ApplicationRoles roleOB;
+                    foreach (string roleST in js.Deserialize<String[]>(roles))
+                    {
+                        if (ApplicationRoles.TryParse<ApplicationRoles>(roleST, out roleOB)) {
+                            await UserManager.AddToRoleAsync(user.Id, roleOB.ToString());
+                        }
+                    }
+                    return RedirectToAction("AllUsers");
+                }
+            }
+
+            return View(new RegisterViewModel());
+        }
 
         // POST: /Secretary/AddPerson
         [HttpPost]
