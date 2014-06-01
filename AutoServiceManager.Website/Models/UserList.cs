@@ -29,8 +29,8 @@ namespace AutoServiceManager.Website.Models
                         where
                         c.FirstName.Contains(this.query) ||
                         c.SecondName.Contains(this.query) ||
-                        c.Address.City.Contains(this.query) ||
-                        c.Address.Country.Contains(this.query) ||
+                        //c.Address.City.Name.Contains(this.query) ||
+                        //c.Address.Country.Contains(this.query) ||
                         c.Address.Email.Contains(this.query) ||
                         c.Address.PhoneNumber.Contains(this.query) ||
                         c.Address.Street.Contains(this.query) ||
@@ -47,14 +47,17 @@ namespace AutoServiceManager.Website.Models
             {
                 Found = Found.OrderBy(c => c.SecondName);
             }
+            
             else if (this.order == "AddressCity")
             {
-                Found = Found.OrderBy(c => c.Address.City);
+                Found = Found.OrderBy(c => c.Address.CityId);
             }
+
             else if (this.order == "AddressCountry")
             {
-                Found = Found.OrderBy(c => c.Address.Country);
-            }
+                Found = Found.OrderBy(c => c.Address.CityId);
+            } 
+             
             else if (this.order == "AddressEmail")
             {
                 Found = Found.OrderBy(c => c.Address.Email);

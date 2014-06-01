@@ -85,12 +85,15 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.SecondName)
                         </td>
+                        
                         <td>
-                            @Html.DisplayFor(modelItem => item.Address.City)
+                            @item.GetCityName()
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Address.Country)
+                            @item.GetCountryName()
                         </td>
+
+
                         <td>
                             @Html.DisplayFor(modelItem => item.Address.Email)
                         </td>

@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using AutoServiceManager.Common.Identity;
+using System.Linq;
 
 namespace AutoServiceManager.Common.Model
 {
@@ -45,6 +46,32 @@ namespace AutoServiceManager.Common.Model
         {
             Address = new AddressData();
         }
+
+        public string GetCityName(){
+            DataContext db = new DataContext();
+            var temp = (from c in db.Cities where c.Id == this.Address.CityId select c).ToList();
+            if (temp.Count > 0)
+            {
+                return temp.First().Name;
+            }
+            else {
+                return "";
+            }
+        }
+        public string GetCountryName()
+        {
+            DataContext db = new DataContext();
+            var temp = (from c in db.Countries where c.Id == this.Address.CountryId select c).ToList();
+            if (temp.Count > 0)
+            {
+                return temp.First().Name;
+            }
+            else
+            {
+                return "";
+            }
+        }
+
 
         public long ID { get; set; }
         [Required]
