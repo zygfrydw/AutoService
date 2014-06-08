@@ -19,14 +19,7 @@ namespace AutoServiceManager.Website.Models
 
         public UserList GetUserList(string query = null)
         {
-             
-
-
-            this.query=(query!=null)?query:this.query;
-            var Found = (from c in db.People
-                               select c).AsQueryable(); ;
-
-            var temp = (from c in db.People select c).ToList();
+            var Found = db.People.Include("Address").Include("Address.City").Include("Address.Country").AsQueryable();
 
             if (!string.IsNullOrEmpty(this.query))
             {
@@ -34,8 +27,8 @@ namespace AutoServiceManager.Website.Models
                         where
                         c.FirstName.Contains(this.query) ||
                         c.SecondName.Contains(this.query) ||
-                        //c.Address.City.Name.Contains(this.query) ||
-                        //c.Address.Country.Contains(this.query) ||
+                        c.Address.City.Name.Contains(this.query) ||
+                        c.Address.Country.Name.Contains(this.query) ||
                         c.Address.Email.Contains(this.query) ||
                         c.Address.PhoneNumber.Contains(this.query) ||
                         c.Address.Street.Contains(this.query) ||
@@ -55,12 +48,12 @@ namespace AutoServiceManager.Website.Models
             
             else if (this.order == "AddressCity")
             {
-                Found = Found.OrderBy(c => c.Address.CityId);
+                Found = Found.OrderBy(c => c.Address.City.Name);
             }
 
             else if (this.order == "AddressCountry")
             {
-                Found = Found.OrderBy(c => c.Address.CityId);
+                Found = Found.OrderBy(c => c.Address.Country.Name);
             } 
              
             else if (this.order == "AddressEmail")

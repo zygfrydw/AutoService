@@ -12,6 +12,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using AutoServiceManager.Website.Models;
 using System.Web.Script.Serialization;
+using Newtonsoft.Json;
 
 
 namespace AutoServiceManager.Website.Controllers
@@ -71,6 +72,8 @@ namespace AutoServiceManager.Website.Controllers
         // GET: /Secretary/
         public ActionResult Index()
         {
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            ViewBag.cities = js.Serialize(db.Cities.Select(x => x.Name).ToArray());
             return View();
         }
 
@@ -128,6 +131,8 @@ namespace AutoServiceManager.Website.Controllers
         [HttpGet]
         public ActionResult Newuser()
         {
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            ViewBag.cities = js.Serialize(db.Cities.Select(x => x.Name).ToArray());
             return View(new RegisterViewModel());
         }
         [HttpPost]
@@ -143,7 +148,9 @@ namespace AutoServiceManager.Website.Controllers
                     var db = new DataContext();
                     model.PersonData.RegistrationTime = DateTime.Now;
                     model.PersonData.UserID = user.Id;
-                    model.PersonData.Address.City = FindOrCreateCity(model.PersonData.Address.TempCity);
+                    City city = FindOrCreateCity(model.PersonData.Address.TempCity);
+                    model.PersonData.Address.City = city;
+                    model.PersonData.Address.CityId = city.Id;
                     db.People.Add(model.PersonData);
                     await db.SaveChangesAsync();
 
@@ -163,7 +170,7 @@ namespace AutoServiceManager.Website.Controllers
         }
 
         protected City FindOrCreateCity(string CityName) {
-            City cit = db.Cities.FirstOrDefault(city => city.Name == CityName);
+            City cit = db.Cities.FirstOrDefault(city => city.Name.Contains(CityName));
             if (cit == null)
             {
                 cit = new City();
@@ -185,10 +192,11 @@ namespace AutoServiceManager.Website.Controllers
 
                 if (result.Succeeded)
                 {
-                    var db = new DataContext();
                     model.PersonData.RegistrationTime = DateTime.Now;
                     model.PersonData.UserID = user.Id;
-                    model.PersonData.Address.City = FindOrCreateCity(model.PersonData.Address.TempCity);
+                    City city = FindOrCreateCity(model.PersonData.Address.TempCity);
+                    model.PersonData.Address.City = city;
+                    model.PersonData.Address.CityId = city.Id;
                     db.People.Add(model.PersonData);
                     await db.SaveChangesAsync();
                     await UserManager.AddToRoleAsync(user.Id, ApplicationRoles.Customer.ToString());

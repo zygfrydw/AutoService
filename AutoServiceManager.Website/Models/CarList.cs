@@ -25,8 +25,12 @@ namespace AutoServiceManager.Website.Models
                                select c).AsQueryable(); ;
             if (!string.IsNullOrEmpty(this.query))
             {
+                int productionYear = 0;
+                int.TryParse(this.query,out productionYear);
+
                 Found =  (from c in db.Cars
                         where
+                        c.ProductionYear.Equals(productionYear) ||
                         c.Model.ModelName.Contains(this.query) ||
                         c.Model.Manufacturer.Name.Contains(this.query) ||
                         c.Owner.FirstName.Contains(this.query) ||
