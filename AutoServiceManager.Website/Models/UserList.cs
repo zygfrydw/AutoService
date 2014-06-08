@@ -20,9 +20,14 @@ namespace AutoServiceManager.Website.Models
         public UserList GetUserList(string query = null)
         {
              
+
+
             this.query=(query!=null)?query:this.query;
             var Found = (from c in db.People
                                select c).AsQueryable(); ;
+
+            var temp = (from c in db.People select c).ToList();
+
             if (!string.IsNullOrEmpty(this.query))
             {
                 Found = (from c in db.People

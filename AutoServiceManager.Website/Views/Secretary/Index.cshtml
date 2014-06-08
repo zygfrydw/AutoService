@@ -41,15 +41,14 @@
                     });
                 });
 
-            $("[name=OwnerID]").change(function () {
+            $("[name=OwnerID]").on("change click", function () {
                 if ($(this).val()) {
                     $("#PartialUser").hide();
                 } else {
                     $("#PartialUser").show();
                 }
-
             });
-           
+
 
                 $("#PartialUser").hide();
 

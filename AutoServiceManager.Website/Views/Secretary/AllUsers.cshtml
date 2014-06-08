@@ -3,6 +3,8 @@
 
 @{
     ViewBag.Title = "Allusers";
+    Found = (from c in db.People
+             select c).AsQueryable(); ;
 }
 
 <h2>Auta w bazie danych</h2>
@@ -87,10 +89,10 @@
                         </td>
                         
                         <td>
-                            @item.GetCityName()
+                            @Html.DisplayFor(modelItem => item.Address.City.Name)
                         </td>
                         <td>
-                            @item.GetCountryName()
+                           @Html.DisplayFor(modelItem => item.Address.Country.Name)
                         </td>
 
 

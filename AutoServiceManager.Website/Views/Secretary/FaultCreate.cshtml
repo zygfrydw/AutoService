@@ -23,7 +23,7 @@
         </div>
     </div>
 
-   
+    <hr />
     <div class="form-group" data-name="singleCarDiv">
         <label class="col-md-2 control-label" for="RepairStatus">Auto</label>
         <div class="col-md-10">
@@ -31,7 +31,6 @@
             @Html.TextBoxFor(m => m.CarID, new { @class = "form-control", @style = "display:none" })
         </div>
     </div>
-
 
     <div data-name="searchCarDiv">
         <label class="col-md-2 control-label" for="RepairStatus">Szukaj Auta</label>
@@ -42,7 +41,8 @@
             <select style="max-width: 400px;width: 400px; " data-name="avalibleCars" multiple class="form-control"></select>
         </div>
     </div>
-
+     <hr />
+    
     <div class="form-group">
         @Html.LabelFor(m => m.Decription, new { @class = "control-label"})
         <div>
@@ -143,8 +143,12 @@
                 return false;
             }
         })
-
-       
-     
     });
 </script>
+
+
+<div class="row">
+    <div id="createFault" class="col-md-6">
+        @Html.Partial("PartCreate", new Part())
+    </div>
+</div>

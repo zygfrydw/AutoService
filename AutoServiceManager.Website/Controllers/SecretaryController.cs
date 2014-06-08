@@ -16,7 +16,7 @@ using System.Web.Script.Serialization;
 
 namespace AutoServiceManager.Website.Controllers
 {
-    [AuthorizeRole(ApplicationRoles.Secretary)]
+    //[AuthorizeRole(ApplicationRoles.Secretary)]
     public class SecretaryController : Controller
     {
         private DataContext db = new DataContext();
@@ -89,6 +89,13 @@ namespace AutoServiceManager.Website.Controllers
         }
 
 
+        // GET: /Secretary/FaultCreate/
+        [HttpGet]
+        public ActionResult FaultCreate()
+        {
+            return View(new Fault());
+        }
+
         // GET: /Secretary/Faults/
         [HttpGet]
         public ActionResult Faults()
@@ -136,6 +143,7 @@ namespace AutoServiceManager.Website.Controllers
                     var db = new DataContext();
                     model.PersonData.RegistrationTime = DateTime.Now;
                     model.PersonData.UserID = user.Id;
+                    model.PersonData.Address.City = FindOrCreateCity(model.PersonData.Address.TempCity);
                     db.People.Add(model.PersonData);
                     await db.SaveChangesAsync();
 
@@ -154,6 +162,17 @@ namespace AutoServiceManager.Website.Controllers
             return View(new RegisterViewModel());
         }
 
+        protected City FindOrCreateCity(string CityName) {
+            City cit = db.Cities.FirstOrDefault(city => city.Name == CityName);
+            if (cit == null)
+            {
+                cit = new City();
+                cit.Name = CityName;
+                db.Cities.Add(cit);
+            }
+            return cit;
+        }
+
         // POST: /Secretary/AddPerson
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -169,6 +188,7 @@ namespace AutoServiceManager.Website.Controllers
                     var db = new DataContext();
                     model.PersonData.RegistrationTime = DateTime.Now;
                     model.PersonData.UserID = user.Id;
+                    model.PersonData.Address.City = FindOrCreateCity(model.PersonData.Address.TempCity);
                     db.People.Add(model.PersonData);
                     await db.SaveChangesAsync();
                     await UserManager.AddToRoleAsync(user.Id, ApplicationRoles.Customer.ToString());

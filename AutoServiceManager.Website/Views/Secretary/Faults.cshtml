@@ -118,17 +118,11 @@
     </div>
 </div>
 
-<div class="row">
-    <div id="createFault" class="col-md-6">
-            @Html.Partial("FaultCreate", new Fault())
-    </div>
-</div>
 
 <script>
     $(function (){
         $("[data-name=ExistingFaultInTable]").click(function () {
             var object = jQuery.parseJSON($(this).children("[data-name=jsonContainer]").text());
-            console.log(object);
         }); 
     });
 </script>

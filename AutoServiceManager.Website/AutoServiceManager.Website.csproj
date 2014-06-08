@@ -425,6 +425,7 @@
     <Content Include="Views\Secretary\Newuser.cshtml" />
     <Content Include="Views\Secretary\AllUsers.cshtml" />
     <Content Include="Views\Shared\Invoice.cshtml" />
+    <Content Include="Views\Secretary\PartCreate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
