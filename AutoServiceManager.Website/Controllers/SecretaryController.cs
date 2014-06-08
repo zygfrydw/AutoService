@@ -109,7 +109,7 @@ namespace AutoServiceManager.Website.Controllers
         [HttpPost]
         public ActionResult Faults(FaultList ListOfFaults)
         {
-            return View(FaultList.GetAllFaultList());
+            return View(ListOfFaults.GetFaultList());
         }
 
 
@@ -133,11 +133,11 @@ namespace AutoServiceManager.Website.Controllers
         {
             JavaScriptSerializer js = new JavaScriptSerializer();
             ViewBag.cities = js.Serialize(db.Cities.Select(x => x.Name).ToArray());
-            return View(new RegisterViewModel());
+            return View(new RegisterVieworkerModel());
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Newuser(RegisterViewModel model,string roles)
+        public async Task<ActionResult> Newuser(RegisterVieworkerModel model, string roles)
         {
             if (ModelState.IsValid)
             {
@@ -146,7 +146,7 @@ namespace AutoServiceManager.Website.Controllers
                 if (result.Succeeded)
                 {
                     var db = new DataContext();
-                    model.PersonData.RegistrationTime = DateTime.Now;
+                    model.PersonData.HireTime = DateTime.Now;
                     model.PersonData.UserID = user.Id;
                     City city = FindOrCreateCity(model.PersonData.Address.TempCity);
                     model.PersonData.Address.City = city;
@@ -166,7 +166,7 @@ namespace AutoServiceManager.Website.Controllers
                 }
             }
 
-            return View(new RegisterViewModel());
+            return View(new RegisterVieworkerModel());
         }
 
         protected City FindOrCreateCity(string CityName) {

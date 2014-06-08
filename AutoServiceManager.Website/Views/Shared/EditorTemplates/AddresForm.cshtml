@@ -1,0 +1,53 @@
+﻿@using AutoServiceManager.Website.Controllers
+@model AutoServiceManager.Common.Model.AddressData
+@{
+    ViewBag.Title = "AddresCreate";
+    var countries = CountrySelectable.GetSelectList();
+}
+
+
+<div class="form-group">
+    @Html.LabelFor(m => m.TempCity, new { @class = "col-md-2 control-label" })
+    <div class="col-md-10">
+        @Html.TextBoxFor(m => m.TempCity, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.TempCity)
+    </div>
+</div>
+<div class="form-group">
+    @Html.Label("Kraj", new { @class = "col-md-2 control-label" })
+    <div class="col-md-10">
+        @Html.DropDownListFor(m => m.CountryId, new SelectList(countries, "Value", "Text"), new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.CountryId)
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(m => m.Street, new { @class = "col-md-2 control-label" })
+    <div class="col-md-10">
+        @Html.TextBoxFor(m => m.Street, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Street)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LabelFor(m => m.ZipCode, new { @class = "col-md-2 control-label" })
+    <div class="col-md-10">
+        @Html.TextBoxFor(m => m.ZipCode, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.ZipCode)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LabelFor(m => m.PhoneNumber, new { @class = "col-md-2 control-label" })
+    <div class="col-md-10">
+        @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.PhoneNumber)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+    <div class="col-md-10">
+        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Email)
+    </div>
+</div>
+
+

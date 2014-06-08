@@ -1,5 +1,5 @@
 ﻿@using AutoServiceManager.Common.Identity
-@model AutoServiceManager.Website.Models.RegisterViewModel
+@model AutoServiceManager.Website.Models.RegisterVieworkerModel
 <div class="row">
     <h4>Utwórz nowe konto</h4>
     <hr />
@@ -31,7 +31,7 @@
                     @Html.ValidationMessageFor(m => m.ConfirmPassword)
                 </div>
             </div>
-            @Html.EditorFor(m => m.PersonData, "PersonCreate")
+            @Html.EditorFor(m => m.PersonData, "PersonForm")
             <div class="form-group">
 
                 <div class="form-group">
@@ -58,6 +58,7 @@
     </div>
 </div>
 
+<script src="~/Scripts/jquery-ui-1.10.4.min.js"></script>
 <script>
     $.fn.selectRange = function (start, end) {
         var e = document.getElementById($(this).attr('id')); // I don't know why... but $(this) don't want to work today :-/
@@ -77,13 +78,9 @@
         console.log(ret);
         return ret;
     }
-
     var citiesArray = jQuery.parseJSON('@Html.Raw(ViewBag.cities)');
 
-
-
-
-    $("#PersonData_Address_TempCity").on("change click", function () {
+     $("#PersonData_Address_TempCity").on("change click", function () {
         if (!$(this).val()) {
             return true;
         }
@@ -95,9 +92,14 @@
             return false;
         }
 
-    });
-
+     });
+     $(document).ready(function () {
+         $("#PersonData_Address_TempCity").autocomplete({
+             source: citiesArray
+         });
+     });
 </script>
+
 <script>
     var selectedList = {};
     $(function () {

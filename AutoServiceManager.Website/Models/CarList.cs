@@ -22,21 +22,20 @@ namespace AutoServiceManager.Website.Models
              
             this.query=(query!=null)?query:this.query;
             var Found = (from c in db.Cars
-                               select c).AsQueryable(); ;
+                               select c).AsQueryable(); 
             if (!string.IsNullOrEmpty(this.query))
             {
                 int productionYear = 0;
                 int.TryParse(this.query,out productionYear);
 
-                Found =  (from c in db.Cars
-                        where
+                Found = Found.Where(c =>
                         c.ProductionYear.Equals(productionYear) ||
                         c.Model.ModelName.Contains(this.query) ||
                         c.Model.Manufacturer.Name.Contains(this.query) ||
                         c.Owner.FirstName.Contains(this.query) ||
                         c.Owner.SecondName.Contains(this.query) ||
                         c.RegistrationNumber.Contains(this.query)
-                        select c).AsQueryable();
+                        ).AsQueryable();
             }
             if (this.order == "ModelName") { 
                 Found = Found.OrderBy(c => c.Model.ModelName);

@@ -8,6 +8,8 @@
     @Html.Partial("User")
 </div>
 
+
+<script src="~/Scripts/jquery-ui-1.10.4.min.js"></script>
 <script>
     $.fn.selectRange = function (start, end) {
         var e = document.getElementById($(this).attr('id')); // I don't know why... but $(this) don't want to work today :-/
@@ -27,13 +29,9 @@
         console.log(ret);
         return ret;
     }
-
     var citiesArray = jQuery.parseJSON('@Html.Raw(ViewBag.cities)');
 
-    
-    
-
-    $("#PersonData_Address_TempCity").on("change click", function () {
+     $("#PersonData_Address_TempCity").on("change click", function () {
         if (!$(this).val()) {
             return true;
         }
@@ -45,8 +43,12 @@
             return false;
         }
 
-    });
-
+     });
+     $(document).ready(function () {
+         $("#PersonData_Address_TempCity").autocomplete({
+             source: citiesArray
+         });
+     });
 </script>
 
 <script type="text/javascript">
@@ -65,7 +67,7 @@
                     },
                     success: function (data)
                     {
-                        console.log(data);
+                        //console.log(data);
                         if(data.Errors !== "undefined" && data.Errors) {
                             for (var i = 0; i < data.Errors.length; i++) {
                                 alert(data.Errors[i]);

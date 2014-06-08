@@ -14,30 +14,69 @@ namespace AutoServiceManager.Website.Models
     {
         private static DataContext db = new DataContext();
 
-        public IEnumerable<Fault> list { get; set; }
         public string query { get; set; }
-        /*
-        public CarList GetCarList()
-        {
-            if (query != null)
-            {
+        public string statusQuery { get; set; }
+        public string order { get; set; }
+        public IEnumerable<Fault> list { get; set; }
 
-                var found = (from c in db.Cars
-                             where 
-                             c.Model.ModelName == query ||
-                             c.Model.Manufacturer.Name == query ||
-                             c.Owner.FirstName == query ||
-                             c.Owner.SecondName == query ||
-                             c.RegistrationNumber== query
-                            select c).ToList();
-               list = (IEnumerable<AutoServiceManager.Common.Model.Car>)found;
+
+        public FaultList GetFaultList()
+        {
+            var Found = db.Faults.Include("RelatedCar").AsQueryable();
+
+            if (!string.IsNullOrEmpty(this.query))
+            {
+                Found = Found.Where( c =>
+                        c.Decription.Contains(this.query) ||
+                        c.RelatedCar.Model.ModelName.Contains(this.query) ||
+                        c.RelatedCar.Model.Manufacturer.Name.Contains(this.query) ||
+                        c.RelatedCar.Owner.FirstName.Contains(this.query) ||
+                        c.RelatedCar.Owner.SecondName.Contains(this.query)
+                ).AsQueryable();
             }
-            else {
-                list = db.Cars.ToList();
+
+            if (!string.IsNullOrEmpty(this.statusQuery))
+            {
+                int statusQueyInt = 0;
+                if (int.TryParse(this.statusQuery,out statusQueyInt)) {
+                    Found = Found.Where(c => c.RepairStatus == (Status)statusQueyInt);
+                }
             }
+
+            if (this.order == "Status")
+            {
+                Found = Found.OrderBy(c => c.RepairStatus);
+            }
+            else if (this.order == "Model")
+            {
+                Found = Found.OrderBy(c => c.RelatedCar.Model.ModelName);
+            }
+            else if (this.order == "Manufacturer")
+            {
+                Found = Found.OrderBy(c => c.RelatedCar.Model.Manufacturer.Name);
+            }
+            else if (this.order == "IncomingDate")
+            {
+                Found = Found.OrderBy(c => c.IncomingDate);
+            }
+            else if (this.order == "PredictedEndDate")
+            {
+                Found = Found.OrderBy(c => c.PredictedEndDate);
+            }
+            else if (this.order == "CloseDate")
+            {
+                Found = Found.OrderBy(c => c.CloseDate);
+            }
+            else if (this.order == "RealeseDate")
+            {
+                Found = Found.OrderBy(c => c.RealeseDate);
+            }
+            
+
+            this.list = Found.ToList();
             return this;
         }
-        */
+
         public static FaultList GetAllFaultList()
         {
             FaultList createdObject = new FaultList();

@@ -9,13 +9,42 @@
 
 <h2>Auta w bazie danych</h2>
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-12">
         <ul class="list-inline">
             <li>
-                @using (Html.BeginForm("Faults", "Secretary", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "CreateCustomerForm" }))
+                @using (Html.BeginForm("Faults", "Secretary", FormMethod.Post, new { @class = "form-inline", role = "form", id = "CreateCustomerForm" }))
                 {
                     @Html.AntiForgeryToken();
-                    @Html.TextBoxFor(objects => Model.query);
+                    <div class="form-group">
+                        &nbsp;Szukaj:&nbsp;
+                        @Html.TextBoxFor(objects => Model.query, new { @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        <label class="sr-only" for="exampleInputPassword2">Grupuj po:</label>
+                        &nbsp;Sortuj po:&nbsp;
+                        <select class="form-control" name="order">
+                            <option value="Status">Statusie</option>
+                            <option value="Model">Marce</option>
+                            <option value="Manufacturer">Modelu</option>
+                            <option value="IncomingDate">Dacie zgłoszenia</option>
+                            <option value="PredictedEndDate">Dacie zakończenia</option>
+                            <option value="CloseDate">Dacie Skończenia</option>
+                            <option value="RealeseDate">Dacie Wydania</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            <select id="statusQuery" name="statusQuery">
+                                <option value=""></option>
+                                @foreach (Status suit in (Status[])Enum.GetValues(typeof(Status)))
+                                                    {
+                                <option value="@((int)suit)">@Html.DescriptionFor(suit)</option>
+                                                    }
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-default">szukaj</button>
+                    <button type="button" id="clearForm" class="btn btn-default">Czyść</button>
                 }
             </li>
         </ul>
