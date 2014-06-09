@@ -37,17 +37,7 @@ namespace AutoServiceManager.Website.Controllers
         }
 
 
-        // GET: /Secretary/
-        [HttpPost]
-        public ActionResult CreateFault(Fault obj)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Faults.Add(obj);
-                db.SaveChanges();
-            }
-            return RedirectToAction("Faults");
-        }
+
         
 
         // GET: /Secretary/
@@ -92,12 +82,72 @@ namespace AutoServiceManager.Website.Controllers
         }
 
 
-        // GET: /Secretary/FaultCreate/
+        // GET: /Secretary/FaultCreate/ID
         [HttpGet]
-        public ActionResult FaultCreate()
+        public ActionResult FaultCreate(int? id)
         {
-            return View(new Fault());
+            ViewBag.loaded = false;
+            if (id != null)
+            {
+                Fault fault = db.Faults.Include("RelatedCar").Include("RelatedCar.Model").Include("RelatedCar.Owner").FirstOrDefault(f => f.ID == id);
+                if (fault == null)
+                {
+                    return View(new Fault());
+                }
+                ViewBag.loaded = true;
+                return View(fault);
+            }
+            else {
+                return View(new Fault());
+            }
         }
+        // GET: /Secretary/
+        [HttpPost]
+        public ActionResult FaultCreate(Fault obj)
+        {
+            Fault f = db.Faults.Include("RelatedCar").Include("RelatedCar.Model").Include("RelatedCar.Owner").FirstOrDefault(x => x.ID == obj.ID);
+            ViewBag.loaded = (f != null);
+            if (ModelState.IsValid)
+            {
+                if (f != null)
+                {
+                    f.IncomeToService = obj.IncomeToService;
+                    f.IncomingDate = obj.IncomingDate;
+                    f.PredictedEndDate = obj.PredictedEndDate;
+                    f.RealeseDate = obj.RealeseDate;
+                    
+                    f.RepairStatus = obj.RepairStatus;
+                    f.SubFaults = obj.SubFaults;
+                    
+                    f.CarID = obj.CarID;
+                    f.RelatedCar = db.Cars.FirstOrDefault(x => x.ID == obj.CarID);
+
+                    f.Decription = obj.Decription;
+                }
+                else {
+                    db.Faults.Add(obj);
+                }
+                db.SaveChanges();
+                return RedirectToAction("Faults");
+            }
+            else {
+                List<string> ListOfErrors = new List<string>();
+                foreach (var error in ModelState.Where(x => x.Value.Errors.Count > 0).Select(x => x.Value.Errors).ToList())
+                {
+                    ListOfErrors.Add(error.First().ErrorMessage.ToString());
+                }
+                ViewBag.errors = ListOfErrors;
+                if (f == null)
+                {
+                    return View(obj);
+                }
+                else{
+                    return View(f);
+                }
+                
+            }
+        }
+
 
         // GET: /Secretary/Faults/
         [HttpGet]

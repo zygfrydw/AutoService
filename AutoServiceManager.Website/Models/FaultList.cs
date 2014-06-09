@@ -26,12 +26,19 @@ namespace AutoServiceManager.Website.Models
 
             if (!string.IsNullOrEmpty(this.query))
             {
+                int tryID = 0;
+                if(!int.TryParse(this.query,out tryID)){
+                    tryID = -1;
+                }
+
                 Found = Found.Where( c =>
+                        c.ID == tryID ||
                         c.Decription.Contains(this.query) ||
                         c.RelatedCar.Model.ModelName.Contains(this.query) ||
                         c.RelatedCar.Model.Manufacturer.Name.Contains(this.query) ||
                         c.RelatedCar.Owner.FirstName.Contains(this.query) ||
-                        c.RelatedCar.Owner.SecondName.Contains(this.query)
+                        c.RelatedCar.Owner.SecondName.Contains(this.query) 
+                        
                 ).AsQueryable();
             }
 

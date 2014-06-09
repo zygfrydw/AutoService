@@ -8,6 +8,8 @@
 }
 
 <h2>Auta w bazie danych</h2>
+
+
 <div class="row">
     <div class="col-md-12">
         <ul class="list-inline">
@@ -34,12 +36,12 @@
                     </div>
                     <div class="form-group">
                         <div class="col-md-10">
-                            <select id="statusQuery" name="statusQuery">
-                                <option value=""></option>
+                            <select class="form-control" id="statusQuery" name="statusQuery">
+                                <option data-name="statusQuery" data-value="empty" value=""></option>
                                 @foreach (Status suit in (Status[])Enum.GetValues(typeof(Status)))
-                                                    {
-                                <option value="@((int)suit)">@Html.DescriptionFor(suit)</option>
-                                                    }
+                                {
+                                    <option data-name="statusQuery" value="@((int)suit)">@Html.DescriptionFor(suit)</option>
+                                }
                             </select>
                         </div>
                     </div>
@@ -50,7 +52,25 @@
         </ul>
     </div>
 </div>
+<script>
+    var previouslySelectedOrder = "@Model.order";
+    var previouslySelectedQuery = "@Model.query";
+    var previouslySelectedFilter = "@Model.statusQuery";
 
+    $(function () {
+        $("#query").val(previouslySelectedQuery);
+
+        $("[value=" + previouslySelectedOrder + "]").attr("selected", "true");
+        $("[data-name=statusQuery][value=" + previouslySelectedFilter + "]").attr("selected", "true");
+        $("#clearForm").click(function () {
+            $("#query").val(null);
+            $("[value=Status]").attr("selected", "true");
+            $("[data-value=empty]").attr("selected", "true");
+            $("#CreateCustomerForm").submit();
+
+        });
+    });
+</script>
 <div class="row">
     <div class="col-md-6">
         <table class="table table-striped">
@@ -69,6 +89,7 @@
                     <th>Data Wydania</th>
                     <th>Status</th>
                     <th>Opis</th>
+                    <th>Edytuj</th>
                 </tr>
             </thead>
             <tbody>
@@ -77,10 +98,12 @@
 {
     <tr data-name="ExistingFaultInTable">
         <td>
-            #@i@{i++;}
+            <a href='@Url.Action("FaultCreate", "Secretary", new { id = item.ID })'>
+                #@i@{i++;}
+            </a>
         </td>
         <td>
-            @item.ID
+                @item.ID
         </td>
         <td>
             @item.RelatedCar.Model.ModelName
@@ -126,11 +149,21 @@
                     RealeseDate = item.RealeseDate.ToString()
                 })
         </td>
+        <td>
+            <a href='@Url.Action("FaultCreate", "Secretary", new { id = item.ID })'>
+                <i class="glyphicon glyphicon-wrench" style=""></i>Edytuj
+            </a>
+        </td>
     </tr>
 }
                 <tr data-name="AddFaultInTable">
                     <td></td>
-                    <td><i class="glyphicon glyphicon-plus" style=""></i>Dodaj</td>
+                    <td>
+                        <a href='@Url.Action("FaultCreate", "Secretary")'>
+                            <i class="glyphicon glyphicon-plus" style=""></i>Dodaj
+                        </a>
+                    </td>
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>

@@ -3,31 +3,70 @@
 
 @model Fault
 
-@using (Html.BeginForm("CreateFault", "Secretary", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "CreateCustomerForm"}))
+@using (Html.BeginForm("FaultCreate", "Secretary", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "CreateCustomerForm"}))
 {
     @Html.AntiForgeryToken()
     
+    @Html.TextBoxFor(m => m.ID, new {@style="display:none;"})
     
     <h4>Dodaj usterke</h4>
     <hr/>
-    @Html.ValidationSummary()
+
+    
+    if(ViewBag.errors != null) { 
+    <div class="bs-callout bs-callout-danger">
+        @Html.ValidationSummary();
+        @foreach (string error in ViewBag.errors)
+        {
+                <p>@error</p>
+        }
+     </div>
+    }
+    
+    
+    
     <div class="form-group">
         @Html.LabelFor(m => m.RepairStatus, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            <select id="RepairStatus" name="RepairStatus">
+            <select class="form-control"  id="RepairStatus" name="RepairStatus">
                 @foreach (Status suit in (Status[])Enum.GetValues(typeof(Status)))
                 {
-                    <option value="@((int)suit)">@Html.DescriptionFor(suit)</option>
+                    <option data-name="statuses" value="@((int)suit)">@Html.DescriptionFor(suit)</option>
+                    if (ViewBag.loaded == false)
+                    {
+                        break;
+                    }
                 }
             </select>
         </div>
     </div>
 
+
+        <script>
+            var loaded = '@ViewBag.loaded';
+            var status = '@{int status = (int)Model.RepairStatus;}@status';
+            if (loaded == 'True') {
+                $("[data-name=statuses][value=" + status + "]").attr("selected", "true");
+            }
+        </script>
+
+    
     <hr />
     <div class="form-group" data-name="singleCarDiv">
         <label class="col-md-2 control-label" for="RepairStatus">Auto</label>
         <div class="col-md-10">
-            <h4 data-name="singleCarText">...</h4>
+            @if(ViewBag.loaded == true)
+            {
+                <h4 data-name="singleCarText">
+                        @Model.RelatedCar.Model.Manufacturer.Name.ToString()
+                        @Model.RelatedCar.Model.ModelName.ToString()
+                        Właściciel:
+                        @Model.RelatedCar.Owner.FirstName.ToString()
+                        @Model.RelatedCar.Owner.SecondName.ToString()
+                </h4>
+            }else{
+                <h4 data-name="singleCarText">...</h4>
+            }
             @Html.TextBoxFor(m => m.CarID, new { @class = "form-control", @style = "display:none" })
         </div>
     </div>
@@ -89,6 +128,9 @@
 
 <script>
     $(function () {
+        
+
+
         $("input[name=dynamicCarSearch]").change(function () {
             $("[data-name=avalibleCars]").prop("disabled", true);
             $("[data-name=avalibleCars]").html(null);
@@ -124,7 +166,7 @@
 
         
         var validateDateTime = function (textfield) {
-            var pattern = /(\d{2})\/(\d{2})\/(\d{4}) (\d{2}):(\d{2}):(\d{2})/
+            var pattern = /(\d{1}\d*)\/(\d{1}\d*)\/(\d{4}) (\d{1}\d*):(\d{1}\d*):(\d{1}\d*)/
             var reslult = pattern.test($(textfield).val());
             console.log(reslult);
             if (reslult) {
@@ -143,6 +185,15 @@
                 return false;
             }
         })
+
+
+        var edit = '@Html.Raw(ViewBag.loaded.ToString())';
+        console.log(edit);
+        if (edit == 'True') {
+            $("[data-name=singleCarDiv]").show();
+            $("[data-name=searchCarDiv]").hide();
+        }
+
     });
 </script>
 
