@@ -14,12 +14,25 @@ namespace AutoServiceManager.Website.Models
         public IEnumerable<Person> list { get; set; }
         public string query { get; set; }
         public string order { get; set; }
-
+        public string typeFilter { get; set; }
+        
         public string highlightDifferentUser { get; set; }
 
         public UserList GetUserList(string query = null)
         {
             var Found = db.People.Include("Address").Include("Address.City").Include("Address.Country").AsQueryable();
+            
+            if (!string.IsNullOrEmpty(this.typeFilter) && !this.typeFilter.Equals(""))
+            {
+                if (this.typeFilter.Equals("Customer"))
+                {
+                    Found = Found.OfType<Customer>();
+                }
+                else if (this.typeFilter.Equals("Worker"))
+                {
+                    Found = Found.OfType<Worker>();
+                }
+            }
 
             if (!string.IsNullOrEmpty(this.query))
             {
@@ -35,6 +48,7 @@ namespace AutoServiceManager.Website.Models
                         c.Address.ZipCode.Contains(this.query) 
                         select c).AsQueryable();
             }
+
 
 
             else if (this.order == "FirstName")

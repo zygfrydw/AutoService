@@ -9,22 +9,23 @@
     
     @Html.TextBoxFor(m => m.ID, new {@style="display:none;"})
     
-    <h4>Dodaj usterke</h4>
-    <hr/>
-
     
-    if(ViewBag.errors != null) { 
+
+    if (ViewBag.errors != null)
+    {
     <div class="bs-callout bs-callout-danger">
-        @Html.ValidationSummary();
+        <h4>Błędy w formularzu:</h4>
+        @Html.ValidationSummary()
         @foreach (string error in ViewBag.errors)
         {
-                <p>@error</p>
+              
+                <p>@Html.Raw(error)</p>
         }
      </div>
     }
     
     
-    
+    <h4>Dodaj usterke</h4>
     <div class="form-group">
         @Html.LabelFor(m => m.RepairStatus, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
@@ -55,8 +56,20 @@
     <div class="form-group" data-name="singleCarDiv">
         <label class="col-md-2 control-label" for="RepairStatus">Auto</label>
         <div class="col-md-10">
-            @if(ViewBag.loaded == true)
-            {
+            @if (ViewBag.CarFromSession != null) { 
+                 <h4 data-name="singleCarText">
+                        @ViewBag.CarFromSession.Model.Manufacturer.Name.ToString()
+                        @ViewBag.CarFromSession.Model.ModelName.ToString()
+                        Właściciel:
+                        @ViewBag.CarFromSession.Owner.FirstName.ToString()
+                        @ViewBag.CarFromSession.Owner.SecondName.ToString()
+                </h4>
+                <script>
+                    $(function () {
+                        $("[name=CarID]").val('@ViewBag.CarFromSession.ID');
+                    });
+                </script>
+            }else if(ViewBag.loaded == true){
                 <h4 data-name="singleCarText">
                         @Model.RelatedCar.Model.Manufacturer.Name.ToString()
                         @Model.RelatedCar.Model.ModelName.ToString()
@@ -64,20 +77,22 @@
                         @Model.RelatedCar.Owner.FirstName.ToString()
                         @Model.RelatedCar.Owner.SecondName.ToString()
                 </h4>
-            }else{
+            }else if (ViewBag.loaded == false){
                 <h4 data-name="singleCarText">...</h4>
             }
             @Html.TextBoxFor(m => m.CarID, new { @class = "form-control", @style = "display:none" })
         </div>
     </div>
 
+    
+    
     <div data-name="searchCarDiv">
         <label class="col-md-2 control-label" for="RepairStatus">Szukaj Auta</label>
         <div class="form-group">
             <input type="text" name="dynamicCarSearch" class="form-control" placeholder="Text input">
         </div>
         <div class="form-group">
-            <select style="max-width: 400px;width: 400px; " data-name="avalibleCars" multiple class="form-control"></select>
+            <select style="margin-left:110px;max-width: 400px; width: 400px; " data-name="avalibleCars" multiple class="form-control"></select>
         </div>
     </div>
      <hr />
@@ -128,8 +143,6 @@
 
 <script>
     $(function () {
-        
-
 
         $("input[name=dynamicCarSearch]").change(function () {
             $("[data-name=avalibleCars]").prop("disabled", true);
@@ -188,8 +201,10 @@
 
 
         var edit = '@Html.Raw(ViewBag.loaded.ToString())';
-        console.log(edit);
-        if (edit == 'True') {
+        var loaded = '@Html.Raw((ViewBag.CarFromSession != null).ToString())';
+
+        
+        if (edit == 'True' || loaded) {
             $("[data-name=singleCarDiv]").show();
             $("[data-name=searchCarDiv]").hide();
         }

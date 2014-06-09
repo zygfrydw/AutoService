@@ -1,11 +1,21 @@
 ﻿@Scripts.Render("~/bundles/jqueryAndval")
 
+
+
 <div id="PartialCar">
     @Html.Partial("Car")
 </div>
 
+<div id="creteFault">
+    <a href='@Url.Action("FaultCreate", "Secretary")?getCarFromSession=true'>
+        <h4><i class="glyphicon glyphicon-plus" style=""></i>Dodaj usterke do ostatnio stworzonego Samochodu</h4>
+    </a>
+</div>
+
 <div id="PartialUser">
-    @Html.Partial("User")
+    <hr />
+        @Html.Partial("User")
+    <hr/>
 </div>
 
 
@@ -53,7 +63,8 @@
 
 <script type="text/javascript">
 
-        $(document).ready(function () {
+    $(document).ready(function () {
+        $("#creteFault").hide();
                 $("#createCustomer").click(function () {
                     $.ajax({
                         url: "@Url.Action("AddPerson")",
@@ -115,6 +126,7 @@
                             }
                             if (data.Succeeded !== "undefined" && data.Succeeded == true) {
                                 alert("dodano auto");
+                                $("#creteFault").show();
                             }
                         }
                     });

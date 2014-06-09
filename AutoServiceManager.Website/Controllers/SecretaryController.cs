@@ -86,6 +86,18 @@ namespace AutoServiceManager.Website.Controllers
         [HttpGet]
         public ActionResult FaultCreate(int? id)
         {
+            ViewBag.CarFromSession = null;
+            string GetCarFromSession = Request.QueryString["getCarFromSession"];
+            if (GetCarFromSession != null && GetCarFromSession.Equals("true")) {
+                int CarID = (int)Session["lastCarID"];
+                if (CarID!= null)
+                {
+                    Car CarFromSession = db.Cars.Include("Model").Include("Owner").FirstOrDefault(f => f.ID == CarID);
+                    ViewBag.CarFromSession = CarFromSession;        
+                }
+            }
+                
+
             ViewBag.loaded = false;
             if (id != null)
             {
@@ -283,6 +295,7 @@ namespace AutoServiceManager.Website.Controllers
                 var db = new DataContext();
                 db.Cars.Add(car);
                 await db.SaveChangesAsync();
+                Session["lastCarID"] = (int)car.ID;
             }
             else
             {
