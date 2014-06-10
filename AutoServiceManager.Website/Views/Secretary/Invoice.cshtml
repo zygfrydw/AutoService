@@ -1,0 +1,192 @@
+﻿@using AutoServiceManager.Website.Models
+@model InvoiceView
+
+@{
+    ViewBag.Title = "Invoice";
+}
+
+<h2>Faktura</h2>
+<hr/>
+
+@if (Model.ListOfSubFaults != null && Model.ListOfSubFaults.Count>0)
+{
+<h2>Pomniejsze Usterki:</h2>
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Opis PodUsterki</th>
+                <th>Wyestymowana Cena</th>
+            </tr>
+        </thead>
+        <tbody>
+                @{int i = 0;}
+                @foreach (var item in Model.ListOfSubFaults) { 
+                            <tr>
+                                <td>#@i@{i++;}</td>
+                                <td>
+                                    @item.Description.Substring(0, 10)...
+                                </td>
+                                <td>
+                                    @item.EstimatedCost
+                                </td>
+                            </tr>
+                }
+            <tr>
+                <td></td>
+                <td>Suma:</td>
+                <td>
+                    @Model.getSumForListOfSubFaults()
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<hr/>
+ }
+ 
+
+@if (Model.ListOfWorkTimes != null && Model.ListOfWorkTimes.Count > 0)
+{
+    <h2>Koszty Pracy:</h2>
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Czas Pracy</th>
+                    <th>Koszt Prac Na Godzine</th>
+                    <th>Koszt Prac</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{int i = 0;}
+                @foreach (var item in Model.ListOfWorkTimes)
+                {
+                    <tr>
+                        <td>#@i@{i++;}</td>
+                        <td>
+                            @item.WorkDuration
+                        </td>
+                        <td>
+                            @item.WorkerRate
+                        </td>
+                        <td>
+                            @item.WorkCost
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>Suma:</td>
+                    <td>
+                        @Model.getSumForListOfWorkTimes()
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <hr/>
+}
+
+@if (Model.ListOfParts != null && Model.ListOfParts.Count > 0)
+{
+    <h2>Koszty Części:</h2>
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Nazwa część</th>
+                    <th>Ilość</th>
+                    <th>Cena</th>
+                    <th>Koszt Sumaryczny</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{int i = 0;}
+                @foreach (var item in Model.ListOfParts)
+                {
+                    <tr>
+                        <td>#@i@{i++;}</td>
+                        <td>@item.PartFromCatalogue.PartName</td>
+                        <td>@item.Count</td>
+                        <td>@item.SoldPrice</td>
+                        <td>@item.Cost</td>
+                    </tr>
+                }
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>Suma:</td>
+                    <td>
+                        @Model.getSumForListOfParts()
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <hr />
+}
+
+@if (Model.Invoice != null)
+{
+<h2>Dodatkowe Koszty:</h2>
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Dodatkowe Koszty:</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    @Model.Invoice.ExtraCosts
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>
+<hr/>
+}
+
+
+<h2>CałkowitaKwota</h2>
+@{
+    decimal Netto = 0;
+    Netto+=(Model.ListOfParts!=null)?Model.getSumForListOfParts():0;
+    Netto+=(Model.ListOfSubFaults!=null)?Model.getSumForListOfSubFaults():0;
+    Netto+=(Model.ListOfWorkTimes!=null)?Model.getSumForListOfWorkTimes():0;
+    Netto+=(Model.Invoice!=null)?Model.Invoice.ExtraCosts:0;
+    
+    decimal Brutto =  Model.NettoToBrutto(Netto);
+}
+<div class="table-responsive">
+    <table class="table table-bordered">
+
+        <tbody>
+            <tr>
+                <td>
+                    Netto:
+                </td>
+                <td>
+                    @Netto
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Brutto:
+                </td>
+                <td>
+                    @Brutto
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<hr />

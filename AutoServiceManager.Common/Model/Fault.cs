@@ -66,5 +66,9 @@ namespace AutoServiceManager.Common.Model
         public string Decription { get; set; }
         public virtual ICollection<SubFault> SubFaults { get; set; }
         public DateTime? IncomeToService { get; set; }
+
+        public long? InvoiceID { get; set; }
+        public Invoice Invoice { get;set; }
+
     }
 }

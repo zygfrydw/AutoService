@@ -194,6 +194,7 @@
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AuthorizeRoleAttribute.cs" />
+    <Compile Include="Models\InvoiceView.cs" />
     <Compile Include="Models\UserList.cs" />
     <Compile Include="Models\FaultList.cs" />
     <Compile Include="Models\CarModelList.cs" />
@@ -428,6 +429,7 @@
     <Content Include="Views\Secretary\PartCreate.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\PersonForm.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\AddresForm.cshtml" />
+    <Content Include="Views\Secretary\Invoice.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

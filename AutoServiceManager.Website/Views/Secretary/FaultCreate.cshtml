@@ -203,8 +203,7 @@
         var edit = '@Html.Raw(ViewBag.loaded.ToString())';
         var loaded = '@Html.Raw((ViewBag.CarFromSession != null).ToString())';
 
-        
-        if (edit == 'True' || loaded) {
+        if (edit == 'True' || loaded == 'True') {
             $("[data-name=singleCarDiv]").show();
             $("[data-name=searchCarDiv]").hide();
         }

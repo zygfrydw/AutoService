@@ -74,6 +74,7 @@
     <Compile Include="Model\Fault.cs" />
     <Compile Include="Invoice\Invoice.cs" />
     <Compile Include="Invoice\InvoiceFactory.cs" />
+    <Compile Include="Model\Invoice.cs" />
     <Compile Include="Model\Part.cs" />
     <Compile Include="Model\PartOperation.cs" />
     <Compile Include="Model\PartOperationType.cs" />

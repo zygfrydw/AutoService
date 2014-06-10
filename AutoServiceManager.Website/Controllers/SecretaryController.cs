@@ -311,5 +311,19 @@ namespace AutoServiceManager.Website.Controllers
             return Json(new { Succeeded = true});
         }
 
+        // GET: /Secretary/Invoice/
+        public ActionResult Invoice(int? id)
+        {
+            InvoiceView Invoice = null;
+            if (id != null)
+            {
+                Invoice = new InvoiceView((int)id);
+            }
+            else {
+                Invoice = new InvoiceView();
+            }
+            
+            return View(Invoice);
+        }
 	}
 }

@@ -26,6 +26,6 @@ namespace AutoServiceManager.Common.Model
         public DbSet<PartOperation> PartOperations{ get; set; }
         public DbSet<City> Cities{ get; set; }
         public DbSet<Country> Countries{ get; set; }
- 
+        public DbSet<Invoice> Invoice { get; set; }
     }
 }
