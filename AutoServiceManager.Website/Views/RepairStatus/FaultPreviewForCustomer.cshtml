@@ -29,7 +29,9 @@
          {
              <p>Niebawem zostanie wyznaczona data zakończenia naprawy.</p>
          }
-    } else if (Model.RepairStatus == Status.Done)
+        <p><a class="btn btn-default" href="@Url.Action("ShowStatusDetails", new {id = @Model.ID})">Zobacz status</a></p>
+    }
+    else if (Model.RepairStatus == Status.Done)
     {
         <p>Naprawa twojego samochodu została zakończona. Zapraszamy do po odbiór samochodu</p>
         

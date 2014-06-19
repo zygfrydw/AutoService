@@ -44,7 +44,7 @@ namespace AutoServiceManager.Common.Model
         [DisplayName("Auto")]
         public long CarID { get; set; }
         [DisplayName("Auto")]
-        public Car RelatedCar { get; set; }
+        public virtual Car RelatedCar { get; set; }
         [DisplayName("Status Naprawy")]
         public Status RepairStatus { get; set; }
         [DataType(DataType.Date)]

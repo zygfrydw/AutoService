@@ -1,0 +1,29 @@
+﻿@model AutoServiceManager.Common.Model.Fault
+
+@{
+    ViewBag.Title = "Stan naprawy";
+}
+
+<h1 style="color: firebrick">Stan naprawy samochodu @Model.RelatedCar.Model.ModelName - @Model.RelatedCar.Model.Manufacturer.Name @Model.RelatedCar.RegistrationNumber:</h1>
+
+<div>
+    @foreach (var subFault in Model.SubFaults)
+    {
+        <div>
+            <h4 style="color: ">@subFault.Description</h4>
+            <p><strong>Szacowany czas pracy</strong> @subFault.RemainingHours<br/>
+            <strong>Szacowany koszt</strong>  @subFault.EstimatedCost</p>
+            <p>Wykorzystane części</p>
+            <ul >@foreach (var part in subFault.UsedParts)
+                     {
+                         <li>
+                             @part.PartFromCatalogue.PartName - @part.Count szt - @part.SoldPrice zł 
+                         </li>
+                        <hr/>
+                     }
+            </ul>
+        </div>
+    }
+    <h3>Szacowany koszt naprawy: @ViewBag.EstimatedRepairCost</h3>
+
+</div>

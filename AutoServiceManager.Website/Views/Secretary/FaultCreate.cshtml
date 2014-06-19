@@ -7,6 +7,7 @@
 {
     @Html.AntiForgeryToken()
     
+    @Html.ValidationSummary()
     @Html.TextBoxFor(m => m.ID, new {@style="display:none;"})
     
     
@@ -108,7 +109,7 @@
     <div class="form-group">
     @Html.LabelFor(m => m.IncomingDate, new { @class = "col-md-2 control-label" })
     <div class="col-md-10">
-            @Html.TextBoxFor(m => m.IncomingDate, new { @class = "form-control" })
+            @Html.EditorFor(m => m.IncomingDate, new { @class = "form-control" })
             @Html.ValidationMessageFor(m => m.IncomingDate)
         </div>
     </div>
@@ -116,7 +117,7 @@
     <div class="form-group">
     @Html.LabelFor(m => m.PredictedEndDate, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.TextBoxFor(m => m.PredictedEndDate, new { @class = "form-control" })
+            @Html.EditorFor(m => m.PredictedEndDate, new { @class = "form-control" })
             @Html.ValidationMessageFor(m => m.PredictedEndDate)
         </div>
     </div>
@@ -124,7 +125,7 @@
     <div class="form-group">
     @Html.LabelFor(m => m.CloseDate, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.TextBoxFor(m => m.CloseDate, new { @class = "form-control" })
+            @Html.EditorFor(m => m.CloseDate, new { @class = "form-control" })
             @Html.ValidationMessageFor(m => m.CloseDate)
         </div>
     </div>
@@ -132,7 +133,7 @@
     <div class="form-group">
      @Html.LabelFor(m => m.RealeseDate, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.TextBoxFor(m => m.RealeseDate, new { @class = "form-control" })
+            @Html.EditorFor(m => m.RealeseDate, new { @class = "form-control" })
             @Html.ValidationMessageFor(m => m.RealeseDate)
         </div>
     </div>

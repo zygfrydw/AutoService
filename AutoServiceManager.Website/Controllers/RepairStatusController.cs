@@ -96,5 +96,12 @@ namespace AutoServiceManager.Website.Controllers
             var invoice = InvoiceFactory.GetInvoiceForFaultId(id);
             return View("Invoice", invoice);
         }
+
+        public ActionResult ShowStatusDetails(long id)
+        {
+            var fault = db.Faults.Find(id);
+            ViewBag.EstimatedRepairCost = fault.SubFaults.Sum(x => x.EstimatedCost);
+            return View("RepairDetail", fault);
+        }
     }
 }

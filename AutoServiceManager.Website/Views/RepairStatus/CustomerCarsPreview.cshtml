@@ -5,7 +5,7 @@
     int i = 0;
 }
 <div class="panel-group" id="car-list">
-    @foreach (var car in Model)
+    @foreach (var car in Model.Where(x=> x.Faults.Any()))
     {
         <div class="panel panel-@Html.ClassFor(car.Status)">
             <div class="panel-heading btn btn-block" data-toggle="collapse" data-parent="#car-list" href="#@i">

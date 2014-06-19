@@ -9,7 +9,7 @@ namespace AutoServiceManager.Common.Model
         public DateTime EndTime { get; set; }
         public decimal WorkerRate { get; set; }
         public long WorkerId { get; set; }
-        public Worker RelatedWorker { get; set; }
+        public virtual Worker RelatedWorker { get; set; }
 
         public double WorkDuration
         {
