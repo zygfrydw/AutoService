@@ -12,7 +12,7 @@ namespace AutoServiceManager.Website.Models
 {
     public class FaultList
     {
-        private static DataContext db = new DataContext();
+        private DataContext db = new DataContext();
 
         public string query { get; set; }
         public string statusQuery { get; set; }
@@ -87,8 +87,7 @@ namespace AutoServiceManager.Website.Models
         public static FaultList GetAllFaultList()
         {
             FaultList createdObject = new FaultList();
-            createdObject.list = db.Faults.Include("RelatedCar").ToList();
-            return createdObject;
+            return createdObject.GetFaultList();
         }
     }
 }

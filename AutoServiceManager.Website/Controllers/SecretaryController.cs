@@ -314,32 +314,22 @@ namespace AutoServiceManager.Website.Controllers
 
         // GET: /Secretary/ChangeUserStatus/
         [HttpPost]
-        public ActionResult ChangeUserStatus(int Id, String Operation, bool Value)
+        public ActionResult ChangeUserStatus(int Id, String Operation, short Value)
         {
 
             Person Person = db.People.FirstOrDefault(p => p.ID == Id);
 
             if (Operation=="NotActive")
             {
-                Person.NotActive = (bool)Value;
+                Person.NotActive = Value;
             }
             else if (Operation == "Blocked")
             {
-                Person.Blocked = (bool)Value;
+                Person.Blocked = Value;
             }
             db.SaveChanges();
 
-            Person = db.People.FirstOrDefault(p => p.ID == Id);
-            if (Operation == "NotActive")
-            {
-                Value = Person.NotActive;
-            }
-            else if (Operation == "Blocked")
-            {
-                Value =  Person.Blocked;
-            }
-
-
+            
             return Json(new { Operation = Operation, Id = Id, Value = Value });
         }
 

@@ -23,6 +23,7 @@ namespace AutoServiceManager.Website.Models
 
         public UserList GetUserList(string query = null)
         {
+            db = new DataContext();
             var Found = db.People.Include("Address").Include("Address.City").Include("Address.Country").AsQueryable();
             
             if (!string.IsNullOrEmpty(this.typeFilter) && !this.typeFilter.Equals(""))
@@ -56,22 +57,22 @@ namespace AutoServiceManager.Website.Models
             {
                 if (this.NotActiveFilter == "NOT")
                 {
-                    Found = Found.Where(c => c.NotActive == false);
+                    Found = Found.Where(c => c.NotActive == 0);
                 }
                 else if (this.NotActiveFilter == "ONLY")
                 {
-                    Found = Found.Where(c => c.NotActive == true);
+                    Found = Found.Where(c => c.NotActive == 1);
                 }
             }
             if (!string.IsNullOrEmpty(this.BlockedFilter))
             {
                 if (this.BlockedFilter == "NOT")
                 {
-                    Found = Found.Where(c => c.Blocked == false);
+                    Found = Found.Where(c => c.Blocked == 0);
                 }
                 else if (this.BlockedFilter == "ONLY")
                 {
-                    Found = Found.Where(c => c.Blocked == true);
+                    Found = Found.Where(c => c.Blocked == 1);
                 }
             }
 
@@ -111,7 +112,7 @@ namespace AutoServiceManager.Website.Models
                 Found = Found.OrderBy(c => c.Address.ZipCode);
             }
 
-            list = (IEnumerable<Person>)Found.ToList();
+            list = Found.ToList();
 
             return this;
         }

@@ -43,17 +43,17 @@
                     <div class="form-group">
                         &nbsp;Zablokowani:&nbsp;
                         <select class="form-control" name="BlockedFilter">
-                            <option data-name="typeFilter" value=""></option>
-                            <option data-name="typeFilter" value="NOT">Tylko Nie Zablokowani</option>
-                            <option data-name="typeFilter" value="ONLY">Tylko Zablokowani</option>
+                            <option data-name="BlockedFilter" value=""></option>
+                            <option data-name="BlockedFilter" value="NOT">Tylko Nie Zablokowani</option>
+                            <option data-name="BlockedFilter" value="ONLY">Tylko Zablokowani</option>
                         </select>
                     </div>
                     <div class="form-group">
                         &nbsp;Nie aktywni:&nbsp;
                         <select class="form-control" name="NotActiveFilter">
-                            <option data-name="typeFilter" value=""></option>
-                            <option data-name="typeFilter" value="NOT">Tylko Aktywni</option>
-                            <option data-name="typeFilter" value="ONLY">Tylko Nie Aktywni</option>
+                            <option data-name="NotActiveFilter" value=""></option>
+                            <option data-name="NotActiveFilter" value="NOT">Tylko Aktywni</option>
+                            <option data-name="NotActiveFilter" value="ONLY">Tylko Nie Aktywni</option>
                         </select>
                     </div>
                     @Html.AntiForgeryToken();
@@ -72,19 +72,21 @@
     var previouslySelectedNotActiveFilter = "@Model.NotActiveFilter";
     var previouslySelectedBlockedFilter = "@Model.BlockedFilter";
 
+
+
     $(function () {
+        $("[data-name=NotActiveFilter][value=" + previouslySelectedNotActiveFilter + "]").prop("selected", true);
+        $("[data-name=BlockedFilter][value=" + previouslySelectedBlockedFilter + "]").prop("selected", true);
+
         $("#query").val(previouslySelectedQuery);
         $("[value=" + previouslySelectedOrder + "]").attr("selected", "true");
         $("[data-name=typeFilter][value=" + previouslyTypeFilter + "]").attr("selected", "true");
-
-        $("[data-name=NotActiveFilter][value=" + previouslySelectedNotActiveFilter + "]").attr("selected", "true");
-        $("[data-name=BlockedFilter][value=" + previouslySelectedBlockedFilter + "]").attr("selected", "true");
-
-
         $("#clearForm").click(function () {
+
+            $("[data-name=NotActiveFilter][value=\"\"]").prop("selected", true);
+            $("[data-name=BlockedFilter][value=\"\"]").prop("selected", true);
+
             $("[data-name=typeFilter][value=\"\"]").attr("selected", "true");
-            $("[data-name=NotActiveFilter][value=\"\"]").attr("selected", "true");
-            $("[data-name=BlockedFilter][value=\"\"]").attr("selected", "true");
             $("#query").val(null);
             $(".searchFormAllCars").submit();
         });
@@ -146,7 +148,7 @@
                             @Html.DisplayFor(modelItem => item.Address.ZipCode)
                         </td>
                         <td>
-                            @if (item.Blocked)
+                            @if (item.Blocked == 1)
                             {
                                 <input type="checkbox" data-value="@item.Blocked"  data-userid="@item.ID" data-event="Blocked" name="Blocked" value="wartość" checked="checked" />
                             }
@@ -156,7 +158,7 @@
                             }
                         </td>
                         <td>
-                            @if (item.NotActive)
+                            @if (item.NotActive == 1)
                             {
                                 <input type="checkbox" data-value="@item.NotActive" data-userid="@item.ID"  data-event="NotActive" name="NotActive" value="wartość" checked="checked" />
                             }
@@ -203,24 +205,27 @@
 
     $(function () {
         $("[data-event=NotActive]").click(function (event) {
-            console.log("NotActive");
-            console.log(!$(this).data("value") || $(this).data("value") == true);
-            
             event.preventDefault();
+            if ($(this).data("value") == 1) {
+                var valueToSet = 0;
+            } else if ($(this).data("value") == 0) {
+                var valueToSet = 1;
+            }
 
-            var valueToSet = ! ($(this).data("value") == "True");
-            sendRequest($(this).data("userid"), valueToSet, $(this).data("event"),$(this));
+            sendRequest($(this).data("userid"), valueToSet, $(this).data("event"), $(this));
             
             return false;
         });
         $("[data-event=Blocked]").click(function (event) {
-            console.log("Blocked");
-            console.log(!$(this).data("value"));
-
             event.preventDefault();
 
-            var valueToSet = !($(this).data("value") == "True" || $(this).data("value") == true);
-            sendRequest($(this).data("userid"), valueToSet, $(this).data("event"),$(this));
+            if ($(this).data("value") == 1) {
+                var valueToSet = 0;
+            } else if ($(this).data("value") == 0) {
+                var valueToSet = 1;
+            }
+
+            sendRequest($(this).data("userid"), valueToSet, $(this).data("event"), $(this));
             
             return false;
         });

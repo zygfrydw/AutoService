@@ -63,8 +63,9 @@ namespace AutoServiceManager.Common.Model
         public string UserID { get; set; }
         public virtual ApplicationUser User { get; set; }
 
-
-        public bool NotActive { get; set; }
-        public bool Blocked { get; set; }
+        [DefaultValue(0)]
+        public short NotActive { get; set; }
+        [DefaultValue(0)]
+        public short Blocked { get; set; }
     }
 }
