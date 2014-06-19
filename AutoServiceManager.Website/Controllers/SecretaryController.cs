@@ -17,7 +17,7 @@ using Newtonsoft.Json;
 
 namespace AutoServiceManager.Website.Controllers
 {
-    //[AuthorizeRole(ApplicationRoles.Secretary)]
+    [AuthorizeRole(ApplicationRoles.Secretary)]
     public class SecretaryController : Controller
     {
         private DataContext db = new DataContext();
@@ -310,6 +310,39 @@ namespace AutoServiceManager.Website.Controllers
             }
             return Json(new { Succeeded = true});
         }
+
+
+        // GET: /Secretary/ChangeUserStatus/
+        [HttpPost]
+        public ActionResult ChangeUserStatus(int Id, String Operation, bool Value)
+        {
+
+            Person Person = db.People.FirstOrDefault(p => p.ID == Id);
+
+            if (Operation=="NotActive")
+            {
+                Person.NotActive = (bool)Value;
+            }
+            else if (Operation == "Blocked")
+            {
+                Person.Blocked = (bool)Value;
+            }
+            db.SaveChanges();
+
+            Person = db.People.FirstOrDefault(p => p.ID == Id);
+            if (Operation == "NotActive")
+            {
+                Value = Person.NotActive;
+            }
+            else if (Operation == "Blocked")
+            {
+                Value =  Person.Blocked;
+            }
+
+
+            return Json(new { Operation = Operation, Id = Id, Value = Value });
+        }
+
 
         // GET: /Secretary/Invoice/
         public ActionResult Invoice(int? id)

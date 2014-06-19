@@ -30,7 +30,7 @@
                             <option data-name="group" value="AddressZipCode" >Kodzie pocztowym</option>
                         </select>
                     </div>
-                    
+                    <br><br>
                     <div class="form-group">
                         <label class="sr-only" for="exampleInputPassword2">Grupuj po:</label>
                         &nbsp;Tylko:&nbsp;
@@ -38,6 +38,22 @@
                             <option data-name="typeFilter" value=""></option>
                             <option data-name="typeFilter" value="Customer">Tylko Klienci</option>
                             <option data-name="typeFilter" value="Worker">Tylko Pracownicy</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        &nbsp;Zablokowani:&nbsp;
+                        <select class="form-control" name="BlockedFilter">
+                            <option data-name="typeFilter" value=""></option>
+                            <option data-name="typeFilter" value="NOT">Tylko Nie Zablokowani</option>
+                            <option data-name="typeFilter" value="ONLY">Tylko Zablokowani</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        &nbsp;Nie aktywni:&nbsp;
+                        <select class="form-control" name="NotActiveFilter">
+                            <option data-name="typeFilter" value=""></option>
+                            <option data-name="typeFilter" value="NOT">Tylko Aktywni</option>
+                            <option data-name="typeFilter" value="ONLY">Tylko Nie Aktywni</option>
                         </select>
                     </div>
                     @Html.AntiForgeryToken();
@@ -53,13 +69,22 @@
     var previouslySelectedQuery = "@Model.query";
     var previouslyTypeFilter = "@Model.typeFilter";
 
+    var previouslySelectedNotActiveFilter = "@Model.NotActiveFilter";
+    var previouslySelectedBlockedFilter = "@Model.BlockedFilter";
+
     $(function () {
         $("#query").val(previouslySelectedQuery);
         $("[value=" + previouslySelectedOrder + "]").attr("selected", "true");
         $("[data-name=typeFilter][value=" + previouslyTypeFilter + "]").attr("selected", "true");
 
+        $("[data-name=NotActiveFilter][value=" + previouslySelectedNotActiveFilter + "]").attr("selected", "true");
+        $("[data-name=BlockedFilter][value=" + previouslySelectedBlockedFilter + "]").attr("selected", "true");
+
+
         $("#clearForm").click(function () {
             $("[data-name=typeFilter][value=\"\"]").attr("selected", "true");
+            $("[data-name=NotActiveFilter][value=\"\"]").attr("selected", "true");
+            $("[data-name=BlockedFilter][value=\"\"]").attr("selected", "true");
             $("#query").val(null);
             $(".searchFormAllCars").submit();
         });
@@ -79,6 +104,8 @@
                     <th>Numer Telefonu</th>
                     <th>Ulica</th>
                     <th>Kod pocztowy</th>
+                    <th>Zablokowany</th>
+                    <th>Nieaktywny</th>
                 </tr>
             </thead>
             <tbody>
@@ -118,7 +145,27 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.Address.ZipCode)
                         </td>
-
+                        <td>
+                            @if (item.Blocked)
+                            {
+                                <input type="checkbox" data-value="@item.Blocked"  data-userid="@item.ID" data-event="Blocked" name="Blocked" value="wartość" checked="checked" />
+                            }
+                            else
+                            {
+                                <input type="checkbox" data-value="@item.Blocked"  data-userid="@item.ID" data-event="Blocked" name="Blocked" value="wartość" />
+                            }
+                        </td>
+                        <td>
+                            @if (item.NotActive)
+                            {
+                                <input type="checkbox" data-value="@item.NotActive" data-userid="@item.ID"  data-event="NotActive" name="NotActive" value="wartość" checked="checked" />
+                            }
+                            else
+                            {
+                                <input type="checkbox" data-value="@item.NotActive"  data-userid="@item.ID" data-event="NotActive" name="NotActive" value="wartość" />
+                            }
+                        </td>
+                    
                     </tr>
 
                     
@@ -128,3 +175,54 @@
     </div>
 </div>
 
+<script>
+
+    function sendRequest(userid, valueToSet, event, obj) {
+       
+        console.log({ Id: parseInt(userid), Operation: event, Value: valueToSet });
+
+        $.ajax({
+            url: "@Url.Action("ChangeUserStatus")",
+            type: "POST",
+            dataType: "json",
+            data: { Id: parseInt(userid), Operation: event, Value: valueToSet },
+            statusCode: {
+                400: function(xhr, status, err) {                           
+                       
+                }
+            },
+            success: function (data)
+            {
+                console.log(data);
+                obj.prop("checked", data.Value);
+                obj.data("value", data.Value);
+            }
+    });
+    }
+
+
+    $(function () {
+        $("[data-event=NotActive]").click(function (event) {
+            console.log("NotActive");
+            console.log(!$(this).data("value") || $(this).data("value") == true);
+            
+            event.preventDefault();
+
+            var valueToSet = ! ($(this).data("value") == "True");
+            sendRequest($(this).data("userid"), valueToSet, $(this).data("event"),$(this));
+            
+            return false;
+        });
+        $("[data-event=Blocked]").click(function (event) {
+            console.log("Blocked");
+            console.log(!$(this).data("value"));
+
+            event.preventDefault();
+
+            var valueToSet = !($(this).data("value") == "True" || $(this).data("value") == true);
+            sendRequest($(this).data("userid"), valueToSet, $(this).data("event"),$(this));
+            
+            return false;
+        });
+    });
+</script>

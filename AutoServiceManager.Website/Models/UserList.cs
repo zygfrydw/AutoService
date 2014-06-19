@@ -15,7 +15,10 @@ namespace AutoServiceManager.Website.Models
         public string query { get; set; }
         public string order { get; set; }
         public string typeFilter { get; set; }
-        
+
+        public string NotActiveFilter { get; set; }
+        public string BlockedFilter { get; set; }
+
         public string highlightDifferentUser { get; set; }
 
         public UserList GetUserList(string query = null)
@@ -49,7 +52,28 @@ namespace AutoServiceManager.Website.Models
                         select c).AsQueryable();
             }
 
-
+            if (!string.IsNullOrEmpty(this.NotActiveFilter))
+            {
+                if (this.NotActiveFilter == "NOT")
+                {
+                    Found = Found.Where(c => c.NotActive == false);
+                }
+                else if (this.NotActiveFilter == "ONLY")
+                {
+                    Found = Found.Where(c => c.NotActive == true);
+                }
+            }
+            if (!string.IsNullOrEmpty(this.BlockedFilter))
+            {
+                if (this.BlockedFilter == "NOT")
+                {
+                    Found = Found.Where(c => c.Blocked == false);
+                }
+                else if (this.BlockedFilter == "ONLY")
+                {
+                    Found = Found.Where(c => c.Blocked == true);
+                }
+            }
 
             else if (this.order == "FirstName")
             {
@@ -59,7 +83,7 @@ namespace AutoServiceManager.Website.Models
             {
                 Found = Found.OrderBy(c => c.SecondName);
             }
-            
+
             else if (this.order == "AddressCity")
             {
                 Found = Found.OrderBy(c => c.Address.City.Name);
@@ -68,8 +92,8 @@ namespace AutoServiceManager.Website.Models
             else if (this.order == "AddressCountry")
             {
                 Found = Found.OrderBy(c => c.Address.Country.Name);
-            } 
-             
+            }
+
             else if (this.order == "AddressEmail")
             {
                 Found = Found.OrderBy(c => c.Address.Email);
@@ -87,7 +111,7 @@ namespace AutoServiceManager.Website.Models
                 Found = Found.OrderBy(c => c.Address.ZipCode);
             }
 
-            list = (IEnumerable<AutoServiceManager.Common.Model.Person>)Found.ToList();
+            list = (IEnumerable<Person>)Found.ToList();
 
             return this;
         }
