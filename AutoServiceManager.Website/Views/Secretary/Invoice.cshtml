@@ -5,6 +5,13 @@
     ViewBag.Title = "Invoice";
 }
 
+@if (ViewBag.pdf != null && ViewBag.pdf == 1)
+{
+    Layout = null;
+}
+
+
+
 <h2>Faktura</h2>
 <hr/>
 
@@ -190,3 +197,23 @@
     </table>
 </div>
 <hr />
+
+@if (ViewBag.pdf == null)
+{
+   
+<div>
+    <h4>
+    <a href='@Url.Action("PrintInvoice", "Secretary", new { id = ViewBag.id, pdf = 2 })'>
+        Stórz PDF
+    </a>
+    </h4>
+    <h4>
+        <a href='@Url.Action("PrintInvoice", "Secretary", new { id = ViewBag.id, pdf = 1 })'>
+            Stórz PDF Prosty
+        </a>
+    </h4>
+</div>
+
+}
+
+

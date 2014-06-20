@@ -340,10 +340,18 @@ namespace AutoServiceManager.Website.Controllers
         }
 
 
+        protected bool ToPrint = false;
+        protected int IntId;
+
         // GET: /Secretary/Invoice/
-        public ActionResult Invoice(int? id)
+        [AllowAnonymous]
+        public ActionResult Invoice(int? id,int? pdf)
         {
             InvoiceView Invoice = null;
+
+            ViewBag.id = id;
+            ViewBag.pdf = pdf;
+
             if (id != null)
             {
                 Invoice = new InvoiceView((int)id);
@@ -352,7 +360,14 @@ namespace AutoServiceManager.Website.Controllers
                 Invoice = new InvoiceView();
             }
             
+            
             return View(Invoice);
+        }
+
+
+        public ActionResult PrintInvoice(int? id, int? pdf)
+        {
+            return new Rotativa.ActionAsPdf("Invoice", new { id = id, pdf = pdf }) { FileName = "Invoice.pdf" };
         }
 	}
 }
