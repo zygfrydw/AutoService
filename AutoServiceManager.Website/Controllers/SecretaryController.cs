@@ -163,9 +163,16 @@ namespace AutoServiceManager.Website.Controllers
 
         // GET: /Secretary/Faults/
         [HttpGet]
-        public ActionResult Faults()
+        public ActionResult Faults(long? SpecyficCar)
         {
-            return View(FaultList.GetAllFaultList());
+            if (SpecyficCar == null)
+            {
+                return View(FaultList.GetAllFaultList());
+            }
+            else {
+                FaultList list = new FaultList(SpecyficCar);
+                return View(list.GetFaultList());
+            }            
         }
         // POST: /Secretary/Faults/
         [HttpPost]
@@ -311,8 +318,7 @@ namespace AutoServiceManager.Website.Controllers
             return Json(new { Succeeded = true});
         }
 
-
-        // GET: /Secretary/ChangeUserStatus/
+        // POST: /Secretary/ChangeUserStatus/
         [HttpPost]
         public ActionResult ChangeUserStatus(int Id, String Operation, short Value)
         {

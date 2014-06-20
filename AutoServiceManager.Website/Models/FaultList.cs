@@ -19,10 +19,25 @@ namespace AutoServiceManager.Website.Models
         public string order { get; set; }
         public IEnumerable<Fault> list { get; set; }
 
+        public long? SpecyficCar { get; set; }
+
+        public FaultList() {
+            this.SpecyficCar = null;
+        }
+        public FaultList(long? SpecyficCarIn)
+        {
+            SpecyficCar = SpecyficCarIn;
+        }
 
         public FaultList GetFaultList()
         {
+            db = new DataContext();
             var Found = db.Faults.Include("RelatedCar").AsQueryable();
+
+            if (SpecyficCar != null) {
+                this.list = Found.Where(c => c.RelatedCar.ID == (long)SpecyficCar).ToList();
+                return this;
+            }
 
             if (!string.IsNullOrEmpty(this.query))
             {

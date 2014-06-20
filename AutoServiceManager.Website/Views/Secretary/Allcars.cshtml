@@ -5,6 +5,8 @@
     ViewBag.Title = "Allcars";
 }
 
+
+
 <h2>Auta w bazie danych</h2>
 <div class="row">
     <div class="col-md-12">
@@ -80,7 +82,7 @@
 
                 @foreach (var item in Model.list)
                 {
-                    if (Model.highlightDifferentUser=="true" && lastSecondName != item.Owner.SecondName && lastFirstName != item.Owner.FirstName && i > 0)
+                    if (Model.highlightDifferentUser=="true" && (lastSecondName != item.Owner.SecondName || lastFirstName != item.Owner.FirstName) && i > 0)
                     {
                         <tr style="height:20px;"></tr><tr style="height:20px;"></tr>    
                     }
@@ -95,12 +97,27 @@
                             @Html.DisplayFor(modelItem => item.RegistrationNumber)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Model.Manufacturer.Name)
+                            <a href='@Url.Action("Faults", "Secretary", new { SpecyficCar = item.ID })'>
+                                @Html.DisplayFor(modelItem => item.Model.Manufacturer.Name)
+                            </a>
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Model.ModelName)
+                            <a href='@Url.Action("Faults", "Secretary", new { SpecyficCar = item.ID })'>
+                                @Html.DisplayFor(modelItem => item.Model.ModelName)
+                            </a>
                         </td>
-                        <td>
+                        @{
+                            string temp = Json.Encode(new { 
+                                Name = item.Owner.FirstName,
+                                Surname = item.Owner.SecondName,
+                                PhonNumber = item.Owner.Address.PhoneNumber,
+                                Street = item.Owner.Address.Street,
+                                Email = item.Owner.Address.Email,
+                                City = item.Owner.Address.City.Name,
+                                Country = item.Owner.Address.Country.Name,
+                            });
+                        }
+                        <td data-event='showCard' data-jsondata='@temp'>
                             @Html.DisplayFor(modelItem => item.Owner.FirstName)
                             @{lastFirstName = item.Owner.FirstName;}
                             &nbsp
@@ -115,3 +132,37 @@
     </div>
 </div>
 
+<div id="personCard" style="background-color: rgb(230, 230, 230); position: fixed;">
+    Imie:&nbsp;<span id="CardName"></span>&nbsp;<br>
+    Nazwisko:&nbsp;<span id="CardSurname"></span>&nbsp;<br>
+    Ulica:&nbsp;<span id="CardCity"></span>&nbsp;<br>
+    Państwo:&nbsp;<span id="CardCountry"></span>&nbsp;<br>
+    Email:&nbsp;<span id="CardEmail"></span>&nbsp;<br>
+    Telefon:&nbsp;<span id="CardPhonNumber"></span>&nbsp;<br>
+    Ulica:&nbsp;<span id="CardStreet"></span>&nbsp;<br>    
+</div>
+<script>
+    $(function () {
+        var $mouseX = 0, $mouseY = 0;
+        var $xp = 0, $yp = 0;
+        $("[data-event=showCard]").click(function (e) {
+            var obj = $(this).data("jsondata");
+                $("#CardCity").text(obj.City);
+                $("#CardCountry").text(obj.Country);
+                $("#CardEmail").text(obj.Email);
+                $("#CardName").text(obj.Name);
+                $("#CardPhonNumber").text(obj.PhonNumber);
+                $("#CardStreet").text(obj.Street);
+                $("#CardSurname").text(obj.Surname);
+            $xp = e.pageX + 2;
+            $yp = e.pageY + 2;
+            $("#personCard").css({ left: $xp + 'px', top: $yp + 'px' });
+            $("#personCard").show();
+        });
+
+        $("[data-event=showCard]").mouseleave(function (e) {
+            $("#personCard").hide();
+        });
+        $("#personCard").hide();
+    })
+</script>

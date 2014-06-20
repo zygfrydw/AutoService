@@ -9,7 +9,7 @@ namespace AutoServiceManager.Website.Models
 {
     public class CarList
     {
-        private static DataContext db = new DataContext();
+        private  DataContext db = new DataContext();
 
         public IEnumerable<Car> list { get; set; }
         public string query { get; set; }
@@ -19,10 +19,12 @@ namespace AutoServiceManager.Website.Models
 
         public CarList GetCarList(string query = null)
         {
-             
+            DataContext db = new DataContext();
+
             this.query=(query!=null)?query:this.query;
-            var Found = (from c in db.Cars
-                               select c).AsQueryable(); 
+
+            var Found = db.Cars.Include("Owner").Include("Owner.Address").Include("Owner.Address.Country").Include("Owner.Address.City").AsQueryable(); 
+            
             if (!string.IsNullOrEmpty(this.query))
             {
                 int productionYear = 0;
@@ -70,8 +72,7 @@ namespace AutoServiceManager.Website.Models
         public static CarList GetAllCarList()
         {
             CarList createdObject = new CarList();
-            createdObject.list = db.Cars.ToList();
-            return createdObject;
+            return createdObject.GetCarList();
         }
     }
 }
