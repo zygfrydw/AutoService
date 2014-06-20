@@ -123,6 +123,8 @@
             $.each($("[data-event=selectRole]"), function () {
                 if (selectedList[$(this).val()] === "selected") {
                     $(this).attr("selected", true);
+                    $(this).prop("selected", true);
+                    console.log($(this).val());
                     SelectedRoles[i++] = $(this).val();
                 }
             });
