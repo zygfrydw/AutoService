@@ -369,5 +369,35 @@ namespace AutoServiceManager.Website.Controllers
         {
             return new Rotativa.ActionAsPdf("Invoice", new { id = id, pdf = pdf }) { FileName = "Invoice.pdf" };
         }
+
+        [HttpPost]
+        public ActionResult AddModelOrManufacturer(String Action, String Value, String ManufacturerId)
+        {
+            if(Value == ""){
+                return Json(db.CarManufacturers.ToList());
+            }
+
+            if (Action == "AddManufacturer")
+            {
+                CarManufacturer CarManufacturer = new CarManufacturer();
+                CarManufacturer.Name = Value;
+                db.CarManufacturers.Add(CarManufacturer);
+                db.SaveChanges();
+            }
+            else if (Action == "AddModel" && ManufacturerId !="")
+            {
+                CarModel Model = new CarModel();
+                int CarManufacturerID = int.Parse(ManufacturerId);
+                CarManufacturer CarManufacturer = db.CarManufacturers.FirstOrDefault(f => f.Id == CarManufacturerID);
+                Model.ModelName = Value;
+                Model.Manufacturer = CarManufacturer;
+                db.CarModels.Add(Model);
+                db.SaveChanges();
+            }
+            
+            return Json(db.CarManufacturers.ToList());
+        }
+        
+
 	}
 }

@@ -12,11 +12,22 @@
     </a>
 </div>
 
+<div style="display:none;" id="CarErrorsDiv" class="validation-summary-errors" data-valmsg-summary="true">
+    <pre><div class="validation-summary-errors"><ul id="CarErrorsUl"></ul></div></pre>
+</div>
+
+
 <div id="PartialUser">
     <hr />
         @Html.Partial("User")
     <hr/>
 </div>
+
+
+<div style="display:none;" id="UserErrorsDiv" class="validation-summary-errors" data-valmsg-summary="true">
+    <pre><div class="validation-summary-errors"><ul id="UserErrorsUl"></ul></div></pre>
+</div>
+
 
 
 <script src="~/Scripts/jquery-ui-1.10.4.min.js"></script>
@@ -65,7 +76,9 @@
 
     $(document).ready(function () {
         $("#creteFault").hide();
-                $("#createCustomer").click(function () {
+        $("#createCustomer").click(function () {
+            $("#UserErrorsUl").html(null);
+            $("#UserErrorsDiv").hide();
                     $.ajax({
                         url: "@Url.Action("AddPerson")",
                         type: "POST",
@@ -79,10 +92,13 @@
                     success: function (data)
                     {
                         //console.log(data);
-                        if(data.Errors !== "undefined" && data.Errors) {
+                        if (data.Errors !== "undefined" && data.Errors) {
+                            var errors = "";
                             for (var i = 0; i < data.Errors.length; i++) {
-                                alert(data.Errors[i]);
+                                errors += "<li>" + data.Errors[i] + "</li>";
                             }
+                            $("#UserErrorsUl").html(errors);
+                            $("#UserErrorsDiv").show();
                         }
                         if (data.Succeeded !== "undefined" && data.Succeeded == true) {
                             alert("dodano urzytkownika");
@@ -105,7 +121,8 @@
                 $("#PartialUser").hide();
 
                     $("#createCarButton").click(function () {
-                       
+                        $("#CarErrorsUl").html(null);
+                        $("#CarErrorsDiv").hide();
                         $.ajax({
                             url: "@Url.Action("AddCar")",
                             type: "POST",
@@ -119,10 +136,13 @@
                         success: function (data)
                         {
                             console.log(data);
+                            var errors = "";
                             if (data.Errors !== "undefined" && data.Errors) {
                                 for (var i = 0; i < data.Errors.length; i++) {
-                                    alert(data.Errors[i]);
+                                    errors += "<li>" + data.Errors[i] + "</li>";
                                 }
+                                $("#CarErrorsUl").html(errors);
+                                $("#CarErrorsDiv").show();
                             }
                             if (data.Succeeded !== "undefined" && data.Succeeded == true) {
                                 alert("dodano auto");

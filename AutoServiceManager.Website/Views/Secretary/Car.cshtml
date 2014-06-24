@@ -19,13 +19,13 @@
 
         <div class="form-group">
             @Html.Label("Producent", new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div id="ManufacturerIDDiv" class="col-md-10">
                 @Html.DropDownList("ManufacturerID", new SelectList(modelList.Manufacturers, "Value", "Text"), new { @class = "form-control" })
             </div>
         </div>
         <div class="form-group">
             @Html.LabelFor(model => model.ModelID, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div id="ModelIDDiv" class="col-md-10">
                 @Html.DropDownListFor(model => model.ModelID, new SelectList(modelList.Models, "Value", "Text"), new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.ModelID)
             </div>
@@ -33,7 +33,7 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.ProductionYear, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class=" col-md-10">
                 @Html.EditorFor(model => model.ProductionYear, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.ProductionYear)
             </div>
@@ -67,16 +67,81 @@
 }
 
 <script type="text/javascript">
-        $(function() {
+    $(function () {
+        $("#ManufacturerID").append('<option value="null"></option>');
+        $("#ModelID").append('<option value="null"></option>');
+
+        $("#ManufacturerIDDiv").append('<input data-event="SendToController" data-action="AddManufacturer" style="display:none;" type="text" class="form-control valid" id="NewManufacturerName" name="NewManufacturerName">');
+        $("#ModelIDDiv").append('<input data-event="SendToController" data-action="AddModel" style="display:none;" type="text" class="form-control valid" id="NewModelName" name="NewModelName">');
+
+        $("[data-event=SendToController]").change(function () {
+            $.post("@Url.Action("AddModelOrManufacturer", "Secretary")", { Action: $(this).data("action"), Value: $(this).val(), ManufacturerId:$("#ManufacturerID").val() }, function (data) {
+                console.log(data);
+                var options = "";
+                jQuery.each(data, function (index, value) {
+                    options += "<option value=" + value.Id + ">" + value.Name + "</option>";
+                });
+                options += "<option value=\"null\"></option>";
+                $("#ManufacturerID").html(options);
+
+
+                $("#ManufacturerID").prop('disabled', false);
+                $("#NewModelName").hide();
+                $("#ModelID").show();
+
+                $("#ModelID").prop('disabled', false);
+                $("#NewManufacturerName").hide();
+                $("#ManufacturerID").show();
+
+                $("#ManufacturerID").trigger("change");
+            }, "json");
+        });
+
+
+            $("#ModelID").on('change , click', function () {
+                if ($(this).val() == 'null') {
+                    $("#ManufacturerID").prop('disabled', true);
+
+                    $("#NewModelName").show();
+                    $("#ModelID").hide();
+                } else {
+                    $("#ManufacturerID").prop('disabled', false);
+
+                    $("#NewModelName").hide();
+                    $("#ModelID").show();
+                }
+            });
+
+            $("#ManufacturerID").on('change , click', function () {
+                if ($(this).val() == 'null') {
+                    $("#ModelID").prop('disabled', true);
+
+                    $("#NewManufacturerName").show();
+                    $("#ManufacturerID").hide();
+                } else {
+                    $("#ModelID").prop('disabled', false);
+
+                    $("#NewManufacturerName").hide();
+                    $("#ManufacturerID").show();
+                }
+            });
+
+
+
+
             $("#ManufacturerID").change(function() {
                 var val = $(this).val();
+                if (val == "null") {
+                    return false;
+                }
                 var subItems = "";
-                $.getJSON("@Url.Action("GetModels", "Car")", { id: val }, function(data) {
-                    $.each(data, function(index, item) {
+                $.getJSON("@Url.Action("GetModels", "Car")", { id: val }, function (data) {
+                    $.each(data, function (index, item) {
                         subItems += "<option value='" + item.Value + "'>" + item.Text + "</option>";
                     });
                     $("#ModelID").html(subItems);
+                    $("#ModelID").append('<option value="null"></option>');
                 });
             });
-        });
+    });
 </script>
