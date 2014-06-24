@@ -72,7 +72,7 @@
     });
 </script>
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-12">
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -103,7 +103,9 @@
             </a>
         </td>
         <td>
-                @item.ID
+            <a href='@Url.Action("FaultCreate", "Secretary", new { id = item.ID })'>
+               Dodaj Usterke <br>Auto:@item.ID
+            </a>
         </td>
         <td>
             @item.RelatedCar.Model.ModelName
@@ -119,16 +121,28 @@
         </td>
 
         <td>
-            @item.IncomingDate
+            @item.IncomingDate.ToString("dd MMM yyyy")
         </td>
         <td>
-            @item.PredictedEndDate
+            @if (item.PredictedEndDate!=null)
+            {
+                DateTime UpdatedTime = item.PredictedEndDate ?? DateTime.Now;
+                @UpdatedTime.ToString("dd MMM yyyy");
+            }
         </td>
         <td>
-            @item.CloseDate
+            @if (item.CloseDate != null)
+            {
+                DateTime UpdatedTime = item.CloseDate ?? DateTime.Now;
+                @UpdatedTime.ToString("dd MMM yyyy");
+            }
         </td>
         <td>
-            @item.RealeseDate
+            @if (item.RealeseDate != null)
+            {
+                DateTime UpdatedTime = item.RealeseDate ?? DateTime.Now;
+                @UpdatedTime.ToString("dd MMM yyyy");
+            }
         </td>
 
         <td>

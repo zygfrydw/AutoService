@@ -127,7 +127,8 @@ namespace AutoServiceManager.Website.Controllers
                     f.IncomingDate = obj.IncomingDate;
                     f.PredictedEndDate = obj.PredictedEndDate;
                     f.RealeseDate = obj.RealeseDate;
-                    
+                    f.CloseDate = obj.CloseDate;
+
                     f.RepairStatus = obj.RepairStatus;
                     f.SubFaults = obj.SubFaults;
                     

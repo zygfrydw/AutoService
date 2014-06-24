@@ -79,15 +79,21 @@
                   string lastFirstName="";
                   }
 
+                @{
+                    int color = 0;
+                }
+
                 @foreach (var item in Model.list)
                 {
                     if (Model.highlightDifferentUser=="true" && (lastSecondName != item.Owner.SecondName || lastFirstName != item.Owner.FirstName) && i > 0)
                     {
-                        <tr style="height:20px;"></tr><tr style="height:20px;"></tr>    
+                        <tr style="height:20px;"></tr><tr style="height:20px;"></tr>
+                        color++;
                     }
-                    <tr>
+                    <tr data-event="colorize" data-color="@color">
                         <td>
                             #@i@{i++;}
+                            @color
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.ProductionYear)
@@ -106,15 +112,16 @@
                             </a>
                         </td>
                         @{
-                            string temp = Json.Encode(new { 
-                                Name = item.Owner.FirstName,
-                                Surname = item.Owner.SecondName,
-                                PhonNumber = item.Owner.Address.PhoneNumber,
-                                Street = item.Owner.Address.Street,
-                                Email = item.Owner.Address.Email,
-                                City = item.Owner.Address.City.Name,
-                                Country = item.Owner.Address.Country.Name,
-                            });
+                    string temp = Json.Encode(new
+                    {
+                        Name = item.Owner.FirstName,
+                        Surname = item.Owner.SecondName,
+                        PhonNumber = item.Owner.Address.PhoneNumber,
+                        Street = item.Owner.Address.Street,
+                        Email = item.Owner.Address.Email,
+                        City = item.Owner.Address.City.Name,
+                        Country = item.Owner.Address.Country.Name,
+                    });
                         }
                         <td data-event='showCard' data-jsondata='@temp'>
                             @Html.DisplayFor(modelItem => item.Owner.FirstName)
@@ -124,7 +131,7 @@
                             @{lastSecondName = item.Owner.SecondName;}
                         </td>
                     </tr>
-                    
+
                 }
             <tbody>
         </table>
@@ -165,3 +172,14 @@
         $("#personCard").hide();
     })
 </script>
+
+@if(Model.highlightDifferentUser=="true"){
+    <script>
+        var colors = ["#56656D","#6C7E88","#879EAA", "#9EB1BA", "#C1CDD3", "#D7DFE3"];
+        jQuery.each($("[data-event=colorize]"), function (index, value) {
+            var i = $(this).data("color");
+            i = (i > colors.length - 1) ? i % (colors.length - 1): i;
+            $(this).children("td").css('background-color', colors[i]);
+        })
+    </script>
+}
