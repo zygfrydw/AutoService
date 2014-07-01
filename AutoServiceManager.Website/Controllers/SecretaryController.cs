@@ -196,6 +196,23 @@ namespace AutoServiceManager.Website.Controllers
             return View(temp.GetUserList());
         }
 
+        // GET: /Secretary/AllUsers/
+        [HttpGet]
+        public ActionResult AllWorker()
+        {
+            var temp = new WorkerList();
+            temp.month = DateTime.Now.Month;
+            temp.year = DateTime.Now.Year;
+            return View(temp.GetUserList());
+        }
+        [HttpPost]
+        public ActionResult AllWorker(WorkerList temp)
+        {
+            temp.month = int.Parse(Request.Params["month"]);
+            temp.year =  int.Parse(Request.Params["year"]);
+            return View(temp.GetUserList());
+        }
+
 
         // GET: /Secretary/NewUser/
         [HttpGet]

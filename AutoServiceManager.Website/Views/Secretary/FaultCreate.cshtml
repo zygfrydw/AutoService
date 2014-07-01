@@ -7,6 +7,7 @@
 {
     @Html.AntiForgeryToken()
     
+    @Html.ValidationSummary()
     @Html.TextBoxFor(m => m.ID, new {@style="display:none;"})
     
     

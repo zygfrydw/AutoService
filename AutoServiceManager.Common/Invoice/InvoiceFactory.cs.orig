@@ -10,6 +10,9 @@ namespace AutoServiceManager.Common.Invoice
     {
         public static Invoice GetInvoiceForFaultId(long id)
         {
+<<<<<<< HEAD
+            return new Invoice();
+=======
             try
             {
                 var invoice = new Invoice();
@@ -38,6 +41,7 @@ namespace AutoServiceManager.Common.Invoice
             {
                 throw new InvalidOperationException("Can't create invoice fror this fault");
             }
+>>>>>>> dosprawdzenia
         }
     }
 }

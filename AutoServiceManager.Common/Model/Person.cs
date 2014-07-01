@@ -14,7 +14,7 @@ namespace AutoServiceManager.Common.Model
         [DisplayName("Miasto")]
         public long CityId { get; set; }
         [DisplayName("Miasto")]
-        public City City { get; set; }
+        public virtual City City { get; set; }
 
         [Required]
         [NotMapped]
@@ -24,7 +24,7 @@ namespace AutoServiceManager.Common.Model
         [DisplayName("Kraj")]
         public long CountryId { get; set; }
         [DisplayName("Kraj")]
-        public Country Country { get; set; }
+        public virtual Country Country { get; set; }
 
         [EmailAddress]
         [DisplayName("Adres email")]
@@ -58,7 +58,7 @@ namespace AutoServiceManager.Common.Model
         [DisplayName("Nazwisko")]
         public string SecondName { get; set; }     
 
-        public AddressData Address { get; set; }
+        public virtual AddressData Address { get; set; }
 
         public string UserID { get; set; }
         public virtual ApplicationUser User { get; set; }
