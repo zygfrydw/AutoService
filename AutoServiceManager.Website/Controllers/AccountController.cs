@@ -53,15 +53,15 @@ namespace AutoServiceManager.Website.Controllers
                 {
                     DataContext db = new DataContext();
                     Person Person = db.People.FirstOrDefault(x => x.UserID == user.Id);
-                    if(Person.NotActive == 0 && Person.Blocked == 0){
+                    if(Person == null || (Person.NotActive == 0 && Person.Blocked == 0)){
                         await SignInAsync(user, model.RememberMe);
                         return RedirectToLocal(returnUrl);
-                    }else if(Person.NotActive == 1){
+                    }
+                    if(Person.NotActive == 1){
                         ModelState.AddModelError("", "NotActive.");
                     }else if(Person.Blocked == 1){
                         ModelState.AddModelError("", "Blocked.");
                     }
-
                 }
                 else
                 {
