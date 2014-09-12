@@ -51,10 +51,11 @@ namespace AutoServiceManager.Website.Controllers
                 var user = await UserManager.FindAsync(model.UserName, model.Password);
                 if (user != null)
                 {
+                    
                     DataContext db = new DataContext();
                     Person Person = db.People.FirstOrDefault(x => x.UserID == user.Id);
                     if(Person == null || (Person.NotActive == 0 && Person.Blocked == 0)){
-                        await SignInAsync(user, model.RememberMe);
+                        await SignInAsync(user, model.RememberMe); Session["id"] = Person.ID;
                         return RedirectToLocal(returnUrl);
                     }
                     if(Person.NotActive == 1){

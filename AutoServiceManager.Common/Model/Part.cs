@@ -16,7 +16,7 @@ namespace AutoServiceManager.Common.Model
         [Required]
         [DisplayName("Ilość")]
         public int Count { get; set; }
-
+        [DisplayName("Całkowity Koszt")]
         public decimal Cost
         {
             get { return SoldPrice*Count; }

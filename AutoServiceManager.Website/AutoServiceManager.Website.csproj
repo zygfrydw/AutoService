@@ -189,9 +189,11 @@
     <Compile Include="Controllers\CountrySelectable.cs" />
     <Compile Include="Controllers\FaultReportController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PartsController.cs" />
     <Compile Include="Controllers\RepairStatusController.cs" />
     <Compile Include="Controllers\SecretaryController.cs" />
     <Compile Include="Controllers\UserAccountsController.cs" />
+    <Compile Include="Controllers\WorkTimesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -444,6 +446,16 @@
     <Content Include="Views\RepairStatus\RepairDetail.cshtml" />
     <Content Include="Views\Secretary\AllWorker.cshtml" />
     <Content Include="Views\Secretary\Invoice.cshtml" />
+    <Content Include="Views\WorkTimes\Create.cshtml" />
+    <Content Include="Views\WorkTimes\Delete.cshtml" />
+    <Content Include="Views\WorkTimes\Details.cshtml" />
+    <Content Include="Views\WorkTimes\Edit.cshtml" />
+    <Content Include="Views\WorkTimes\Index.cshtml" />
+    <Content Include="Views\Parts\Create.cshtml" />
+    <Content Include="Views\Parts\Delete.cshtml" />
+    <Content Include="Views\Parts\Details.cshtml" />
+    <Content Include="Views\Parts\Edit.cshtml" />
+    <Content Include="Views\Parts\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
