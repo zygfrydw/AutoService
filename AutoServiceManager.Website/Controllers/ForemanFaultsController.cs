@@ -12,12 +12,62 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System.Web.Security;
 using System.ComponentModel;
 using System.Reflection;
+using Newtonsoft.Json.Linq;
+using System.Web.Script.Serialization;
 
 namespace AutoServiceManager.Website.Controllers
 {
     public class ForemanFaultsController : Controller
     {
         private DataContext db = new DataContext();
+
+        class JsonSubfault
+        {
+            public string quantity { get; set; }
+            public string name { get; set; }
+            public string id { get; set; }
+        }
+
+        public ActionResult NewSubFault(String description, String parts, String parent)
+        {
+            Worker assigned = db.Workers.FirstOrDefault(f => f.User.UserName == User.Identity.Name);
+            var partsArray = new JavaScriptSerializer().Deserialize<JsonSubfault[]>(parts);
+            SubFault subFault = new SubFault();
+            subFault.Description = description;
+
+            int tmpq;
+            int.TryParse(parent, out tmpq);
+            Fault parentFault = db.Faults.FirstOrDefault(f => f.ID == tmpq);
+            subFault.ParentFault = parentFault;
+
+            subFault.Worker = assigned;
+            subFault.WorkerID = assigned.ID;
+
+            List<Part> temp = new List<Part>();
+
+            foreach (var part in partsArray)
+            {
+                var tempPart = new Part();
+                
+                int.TryParse(part.quantity, out tmpq);
+                tempPart.Count = tmpq;
+
+                int.TryParse(part.id, out tmpq);
+                CataloguePart cataloguePart = db.CatalogueParts.FirstOrDefault(f => f.Id == tmpq);
+                tempPart.PartFromCatalogue = cataloguePart;
+                tempPart.CataloguePartId = cataloguePart.Id;
+                temp.Add(tempPart);
+            }
+
+            subFault.UsedParts=temp;
+
+
+            db.SubFaults.Add(subFault);
+            db.SaveChanges();
+
+            int.TryParse(parent, out tmpq);
+            return RedirectToAction("Edit", new { id = tmpq });
+        }
 
         // GET: /ForemanFaults/
         public ActionResult Index()

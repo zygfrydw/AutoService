@@ -26,35 +26,36 @@
 @{
     List<SelectListItem> month = new List<SelectListItem>();
 
-     month.Add(new SelectListItem { Text = "styczeń", Value = "0"});
-     month.Add(new SelectListItem { Text = "Luty", Value = "1" });
-     month.Add(new SelectListItem { Text = "marzec", Value = "2"});
-     month.Add(new SelectListItem { Text = "kwiecień", Value = "3" });
-     month.Add(new SelectListItem { Text = "maj", Value = "4" });
-     month.Add(new SelectListItem { Text = "czerwiec", Value = "5" });
-     month.Add(new SelectListItem { Text = "lipiec", Value = "6" });
-     month.Add(new SelectListItem { Text = "sierpień", Value = "7" });
-     month.Add(new SelectListItem { Text = "wrzesień", Value = "8" });
-     month.Add(new SelectListItem { Text = "październik", Value = "9" });
-     month.Add(new SelectListItem { Text = "listopad", Value = "10" });
-     month.Add(new SelectListItem { Text = "grudzień", Value = "11" });
-     ViewBag.Month = month;
+    month.Add(new SelectListItem { Text = "styczeń", Value = "0" });
+    month.Add(new SelectListItem { Text = "Luty", Value = "1" });
+    month.Add(new SelectListItem { Text = "marzec", Value = "2" });
+    month.Add(new SelectListItem { Text = "kwiecień", Value = "3" });
+    month.Add(new SelectListItem { Text = "maj", Value = "4" });
+    month.Add(new SelectListItem { Text = "czerwiec", Value = "5" });
+    month.Add(new SelectListItem { Text = "lipiec", Value = "6" });
+    month.Add(new SelectListItem { Text = "sierpień", Value = "7" });
+    month.Add(new SelectListItem { Text = "wrzesień", Value = "8" });
+    month.Add(new SelectListItem { Text = "październik", Value = "9" });
+    month.Add(new SelectListItem { Text = "listopad", Value = "10" });
+    month.Add(new SelectListItem { Text = "grudzień", Value = "11" });
+    ViewBag.Month = month;
 
-     foreach(var m in month)
-     {
-         if((int.Parse(m.Value)+1)==DateTime.Now.Month)
-         {
-             m.Selected = true;
-             Session["val"] = int.Parse(m.Value) + 1;
-         }
-     }
+    foreach (var m in month)
+    {
+        if ((int.Parse(m.Value) + 1) == DateTime.Now.Month)
+        {
+            m.Selected = true;
+            Session["val"] = int.Parse(m.Value) + 1;
+        }
+    }
 }
-<h2>Lista godziń przepracowanych w miesiącu
+<h2>
+    Lista godziń przepracowanych w miesiącu
     @foreach (var m in month)
     {
         if (m.Selected)
         {
-            @Html.DisplayName( m.Text)
+            @Html.DisplayName(m.Text)
         }
 
     }
@@ -83,11 +84,34 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model)
-{
-    if (User.IsInRole("Worker"))
+    @foreach (var item in Model)
     {
-        if (Convert.ToInt32(Session["val"]) == item.StartTime.Month)
+        if (User.IsInRole("Worker"))
+        {
+            if (Convert.ToInt32(Session["val"]) == item.StartTime.Month)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RelatedWorker.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EndTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.WorkerRate)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edycja", "Edit", new { id = item.Id }) |
+                        @Html.ActionLink("Szczegóły", "Details", new { id = item.Id }) |
+                        @Html.ActionLink("Usuń", "Delete", new { id = item.Id })
+                    </td>
+                </tr>
+            }
+        }
+        else
         {
             <tr>
                 <td>
@@ -109,31 +133,41 @@
                 </td>
             </tr>
         }
-    }
-    else
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.RelatedWorker.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StartTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EndTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.WorkerRate)
-            </td>
-            <td>
-                @Html.ActionLink("Edycja", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Szczegóły", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Usuń", "Delete", new { id = item.Id })
-            </td>
-        </tr>
-    }
 
-}
+    }
 
 </table>
 
+<div class="row">
+    <div class="col-md-8">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Nazwa Modelu</th>
+                    <th>Producent</th>
+                    <th>NR Rejestracyjny</th>
+                    <th>Opis</th>
+                    <th>Edycja</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var fault in Model.FirstOrDefault().RelatedWorker.Faults)
+                {
+                    var i = 0;
+                <tr>
+                    <td>@Html.DisplayFor(x => fault.ID)</td>
+                    <td>@Html.DisplayFor(x => fault.RelatedCar.Model.ModelName)</td>
+                    <td>@Html.DisplayFor(x => fault.RelatedCar.Model.Manufacturer.Name)</td>
+                    <td>@Html.DisplayFor(x => fault.RelatedCar.RegistrationNumber)</td>
+                    <td>@Html.DisplayFor(x => fault.Decription)</td>
+                    <td>
+                        <a href='@Url.Action("Edit", "ForemanFaults", new { id = fault.ID })'>
+                            <i class="glyphicon glyphicon-wrench" style=""></i>Edytuj
+                        </a>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
