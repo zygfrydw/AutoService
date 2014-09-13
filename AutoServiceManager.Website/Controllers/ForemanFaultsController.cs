@@ -36,47 +36,6 @@ namespace AutoServiceManager.Website.Controllers
             return View(faults.ToList());
         }
 
-        // GET: /ForemanFaults/Details/5
-        public ActionResult Details(long? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Fault fault = db.Faults.Find(id);
-            if (fault == null)
-            {
-                return HttpNotFound();
-            }
-            return View(fault);
-        }
-
-        // GET: /ForemanFaults/Create
-        public ActionResult Create()
-        {
-            ViewBag.InvoiceID = new SelectList(db.Invoice, "ID", "ID");
-            ViewBag.CarID = new SelectList(db.Cars, "ID", "RegistrationNumber");
-            return View();
-        }
-
-        // POST: /ForemanFaults/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="ID,CarID,RepairStatus,IncomingDate,PredictedEndDate,CloseDate,RealeseDate,Decription,IncomeToService,InvoiceID")] Fault fault)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Faults.Add(fault);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            ViewBag.Car = db.Cars.Include("Model").Include("Owner").FirstOrDefault(f => f.ID == fault.CarID);
-            return View(fault);
-        }
-
         // GET: /ForemanFaults/Edit/5
         public ActionResult Edit(long? id)
         {
@@ -167,32 +126,6 @@ namespace AutoServiceManager.Website.Controllers
                 }
             }
             return View(fault);
-        }
-
-        // GET: /ForemanFaults/Delete/5
-        public ActionResult Delete(long? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Fault fault = db.Faults.Find(id);
-            if (fault == null)
-            {
-                return HttpNotFound();
-            }
-            return View(fault);
-        }
-
-        // POST: /ForemanFaults/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(long id)
-        {
-            Fault fault = db.Faults.Find(id);
-            db.Faults.Remove(fault);
-            db.SaveChanges();
-            return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)

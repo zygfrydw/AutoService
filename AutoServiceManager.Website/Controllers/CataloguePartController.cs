@@ -49,7 +49,7 @@ namespace AutoServiceManager.Website.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="Id,PartName,SerialNumber,Price")] CataloguePart cataloguepart)
+        public ActionResult Create([Bind(Include="Id,PartName,SerialNumber,Price,InStock")] CataloguePart cataloguepart)
         {
             if (ModelState.IsValid)
             {
@@ -81,7 +81,7 @@ namespace AutoServiceManager.Website.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="Id,PartName,SerialNumber,Price")] CataloguePart cataloguepart)
+        public ActionResult Edit([Bind(Include = "Id,PartName,SerialNumber,Price,InStock")] CataloguePart cataloguepart)
         {
             if (ModelState.IsValid)
             {

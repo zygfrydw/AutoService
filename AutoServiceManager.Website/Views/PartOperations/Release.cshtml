@@ -1,0 +1,16 @@
+﻿@model AutoServiceManager.Common.Model.PartOperation
+
+@{
+    ViewBag.Title = "Część wydana";
+}
+
+    <h2>Część wydana</h2>
+    <p>@Html.DisplayNameFor(m => m.Part.PartFromCatalogue.PartName): <b>@Model.Part.PartFromCatalogue.PartName</b></p>
+    <p>@Html.DisplayNameFor(m => m.Part.PartFromCatalogue.SerialNumber): <b>@Model.Part.PartFromCatalogue.SerialNumber</b></p>
+    <p>Cena części: <b>@Model.Part.SoldPrice</b></p>
+    <p>Sztuk: <b>@Model.Part.Count</b></p>
+    <p>Pozostało w magazynie: <b>@Model.Part.PartFromCatalogue.InStock</b></p>
+    <p>Cena za cały towar: <b>@Model.Part.Cost</b></p>
+    <p><h4>Część wydana mechanikowi <b>@Model.Worker.FirstName @Model.Worker.SecondName</b></h4></p>
+    <p>@Html.ActionLink("Powrót do zamówionych części", "Index")</p>
+    <p>@Html.ActionLink("Zobacz wydane części", "ReleasedParts")</p>

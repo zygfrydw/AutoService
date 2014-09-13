@@ -1,7 +1,7 @@
 ﻿@model AutoServiceManager.Common.Model.CataloguePart
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Szczegóły części";
 }
 
 <h2>Szczegóły</h2>
@@ -33,9 +33,17 @@
             @Html.DisplayFor(model => model.Price)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.InStock)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InStock)
+        </dd>
+
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Edytuj", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Powrót do listy", "Index")
 </p>

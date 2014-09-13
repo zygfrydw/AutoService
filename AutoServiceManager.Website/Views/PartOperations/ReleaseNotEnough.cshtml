@@ -1,0 +1,14 @@
+﻿@model AutoServiceManager.Common.Model.PartOperation
+
+@{
+    ViewBag.Title = "Część wydana";
+}
+
+    <h2>Brak części w magazynie</h2>
+    <p>@Html.DisplayNameFor(m => m.Part.PartFromCatalogue.PartName): <b>@Model.Part.PartFromCatalogue.PartName</b></p>
+    <p>@Html.DisplayNameFor(m => m.Part.PartFromCatalogue.SerialNumber): <b>@Model.Part.PartFromCatalogue.SerialNumber</b></p>
+    <p>Sztuk: <b>@Model.Part.Count</b></p>
+    <p>Sztuk w magazynie: <b>@Model.Part.PartFromCatalogue.InStock</b></p>
+    <p><h3><font color="red">Zamówienie nie może zostać zrealizowane!</font></h3></p>
+    <p><h4>Zamówienie złożone przez mechanika <b>@Model.Worker.FirstName @Model.Worker.SecondName</b></h4></p>
+    <p>@Html.ActionLink("Powrót do zamówionych części", "Index")</p>

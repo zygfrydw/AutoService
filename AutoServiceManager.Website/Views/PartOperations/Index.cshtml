@@ -1,0 +1,58 @@
+﻿@model IEnumerable<AutoServiceManager.Common.Model.PartOperation>
+
+@{
+    ViewBag.Title = "Części zamówione przez mechaników";
+}
+
+<h2>Części zamówione przez mechaników</h2>
+
+<p>
+    @Html.ActionLink("Zobacz wydane części", "ReleasedParts")
+</p>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Part.PartFromCatalogue.PartName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Part.PartFromCatalogue.SerialNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Part.Count)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Part.Cost)
+        </th>
+        <th>
+            Mechanik
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Part.PartFromCatalogue.PartName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Part.PartFromCatalogue.SerialNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Part.Count)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Part.Cost)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Worker.FirstName)
+            @Html.DisplayFor(modelItem => item.Worker.SecondName)
+        </td>
+        <td>
+            @Html.ActionLink("Wydaj zamówienie", "Release", new { id=item.Id }) |
+            @Html.ActionLink("Usuń", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

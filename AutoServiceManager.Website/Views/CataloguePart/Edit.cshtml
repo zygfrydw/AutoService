@@ -1,10 +1,10 @@
 ﻿@model AutoServiceManager.Common.Model.CataloguePart
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Edycja części w katalogu";
 }
 
-<h2>Edytuj</h2>
+<h2>Edycja części w katalogu</h2>
 
 
 @using (Html.BeginForm())
@@ -41,8 +41,16 @@
         </div>
 
         <div class="form-group">
+            @Html.LabelFor(model => model.InStock, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.InStock, new { htmlAttributes = new { min = "0" } })
+                @Html.ValidationMessageFor(model => model.InStock)
+            </div>
+        </div>
+
+        <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Aktualizuj" class="btn btn-default" />
             </div>
         </div>
     </div>

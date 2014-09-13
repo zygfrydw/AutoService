@@ -33,5 +33,8 @@ namespace AutoServiceManager.Common.Model
         [DataType(DataType.Currency)]
         public decimal Price { get; set; }
 
+        [Required]
+        [DisplayName("Ilość w magazynie")]
+        public int InStock { get; set; }
     }
 }

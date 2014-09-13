@@ -190,6 +190,7 @@
     <Compile Include="Controllers\FaultReportController.cs" />
     <Compile Include="Controllers\ForemanFaultsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PartOperationsController.cs" />
     <Compile Include="Controllers\PartsController.cs" />
     <Compile Include="Controllers\RepairStatusController.cs" />
     <Compile Include="Controllers\SecretaryController.cs" />
@@ -447,9 +448,6 @@
     <Content Include="Views\RepairStatus\RepairDetail.cshtml" />
     <Content Include="Views\Secretary\AllWorker.cshtml" />
     <Content Include="Views\Secretary\Invoice.cshtml" />
-    <Content Include="Views\ForemanFaults\Create.cshtml" />
-    <Content Include="Views\ForemanFaults\Delete.cshtml" />
-    <Content Include="Views\ForemanFaults\Details.cshtml" />
     <Content Include="Views\ForemanFaults\Edit.cshtml" />
     <Content Include="Views\ForemanFaults\Index.cshtml" />
     <Content Include="Views\WorkTimes\Create.cshtml" />
@@ -462,6 +460,11 @@
     <Content Include="Views\Parts\Details.cshtml" />
     <Content Include="Views\Parts\Edit.cshtml" />
     <Content Include="Views\Parts\Index.cshtml" />
+    <Content Include="Views\PartOperations\Delete.cshtml" />
+    <Content Include="Views\PartOperations\Index.cshtml" />
+    <Content Include="Views\PartOperations\Release.cshtml" />
+    <Content Include="Views\PartOperations\ReleasedParts.cshtml" />
+    <Content Include="Views\PartOperations\ReleaseNotEnough.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

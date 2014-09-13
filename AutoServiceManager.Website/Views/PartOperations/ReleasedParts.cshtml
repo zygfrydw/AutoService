@@ -1,0 +1,54 @@
+﻿@model IEnumerable<AutoServiceManager.Common.Model.PartOperation>
+
+@{
+    ViewBag.Title = "Części wydane mechanikom";
+}
+
+<h2>Części wydane mechanikom</h2>
+
+<p>
+    @Html.ActionLink("Zobacz zamówione części", "Index")
+</p>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Part.PartFromCatalogue.PartName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Part.PartFromCatalogue.SerialNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Part.Count)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Part.Cost)
+        </th>
+        <th>
+            Mechanik
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Part.PartFromCatalogue.PartName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Part.PartFromCatalogue.SerialNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Part.Count)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Part.Cost)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Worker.FirstName)
+            @Html.DisplayFor(modelItem => item.Worker.SecondName)
+        </td>
+    </tr>
+}
+
+</table>
