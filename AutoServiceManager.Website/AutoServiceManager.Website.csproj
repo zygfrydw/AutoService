@@ -188,6 +188,7 @@
     <Compile Include="Controllers\CataloguePartController.cs" />
     <Compile Include="Controllers\CountrySelectable.cs" />
     <Compile Include="Controllers\FaultReportController.cs" />
+    <Compile Include="Controllers\ForemanFaultsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RepairStatusController.cs" />
     <Compile Include="Controllers\SecretaryController.cs" />
@@ -444,6 +445,11 @@
     <Content Include="Views\RepairStatus\RepairDetail.cshtml" />
     <Content Include="Views\Secretary\AllWorker.cshtml" />
     <Content Include="Views\Secretary\Invoice.cshtml" />
+    <Content Include="Views\ForemanFaults\Create.cshtml" />
+    <Content Include="Views\ForemanFaults\Delete.cshtml" />
+    <Content Include="Views\ForemanFaults\Details.cshtml" />
+    <Content Include="Views\ForemanFaults\Edit.cshtml" />
+    <Content Include="Views\ForemanFaults\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

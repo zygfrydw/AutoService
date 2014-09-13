@@ -4,8 +4,6 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-using System.Web.Mvc;
-
 using AutoServiceManager.Common.Model;
 
 namespace AutoServiceManager.Website.Models

@@ -12,6 +12,7 @@ namespace AutoServiceManager.Common.Model
         public decimal EstimatedCost { get; set; }
         public virtual ICollection<WorkTime> WorkersHours { get; set; }
         public virtual ICollection<Part> UsedParts { get; set; }
-
+        public long? WorkerID { get; set; }
+        public virtual Worker Worker { get; set; }
     }
 }
