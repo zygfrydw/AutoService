@@ -112,5 +112,110 @@
 </div>
 
 @section Scripts {
-@Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryval")
 }
+
+@if(User.IsInRole("Worker"))
+{ 
+<div class="row">
+    <div class="col-md-8">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>#</th>
+                </tr>
+            </thead>
+            
+                <tbody>
+                    @foreach (var subfault in Model.SubFaults) { 
+                    <tr>
+                            <td>
+                                @Html.DisplayFor(x => subfault.Id)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(x => subfault.Description)
+                            </td>
+                            <td >
+                                    @foreach (var part in subfault.UsedParts)
+                                    {
+                                        
+                                        <span>
+                                        &nbsp
+                                        @Html.DisplayFor(x => part.Count)
+                                            &nbsp
+                                        @Html.DisplayFor( x => part.PartFromCatalogue.PartName)                                ;
+                                        &nbsp
+                                        </span>
+                                        
+                                    }
+</td>
+                            <td>                              
+                            </td>
+                        </tr>
+                    
+                    }
+                    <form id="add_subfault_for" method="POST" action="@Url.Action("NewSubFault", "ForemanFaults")">
+                        <tr>
+                            <td>
+                                <label class="col-md-2 control-label" for="RepairStatus">Opis:</label>
+                                <input type="text" class="text-box" name="description">
+                            </td>
+                            <td>
+                                <label class="col-md-2 control-label" for="RepairStatus">Dodaj Część:</label>
+                                <input type="hidden" name="parts" id="container">
+                                <input type="hidden" name="parent" id="parent" value="@Model.ID">
+
+                                <select name="partslist" form="carform"></select>
+                                <input type="text" class="text-box" name="no">
+                                <i class="glyphicon glyphicon-plus" id="add_part"> </i>
+                            </td>
+                            <td id="parts_in_container"></td>
+                            <td>
+                                <i id="add_subfault_action" class="glyphicon glyphicon-plus"></i>
+                            </td>
+                        </tr>
+                    </form>
+                </tbody>
+            
+        </table>
+    </div>
+</div>
+    <script>
+        var container = [];
+
+        $(function () {
+
+
+        $.ajax({
+            url: '/Parts/Partsapi',
+            success: function (data) {
+                $.each(data, function (index, value) {
+                    $("[name=partslist]").append('<option value="' + value.id + '">' + value.name + '</option>');
+                });
+            },
+            dataType: 'json'
+        });
+
+
+        $("#add_part").click(function () {
+            container[container.length] = { id: $("[name=partslist] option:selected").val(), name: $("[name=partslist] option:selected").text(), quantity: $("[name=no]").val() };
+            $("[name=no]").val(null);
+
+            var text = "";
+            $.each(container, function (index, value) {
+                text = text + " " + value.name + " " + value.quantity;
+            });
+            $("#parts_in_container").text(text);
+        });
+
+
+        $("#add_subfault_action").click(function () {
+            $("[type=hidden][name=parts]").val(JSON.stringify(container));
+            $("#add_subfault_for").submit();
+        });
+    });
+</script>
+}
+
+
