@@ -19,8 +19,8 @@ namespace AutoServiceManager.Website.Controllers
         [AuthorizeRole(ApplicationRoles.Worker, ApplicationRoles.Admin)]
         // GET: WorkTimes
         public ActionResult Index()
-        {          
-            var workedTime = db.WorkedTime.Include(w => w.RelatedWorker);
+        {
+            var workedTime = db.WorkedTime.Include(w => w.RelatedWorker).Include(w => w.RelatedWorker.Faults);
             if(User.IsInRole("Worker"))
             {
                 var worker = workedTime.Where(w => w.RelatedWorker.FirstName == User.Identity.Name);

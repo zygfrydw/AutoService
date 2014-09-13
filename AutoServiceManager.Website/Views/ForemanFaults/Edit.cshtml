@@ -1,0 +1,221 @@
+﻿@using AutoServiceManager.Common.Model
+@using AutoServiceManager.Website.Models
+
+@model AutoServiceManager.Common.Model.Fault
+
+@{
+    ViewBag.Title = "Modyfikacja naprawy";
+}
+
+<h2>Modyfikacja naprawy</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Zarządzanie naprawą</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.ID)
+
+        <div class="form-group" data-name="singleCarDiv">
+            <label class="col-md-2 control-label" for="RepairStatus">Auto</label>
+            <div class="col-md-10">
+                <h4 data-name="singleCarText">
+                    @ViewBag.Car.Model.Manufacturer.Name.ToString()
+                    @ViewBag.Car.Model.ModelName.ToString()
+                    Właściciel:
+                    @ViewBag.Car.Owner.FirstName.ToString()
+                    @ViewBag.Car.Owner.SecondName.ToString()
+                </h4>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.RepairStatus, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.RepairStatus, (List<SelectListItem>)ViewBag.Statuses)
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Worker, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.WorkerID, (IEnumerable<SelectListItem>)ViewBag.Workers)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Decription, new { @class = "control-label" })
+            <div>
+                @Html.TextAreaFor(m => m.Decription, 10, 10, new { @class = "form-control", style = "max-width: 700px;" })
+                @Html.ValidationMessageFor(m => m.Decription)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IncomingDate, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.IncomingDate)
+                @Html.ValidationMessageFor(model => model.IncomingDate)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PredictedEndDate, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PredictedEndDate)
+                @Html.ValidationMessageFor(model => model.PredictedEndDate)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CloseDate, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CloseDate)
+                @Html.ValidationMessageFor(model => model.CloseDate)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.RealeseDate, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.RealeseDate)
+                @Html.ValidationMessageFor(model => model.RealeseDate)
+            </div>
+        </div>
+
+        <div class="form-group" id="IncomeDate">
+            @Html.LabelFor(model => model.IncomeToService, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.IncomeToService)
+                @Html.ValidationMessageFor(model => model.IncomeToService)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Zmień" class="btn btn-default" onclick=""/>
+            </div>
+        </div>
+
+
+
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Powrót do listy", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+@if(User.IsInRole("Worker"))
+{ 
+<div class="row">
+    <div class="col-md-8">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>#</th>
+                </tr>
+            </thead>
+            
+                <tbody>
+                    @foreach (var subfault in Model.SubFaults) { 
+                    <tr>
+                            <td>
+                                @Html.DisplayFor(x => subfault.Id)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(x => subfault.Description)
+                            </td>
+                            <td >
+                                    @foreach (var part in subfault.UsedParts)
+                                    {
+                                        
+                                        <span>
+                                        &nbsp
+                                        @Html.DisplayFor(x => part.Count)
+                                            &nbsp
+                                        @Html.DisplayFor( x => part.PartFromCatalogue.PartName)                                ;
+                                        &nbsp
+                                        </span>
+                                        
+                                    }
+</td>
+                            <td>                              
+                            </td>
+                        </tr>
+                    
+                    }
+                    <form id="add_subfault_for" method="POST" action="@Url.Action("NewSubFault", "ForemanFaults")">
+                        <tr>
+                            <td>
+                                <label class="col-md-2 control-label" for="RepairStatus">Opis:</label>
+                                <input type="text" class="text-box" name="description">
+                            </td>
+                            <td>
+                                <label class="col-md-2 control-label" for="RepairStatus">Dodaj Część:</label>
+                                <input type="hidden" name="parts" id="container">
+                                <input type="hidden" name="parent" id="parent" value="@Model.ID">
+
+                                <select name="partslist" form="carform"></select>
+                                <input type="text" class="text-box" name="no">
+                                <i class="glyphicon glyphicon-plus" id="add_part"> </i>
+                            </td>
+                            <td id="parts_in_container"></td>
+                            <td>
+                                <i id="add_subfault_action" class="glyphicon glyphicon-plus"></i>
+                            </td>
+                        </tr>
+                    </form>
+                </tbody>
+            
+        </table>
+    </div>
+</div>
+    <script>
+        var container = [];
+
+        $(function () {
+
+
+        $.ajax({
+            url: '/Parts/Partsapi',
+            success: function (data) {
+                $.each(data, function (index, value) {
+                    $("[name=partslist]").append('<option value="' + value.id + '">' + value.name + '</option>');
+                });
+            },
+            dataType: 'json'
+        });
+
+
+        $("#add_part").click(function () {
+            container[container.length] = { id: $("[name=partslist] option:selected").val(), name: $("[name=partslist] option:selected").text(), quantity: $("[name=no]").val() };
+            $("[name=no]").val(null);
+
+            var text = "";
+            $.each(container, function (index, value) {
+                text = text + " " + value.name + " " + value.quantity;
+            });
+            $("#parts_in_container").text(text);
+        });
+
+
+        $("#add_subfault_action").click(function () {
+            $("[type=hidden][name=parts]").val(JSON.stringify(container));
+            $("#add_subfault_for").submit();
+        });
+    });
+</script>
+}
+
+

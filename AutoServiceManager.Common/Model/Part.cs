@@ -11,7 +11,7 @@ namespace AutoServiceManager.Common.Model
         public long CataloguePartId { get; set; }
         public virtual CataloguePart PartFromCatalogue { get; set; }
         [Required]
-        [DisplayName("Cena sprzedarzy")]
+        [DisplayName("Cena sprzedaży")]
         public decimal SoldPrice { get; set; }
         [Required]
         [DisplayName("Ilość")]

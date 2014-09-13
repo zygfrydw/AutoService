@@ -21,6 +21,21 @@ namespace AutoServiceManager.Website.Controllers
             return View(usedParts.ToList());
         }
 
+        public ActionResult Partsapi()
+        {
+            List<object> list = new List<object>();
+            foreach (var obj in db.CatalogueParts.ToArray())
+            {
+                list.Add(new
+                {
+                 id = obj.Id,
+                 name = obj.PartName
+                });
+            }
+
+            return Json(list,JsonRequestBehavior.AllowGet);
+        }
+
         // GET: Parts/Details/5
         public ActionResult Details(long? id)
         {

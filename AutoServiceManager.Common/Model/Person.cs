@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using AutoServiceManager.Common.Identity;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace AutoServiceManager.Common.Model
 {
@@ -48,8 +49,6 @@ namespace AutoServiceManager.Common.Model
 
     public class Person
     {
-
-
         public long ID { get; set; }
         [Required]
         [DisplayName("Imię")]
@@ -67,5 +66,6 @@ namespace AutoServiceManager.Common.Model
         public short NotActive { get; set; }
         [DefaultValue(0)]
         public short Blocked { get; set; }
+        public virtual ICollection<Fault> Faults { get; set; }
     }
 }

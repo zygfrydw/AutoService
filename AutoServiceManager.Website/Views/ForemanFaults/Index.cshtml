@@ -1,0 +1,90 @@
+﻿@using AutoServiceManager.Common.Model
+@using AutoServiceManager.Website.Models
+
+@model IEnumerable<AutoServiceManager.Common.Model.Fault>
+
+@{
+    ViewBag.Title = "Zgłoszone, trwające i zakończone naprawy";
+}
+
+<h2>Zgłoszone, trwające i zakończone naprawy</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.RelatedCar.RegistrationNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RepairStatus)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Worker)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IncomingDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PredictedEndDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CloseDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RealeseDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IncomeToService)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Decription)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.RelatedCar.RegistrationNumber)
+        </td>
+        <td>
+            @Html.DescriptionFor(item.RepairStatus)
+        </td>
+        <td>
+            @{
+                String toSet = "-";
+                foreach (Person person in ViewBag.Workers)
+                {
+                    if (person.ID == item.WorkerID)
+                    { 
+                        toSet = person.FirstName + " " + person.SecondName;
+                        break;
+                    }
+                }
+                @toSet
+            }
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IncomingDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PredictedEndDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CloseDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RealeseDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IncomeToService)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Decription)
+        </td>
+        <td>
+            @Html.ActionLink("Edytuj", "Edit", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>
