@@ -447,13 +447,11 @@
     <Content Include="Views\RepairStatus\RepairDetail.cshtml" />
     <Content Include="Views\Secretary\AllWorker.cshtml" />
     <Content Include="Views\Secretary\Invoice.cshtml" />
-<<<<<<< HEAD
     <Content Include="Views\ForemanFaults\Create.cshtml" />
     <Content Include="Views\ForemanFaults\Delete.cshtml" />
     <Content Include="Views\ForemanFaults\Details.cshtml" />
     <Content Include="Views\ForemanFaults\Edit.cshtml" />
     <Content Include="Views\ForemanFaults\Index.cshtml" />
-=======
     <Content Include="Views\WorkTimes\Create.cshtml" />
     <Content Include="Views\WorkTimes\Delete.cshtml" />
     <Content Include="Views\WorkTimes\Details.cshtml" />
@@ -464,7 +462,6 @@
     <Content Include="Views\Parts\Details.cshtml" />
     <Content Include="Views\Parts\Edit.cshtml" />
     <Content Include="Views\Parts\Index.cshtml" />
->>>>>>> origin/master
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
