@@ -1,0 +1,116 @@
+﻿@using AutoServiceManager.Common.Model
+@using AutoServiceManager.Website.Models
+
+@model AutoServiceManager.Common.Model.Fault
+
+@{
+    ViewBag.Title = "Modyfikacja naprawy";
+}
+
+<h2>Modyfikacja naprawy</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Zarządzanie naprawą</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.ID)
+
+        <div class="form-group" data-name="singleCarDiv">
+            <label class="col-md-2 control-label" for="RepairStatus">Auto</label>
+            <div class="col-md-10">
+                <h4 data-name="singleCarText">
+                    @ViewBag.Car.Model.Manufacturer.Name.ToString()
+                    @ViewBag.Car.Model.ModelName.ToString()
+                    Właściciel:
+                    @ViewBag.Car.Owner.FirstName.ToString()
+                    @ViewBag.Car.Owner.SecondName.ToString()
+                </h4>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.RepairStatus, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.RepairStatus, (List<SelectListItem>)ViewBag.Statuses)
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Worker, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.WorkerID, (IEnumerable<SelectListItem>)ViewBag.Workers)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Decription, new { @class = "control-label" })
+            <div>
+                @Html.TextAreaFor(m => m.Decription, 10, 10, new { @class = "form-control", style = "max-width: 700px;" })
+                @Html.ValidationMessageFor(m => m.Decription)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IncomingDate, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.IncomingDate)
+                @Html.ValidationMessageFor(model => model.IncomingDate)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PredictedEndDate, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PredictedEndDate)
+                @Html.ValidationMessageFor(model => model.PredictedEndDate)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CloseDate, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CloseDate)
+                @Html.ValidationMessageFor(model => model.CloseDate)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.RealeseDate, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.RealeseDate)
+                @Html.ValidationMessageFor(model => model.RealeseDate)
+            </div>
+        </div>
+
+        <div class="form-group" id="IncomeDate">
+            @Html.LabelFor(model => model.IncomeToService, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.IncomeToService)
+                @Html.ValidationMessageFor(model => model.IncomeToService)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Zmień" class="btn btn-default" onclick=""/>
+            </div>
+        </div>
+
+
+
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Powrót do listy", "Index")
+</div>
+
+@section Scripts {
+@Scripts.Render("~/bundles/jqueryval")
+}

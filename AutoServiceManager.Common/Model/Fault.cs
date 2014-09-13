@@ -37,8 +37,6 @@ namespace AutoServiceManager.Common.Model
 
     public class Fault
     {
-       
-
         public long ID { get; set; }
         [Required]
         [DisplayName("Auto")]
@@ -65,10 +63,14 @@ namespace AutoServiceManager.Common.Model
         [DisplayName("Opis")]
         public string Decription { get; set; }
         public virtual ICollection<SubFault> SubFaults { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayName("Data przyjęcia samochodu")]
         public DateTime? IncomeToService { get; set; }
 
         public long? InvoiceID { get; set; }
         public Invoice Invoice { get;set; }
-
+        public long? WorkerID { get; set; }
+        [DisplayName("Przydzielony mechanik")]
+        public virtual Worker Worker { get; set; }
     }
 }
