@@ -11,6 +11,7 @@
 </div>
 
 <div class="row">
+<<<<<<< HEAD
     <div class="col-md-4">
         <h2>Zgłoś usterkę</h2>
         <p>
@@ -46,4 +47,54 @@
         <p>Zarządzanie Usterkami</p>
         <p><a class="btn btn-default" href="@Url.Action("Faults", "Secretary")">Otwórz &raquo;</a></p>
     </div>
+=======
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div class="col-md-4">
+            <h2>Zgłoś usterkę</h2>
+            <p>Zanim przyjedziesz do naszego serwisu, zgłoś nam usterkę, pomoże nam to wybrać dla ciebie najlepszy termi.</p>
+            <p><a class="btn btn-default" href="@Url.Action("Index", "FaultReport")">Zgłoś usterkę &raquo;</a></p>
+        </div>
+        if (User.IsInRole("Worker"))
+        {
+            <div class="col-md-4">
+                <h2>Panel Pracownika</h2>
+                <p>Zanim przyjedziesz do naszego serwisu, zgłoś nam usterkę, pomoże nam to wybrać dla ciebie najlepszy termi.</p>
+                <p><a class="btn btn-default" href="@Url.Action("Index", "WorkTimes")">Otwórz &raquo;</a></p>
+            </div>
+        }
+        if (User.IsInRole("Worker") || User.IsInRole("Storekeeper"))
+        { 
+            <div class="col-md-4">
+                <h2>Zgłoś brak części</h2>
+                <p>Zanim przyjedziesz do naszego serwisu, zgłoś nam usterkę, pomoże nam to wybrać dla ciebie najlepszy termi.</p>
+                <p><a class="btn btn-default" href="@Url.Action("Index", "Parts")">Zgłoś brak części &raquo;</a></p>
+            </div>
+        }
+        <div class="col-md-4">
+            <h2>Sprawdź status</h2>
+            <p>W każdej chwili możesz sprawdzić postęp naprawy twojego samochodu</p>
+            <p><a class="btn btn-default" href="@Url.Action("Index", "RepairStatus")">Sprawdź status &raquo;</a></p>
+        </div>
+        <div class="col-md-4">
+            <h2>Katalog części</h2>
+            <p>Sprawdzaj katalog i dodawaj nowe części</p>
+            <p><a class="btn btn-default" href="@Url.Action("Index", "CataloguePart")">Otwórz katalog &raquo;</a></p>
+        </div>
+        <div class="col-md-4">
+            <h2>Panel Sekretarki</h2>
+            <p>Dodawanie Aut oraz Klientów</p>
+            <p><a class="btn btn-default" href="@Url.Action("Index", "Secretary")">Otwórz &raquo;</a></p>
+            <p>Podgląd wszystkich Aut</p>
+            <p><a class="btn btn-default" href="@Url.Action("Allcars", "Secretary")">Otwórz &raquo;</a></p>
+            <p>Tworzenie pracownika</p>
+            <p><a class="btn btn-default" href="@Url.Action("Newuser", "Secretary")">Otwórz &raquo;</a></p>
+            <p>Wszyscy pracownicy</p>
+            <p><a class="btn btn-default" href="@Url.Action("Allusers", "Secretary")">Otwórz &raquo;</a></p>
+            <p>Zarządzanie Usterkami</p>
+            <p><a class="btn btn-default" href="@Url.Action("Faults", "Secretary")">Otwórz &raquo;</a></p>
+        </div>
+    }
+    
+>>>>>>> origin/master
 </div>

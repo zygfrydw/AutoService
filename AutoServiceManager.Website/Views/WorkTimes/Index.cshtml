@@ -1,0 +1,139 @@
+﻿@model IEnumerable<AutoServiceManager.Common.Model.WorkTime>
+
+@{
+    ViewBag.Title = "Index";
+}
+<div class="form-group">
+    &nbsp;Wybierz miesiąc:&nbsp;
+    <select class="form-control" name="BlockedFilter">
+        <option data-name="BlockedFilter" value="1">styczeń</option>
+        <option data-name="BlockedFilter" value="2">luty</option>
+        <option data-name="BlockedFilter" value="3">marzec</option>
+        <option data-name="BlockedFilter" value="4">kwiecień</option>
+        <option data-name="BlockedFilter" value="5">maj</option>
+        <option data-name="BlockedFilter" value="6">czerwiec</option>
+        <option data-name="BlockedFilter" value="7">lipiec</option>
+        <option data-name="BlockedFilter" value="8">sierpień</option>
+        <option data-name="BlockedFilter" value="9">wrzesień</option>
+        <option data-name="BlockedFilter" value="10">październik</option>
+        <option data-name="BlockedFilter" value="11">listopad</option>
+        <option data-name="BlockedFilter" value="12">grudzień</option>
+    </select>
+</div>
+<button type="submit" class="btn btn-default">szukaj</button>
+
+
+@{
+    List<SelectListItem> month = new List<SelectListItem>();
+
+     month.Add(new SelectListItem { Text = "styczeń", Value = "0"});
+     month.Add(new SelectListItem { Text = "Luty", Value = "1" });
+     month.Add(new SelectListItem { Text = "marzec", Value = "2"});
+     month.Add(new SelectListItem { Text = "kwiecień", Value = "3" });
+     month.Add(new SelectListItem { Text = "maj", Value = "4" });
+     month.Add(new SelectListItem { Text = "czerwiec", Value = "5" });
+     month.Add(new SelectListItem { Text = "lipiec", Value = "6" });
+     month.Add(new SelectListItem { Text = "sierpień", Value = "7" });
+     month.Add(new SelectListItem { Text = "wrzesień", Value = "8" });
+     month.Add(new SelectListItem { Text = "październik", Value = "9" });
+     month.Add(new SelectListItem { Text = "listopad", Value = "10" });
+     month.Add(new SelectListItem { Text = "grudzień", Value = "11" });
+     ViewBag.Month = month;
+
+     foreach(var m in month)
+     {
+         if((int.Parse(m.Value)+1)==DateTime.Now.Month)
+         {
+             m.Selected = true;
+             Session["val"] = int.Parse(m.Value) + 1;
+         }
+     }
+}
+<h2>Lista godziń przepracowanych w miesiącu
+    @foreach (var m in month)
+    {
+        if (m.Selected)
+        {
+            @Html.DisplayName( m.Text)
+        }
+
+    }
+</h2>
+<hr />
+<h4></h4>
+
+<p>
+    @Html.ActionLink("Dodaj nowy rekord", "Create")
+
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.RelatedWorker.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StartTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EndTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WorkerRate)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model)
+{
+    if (User.IsInRole("Worker"))
+    {
+        if (Convert.ToInt32(Session["val"]) == item.StartTime.Month)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RelatedWorker.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EndTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WorkerRate)
+                </td>
+                <td>
+                    @Html.ActionLink("Edycja", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Szczegóły", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Usuń", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+    }
+    else
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.RelatedWorker.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WorkerRate)
+            </td>
+            <td>
+                @Html.ActionLink("Edycja", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Szczegóły", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Usuń", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+}
+
+</table>
+
