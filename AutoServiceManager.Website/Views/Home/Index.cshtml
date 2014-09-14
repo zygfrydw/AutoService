@@ -34,7 +34,7 @@
             </div>
         }
         
-        if (User.IsInRole("Boss"))
+        if (User.IsInRole("Storekeeper"))
         { 
             <div class="col-md-4">
                 <h2>Panel majstra</h2>
@@ -60,7 +60,7 @@
                 <p><a class="btn btn-default" href="@Url.Action("Index", "CataloguePart")">Zarządzaj magazynem &raquo;</a></p>
 
                 <p>Zarządzanie zamówieniami od mechaników</p>
-                <p><a class="btn btn-default" href="@Url.Action("Index", "PartOperation")">Zarządzaj zamówieniami &raquo;</a></p>
+                <p><a class="btn btn-default" href="@Url.Action("Index", "PartOperations")">Zarządzaj zamówieniami &raquo;</a></p>
             </div>
         }
 
