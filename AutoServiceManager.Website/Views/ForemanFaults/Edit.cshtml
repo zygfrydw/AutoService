@@ -32,7 +32,8 @@
                 </h4>
             </div>
         </div>
-
+        @if(User.IsInRole("Storekeeper"))
+        {
         <div class="form-group">
             @Html.LabelFor(m => m.RepairStatus, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
@@ -47,7 +48,7 @@
                 @Html.DropDownListFor(model => model.WorkerID, (IEnumerable<SelectListItem>)ViewBag.Workers)
             </div>
         </div>
-
+        }
         <div class="form-group">
             @Html.LabelFor(m => m.Decription, new { @class = "control-label" })
             <div>
@@ -55,7 +56,8 @@
                 @Html.ValidationMessageFor(m => m.Decription)
             </div>
         </div>
-
+        @if(User.IsInRole("Storekeeper"))
+        {
         <div class="form-group">
             @Html.LabelFor(model => model.IncomingDate, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -101,16 +103,16 @@
                 <input type="submit" value="Zmień" class="btn btn-default" onclick=""/>
             </div>
         </div>
-
-
-
+        }
     </div>
 }
 
-<div>
-    @Html.ActionLink("Powrót do listy", "Index")
-</div>
-
+@if(User.IsInRole("Storekeeper"))
+{
+    <div>
+        @Html.ActionLink("Powrót do listy", "Index")
+    </div>
+}
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
@@ -128,8 +130,9 @@
             </thead>
             
                 <tbody>
-                    @foreach (var subfault in Model.SubFaults) { 
-                    <tr>
+                    @foreach (var subfault in Model.SubFaults) 
+                    { 
+                        <tr>
                             <td>
                                 @Html.DisplayFor(x => subfault.Id)
                             </td>
@@ -149,20 +152,26 @@
                                         </span>
                                         
                                     }
-</td>
+                            </td>
                             <td>                              
                             </td>
                         </tr>
                     
                     }
+                    <tr>
                     <form id="add_subfault_for" method="POST" action="@Url.Action("NewSubFault", "ForemanFaults")">
                         <tr>
                             <td>
                                 <label class="col-md-2 control-label" for="RepairStatus">Opis:</label>
+                                
+                            </td>
+                            <td>
                                 <input type="text" class="text-box" name="description">
                             </td>
                             <td>
                                 <label class="col-md-2 control-label" for="RepairStatus">Dodaj Część:</label>
+                            </td>
+                            <td>
                                 <input type="hidden" name="parts" id="container">
                                 <input type="hidden" name="parent" id="parent" value="@Model.ID">
 
@@ -172,10 +181,14 @@
                             </td>
                             <td id="parts_in_container"></td>
                             <td>
+                                <label class="col-md-2 control-label" for="RepairStatus">Dodaj wpis:</label>
+                            </td>
+                            <td>
                                 <i id="add_subfault_action" class="glyphicon glyphicon-plus"></i>
                             </td>
                         </tr>
                     </form>
+                    </tr>
                 </tbody>
             
         </table>

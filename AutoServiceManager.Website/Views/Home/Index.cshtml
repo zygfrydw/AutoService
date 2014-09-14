@@ -25,14 +25,14 @@
             <p><a class="btn btn-default" href="@Url.Action("Index", "RepairStatus")">Sprawdź status &raquo;</a></p>
         </div>
         
-        if (User.IsInRole("Worker"))
+        @*if (User.IsInRole("Worker"))
         { 
             <div class="col-md-4">
                 <h2>Zgłoś brak części</h2>
                 <p>Zanim przyjedziesz do naszego serwisu, zgłoś nam usterkę, pomoże nam to wybrać dla ciebie najlepszy termi.</p>
                 <p><a class="btn btn-default" href="@Url.Action("Index", "Parts")">Zgłoś brak części &raquo;</a></p>
             </div>
-        }
+        }*@
         
         if (User.IsInRole("Storekeeper"))
         { 
@@ -47,7 +47,7 @@
         {
             <div class="col-md-4">
                 <h2>Panel Pracownika</h2>
-                <p>Zarządzaj swoim czasem pracy</p>
+                <p>Sprawdź zlecone zadania oraz zarządzaj swoim czasem pracy</p>
                 <p><a class="btn btn-default" href="@Url.Action("Index", "WorkTimes")">Otwórz &raquo;</a></p>
             </div>
         }

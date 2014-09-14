@@ -18,6 +18,7 @@ namespace AutoServiceManager.Website.Controllers
 
         [AuthorizeRole(ApplicationRoles.Worker, ApplicationRoles.Admin)]
         // GET: WorkTimes
+        [HttpGet]
         public ActionResult Index()
         {
             var workedTime = db.WorkedTime.Include(w => w.RelatedWorker).Include(w => w.RelatedWorker.Faults);
@@ -28,6 +29,37 @@ namespace AutoServiceManager.Website.Controllers
             }
             
             return View(workedTime.ToList());
+        }
+
+
+        // POST: WorkTimes
+        [HttpPost]
+        public ActionResult Index(String BlockedFilter, String year)
+        {
+            ViewBag.selectedMonth = BlockedFilter;
+            ViewBag.selectedYear = year;
+
+            var workedTime = db.WorkedTime.Include(w => w.RelatedWorker).Include(w => w.RelatedWorker.Faults);
+            if (User.IsInRole("Worker"))
+            {
+                int temp = 0;
+                int.TryParse(BlockedFilter, out temp);
+                int intYear = 0;
+                int.TryParse(year, out intYear);
+                if (0 != intYear)
+                {
+                    var worker = workedTime.Where(w => w.RelatedWorker.FirstName == User.Identity.Name && w.StartTime.Month == temp && w.StartTime.Year == intYear);
+                    var tmp = worker.ToList();
+                    return View(worker.ToList());
+                }
+                else {
+                    var worker = workedTime.Where(w => w.RelatedWorker.FirstName == User.Identity.Name && w.StartTime.Month == temp && w.StartTime.Year == DateTime.Now.Year);
+                    return View(worker.ToList());
+                }
+                
+            }
+            return View(workedTime.ToList());
+
         }
         public ActionResult Order()
         {

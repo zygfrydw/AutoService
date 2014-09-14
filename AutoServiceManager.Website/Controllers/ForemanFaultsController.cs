@@ -30,6 +30,7 @@ namespace AutoServiceManager.Website.Controllers
 
         public ActionResult NewSubFault(String description, String parts, String parent)
         {
+            PartOperation op;
             Worker assigned = db.Workers.FirstOrDefault(f => f.User.UserName == User.Identity.Name);
             var partsArray = new JavaScriptSerializer().Deserialize<JsonSubfault[]>(parts);
             SubFault subFault = new SubFault();
@@ -57,10 +58,21 @@ namespace AutoServiceManager.Website.Controllers
                 tempPart.PartFromCatalogue = cataloguePart;
                 tempPart.CataloguePartId = cataloguePart.Id;
                 temp.Add(tempPart);
+
+                op = new PartOperation();
+
+                op.WorkerId = assigned.ID;
+                op.Worker = assigned;
+                op.OperationType = PartOperationType.Request;
+                op.PartId = tempPart.Id;
+                op.Part = tempPart;
+
+                decimal tmp = op.Part.PartFromCatalogue.Price;
+
+                db.PartOperations.Add(op);
             }
 
             subFault.UsedParts=temp;
-
 
             db.SubFaults.Add(subFault);
             db.SaveChanges();
