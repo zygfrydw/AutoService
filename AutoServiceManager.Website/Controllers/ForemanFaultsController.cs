@@ -66,8 +66,7 @@ namespace AutoServiceManager.Website.Controllers
                 op.OperationType = PartOperationType.Request;
                 op.PartId = tempPart.Id;
                 op.Part = tempPart;
-
-                decimal tmp = op.Part.PartFromCatalogue.Price;
+                op.Part.SoldPrice = op.Part.PartFromCatalogue.Price;
 
                 db.PartOperations.Add(op);
             }
