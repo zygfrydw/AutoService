@@ -32,5 +32,7 @@ namespace AutoServiceManager.Common.Model
         {
             get { return (decimal)WorkDuration*WorkerRate; }
         }
+
+        public long FaultId { get; set; }
     }
 }

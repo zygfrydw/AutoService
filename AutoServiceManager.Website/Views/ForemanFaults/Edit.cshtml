@@ -50,11 +50,20 @@
                 </div>
             </div>
             
-            <a href='@Url.Action("Create", "WorkTimes")'>
-                <i class="glyphicon glyphicon-wrench" style=""></i>Dodaj Role
-            </a>
+            @*<div>
+                @Html.Action("Index", "WorkTimesController", new { FaultId = Model.ID })
+            </div>*@
+            
             
         }
+        
+        @if(User.IsInRole("Worker"))
+        {
+            <a href='@Url.Action("Create", "WorkTimes", new { FaultId = Model.ID })'>
+                <i class="glyphicon glyphicon-wrench" style=""></i>Dodaj godzine
+            </a>
+        }
+
         <div class="form-group">
             @Html.LabelFor(m => m.Decription, new { @class = "control-label" })
             <div>
