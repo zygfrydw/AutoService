@@ -1,0 +1,57 @@
+﻿@model IEnumerable<AutoServiceManager.Common.Model.SubFault>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ParentFault.Decription)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Worker.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RemainingHours)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EstimatedCost)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ParentFault.Decription)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Worker.FirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RemainingHours)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EstimatedCost)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

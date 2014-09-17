@@ -111,7 +111,7 @@ namespace AutoServiceManager.Website.Controllers
             {
                 db.WorkedTime.Add(workTime);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details/"+workTime.Id.ToString());
             }
 
             ViewBag.WorkerId = new SelectList(db.People, "ID", "FirstName", workTime.WorkerId);

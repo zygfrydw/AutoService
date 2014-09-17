@@ -138,6 +138,13 @@
                                     @Html.DisplayFor(modelItem => item.WorkerRate)
                                 </td>
                                 <td>
+                                    @Html.DisplayFor(modelItem => item.WorkDuration)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.WorkCost)
+                                </td>
+
+                                <td>
                                     @Html.ActionLink("Edycja", "Edit", new { id = item.Id }) |
                                     @Html.ActionLink("Szczegóły", "Details", new { id = item.Id }) |
                                     @Html.ActionLink("Usuń", "Delete", new { id = item.Id })

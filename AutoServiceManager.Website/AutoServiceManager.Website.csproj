@@ -194,6 +194,7 @@
     <Compile Include="Controllers\PartsController.cs" />
     <Compile Include="Controllers\RepairStatusController.cs" />
     <Compile Include="Controllers\SecretaryController.cs" />
+    <Compile Include="Controllers\SubFaultController.cs" />
     <Compile Include="Controllers\UserAccountsController.cs" />
     <Compile Include="Controllers\WorkTimesController.cs" />
     <Compile Include="Global.asax.cs">
@@ -465,6 +466,11 @@
     <Content Include="Views\PartOperations\Release.cshtml" />
     <Content Include="Views\PartOperations\ReleasedParts.cshtml" />
     <Content Include="Views\PartOperations\ReleaseNotEnough.cshtml" />
+    <Content Include="Views\SubFault\Create.cshtml" />
+    <Content Include="Views\SubFault\Delete.cshtml" />
+    <Content Include="Views\SubFault\Details.cshtml" />
+    <Content Include="Views\SubFault\Edit.cshtml" />
+    <Content Include="Views\SubFault\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

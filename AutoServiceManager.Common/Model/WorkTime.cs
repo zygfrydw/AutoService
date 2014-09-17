@@ -25,7 +25,7 @@ namespace AutoServiceManager.Common.Model
         public string description { get; set; }
         public double WorkDuration
         {
-            get { return (EndTime - StartTime).Hours; }
+            get { return (EndTime - StartTime).Days*24 + (EndTime - StartTime).Hours; }
         }
 
         public decimal WorkCost
