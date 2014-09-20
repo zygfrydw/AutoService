@@ -21,6 +21,6 @@ namespace AutoServiceManager.Common.Identity
         Boss,
         Worker,
         Storekeeper,
-        
+        Foreman,
     }
 }

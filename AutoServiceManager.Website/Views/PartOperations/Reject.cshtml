@@ -1,0 +1,13 @@
+﻿@model AutoServiceManager.Common.Model.PartOperation
+
+@{
+    ViewBag.Title = "Zgłoszenie odrzucone";
+}
+
+<h2>Zgłoszenie zaakceptowane</h2>
+<p>@Html.DisplayNameFor(m => m.Part.PartFromCatalogue.PartName): <b>@Model.Part.PartFromCatalogue.PartName</b></p>
+<p>@Html.DisplayNameFor(m => m.Part.PartFromCatalogue.SerialNumber): <b>@Model.Part.PartFromCatalogue.SerialNumber</b></p>
+<p>Sztuk: <b>@Model.Part.Count</b></p>
+<p><h4>Zgłoszenie od mechanika <b>@Model.Worker.FirstName @Model.Worker.SecondName</b> zostało <font color="red">odrzucone</font></h4></p>
+<p>@Html.ActionLink("Powrót do zgłoszeń", "RequestedParts")</p>
+<p>@Html.ActionLink("Zobacz odrzucone zgłoszenia", "RejectedParts")</p>

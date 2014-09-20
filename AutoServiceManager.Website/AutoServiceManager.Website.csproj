@@ -461,7 +461,6 @@
     <Content Include="Views\Parts\Details.cshtml" />
     <Content Include="Views\Parts\Edit.cshtml" />
     <Content Include="Views\Parts\Index.cshtml" />
-    <Content Include="Views\PartOperations\Delete.cshtml" />
     <Content Include="Views\PartOperations\Index.cshtml" />
     <Content Include="Views\PartOperations\Release.cshtml" />
     <Content Include="Views\PartOperations\ReleasedParts.cshtml" />
@@ -471,6 +470,10 @@
     <Content Include="Views\SubFault\Details.cshtml" />
     <Content Include="Views\SubFault\Edit.cshtml" />
     <Content Include="Views\SubFault\Index.cshtml" />
+    <Content Include="Views\PartOperations\RequestedParts.cshtml" />
+    <Content Include="Views\PartOperations\RejectedParts.cshtml" />
+    <Content Include="Views\PartOperations\Approve.cshtml" />
+    <Content Include="Views\PartOperations\Reject.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

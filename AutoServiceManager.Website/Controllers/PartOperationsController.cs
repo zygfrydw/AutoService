@@ -18,6 +18,30 @@ namespace AutoServiceManager.Website.Controllers
         public ActionResult Index()
         {
             var partoperations = db.PartOperations
+                .Where(p => p.OperationType == PartOperationType.Approved)
+                .Include(p => p.Part)
+                .Include(p => p.Worker)
+                .Include(p => p.Part.PartFromCatalogue);
+
+            return View(partoperations.ToList());
+        }
+
+        // GET: /PartOperations/RejectedParts
+        public ActionResult RejectedParts()
+        {
+            var partoperations = db.PartOperations
+                .Where(p => p.OperationType == PartOperationType.Rejected)
+                .Include(p => p.Part)
+                .Include(p => p.Worker)
+                .Include(p => p.Part.PartFromCatalogue);
+
+            return View(partoperations.ToList());
+        }
+
+        // GET: /PartOperations/RequestedParts
+        public ActionResult RequestedParts()
+        {
+            var partoperations = db.PartOperations
                 .Where(p => p.OperationType == PartOperationType.Request)
                 .Include(p => p.Part)
                 .Include(p => p.Worker)
@@ -84,8 +108,7 @@ namespace AutoServiceManager.Website.Controllers
             return View(partoperation);
         }
 
-        // GET: /PartOperations/Delete/5
-        public ActionResult Delete(long? id)
+        public ActionResult Approve(long? id)
         {
             if (id == null)
             {
@@ -96,18 +119,40 @@ namespace AutoServiceManager.Website.Controllers
             {
                 return HttpNotFound();
             }
+
+            if (partoperation.OperationType != PartOperationType.Request)
+            {
+                return HttpNotFound();
+            }
+            partoperation.OperationType = PartOperationType.Approved;
+            db.SaveChanges();
+
             return View(partoperation);
         }
 
-        // POST: /PartOperations/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(long id)
+        public ActionResult Reject(long? id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             PartOperation partoperation = db.PartOperations.Find(id);
-            db.PartOperations.Remove(partoperation);
+            if (partoperation == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (partoperation.OperationType != PartOperationType.Request)
+            {
+                return HttpNotFound();
+            }
+            Worker assigned = db.Workers.FirstOrDefault(f => f.User.UserName == User.Identity.Name);
+            partoperation.OperationType = PartOperationType.Rejected;
+            partoperation.RejectingWorkerId = assigned.ID;
+            partoperation.RejectingWorker = assigned;
             db.SaveChanges();
-            return RedirectToAction("Index");
+
+            return View(partoperation);
         }
 
         protected override void Dispose(bool disposing)

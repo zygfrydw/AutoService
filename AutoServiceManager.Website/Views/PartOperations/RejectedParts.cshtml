@@ -1,14 +1,10 @@
 ﻿@model IEnumerable<AutoServiceManager.Common.Model.PartOperation>
 
 @{
-    ViewBag.Title = "Części zamówione przez mechaników";
+    ViewBag.Title = "Odrzucone zgłoszenia od mechaników";
 }
 
-<h2>Części zamówione przez mechaników</h2>
-
-<p>
-    @Html.ActionLink("Zobacz wydane części", "ReleasedParts")
-</p>
+<h2>Odrzucone zgłoszenia od mechaników</h2>
 
 <table class="table">
     <tr>
@@ -26,6 +22,9 @@
         </th>
         <th>
             Mechanik
+        </th>
+        <th>
+            Odrzucone przez
         </th>
         <th></th>
     </tr>
@@ -48,18 +47,12 @@
             @Html.DisplayFor(modelItem => item.Worker.FirstName)
             @Html.DisplayFor(modelItem => item.Worker.SecondName)
         </td>
-        @if (User.IsInRole("Storekeeper"))
-        {
-            <td>
-                @Html.ActionLink("Wydaj zamówienie", "Release", new { id=item.Id }) |
-                @Html.ActionLink("Odrzuć", "Reject", new { id=item.Id })
-            </td>
-        }
-        else
-        {
-            <td>
-            </td>
-        }
+        <td>
+            <font color="red">
+                @Html.DisplayFor(modelItem => item.RejectingWorker.FirstName)
+                @Html.DisplayFor(modelItem => item.RejectingWorker.SecondName)
+            </font>
+        </td>
     </tr>
 }
 

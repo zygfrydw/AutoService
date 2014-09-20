@@ -34,13 +34,23 @@
             </div>
         }*@
         
-        if (User.IsInRole("Storekeeper"))
+        if (User.IsInRole("Foreman"))
         { 
             <div class="col-md-4">
                 <h2>Panel majstra</h2>
                 <p>Zmiana statusu napraw i przydzielanie mechaników</p>
                 <p><a class="btn btn-default" href="@Url.Action("Index", "ForemanFaults")">Zarządzaj naprawami &raquo;</a></p>
+
+                <p>Przeglądanie zgłoszonego zapotrzebowania na części i akceptacja lub odrzucenie</p>
+                <p><a class="btn btn-default" href="@Url.Action("RequestedParts", "PartOperations")">Zarządzaj zapotrzebowaniem &raquo;</a></p>
+
+                <p>Przeglądanie odrzuconych zgłoszeń zapotrzebowania na części</p>
+                <p><a class="btn btn-default" href="@Url.Action("RejectedParts", "PartOperations")">Przeglądaj odrzucone zgłoszenia &raquo;</a></p>
+
+                <p>Przeglądanie zaakceptowanych zgłoszeń</p>
+                <p><a class="btn btn-default" href="@Url.Action("Index", "PartOperations")">Przeglądaj zamówienia &raquo;</a></p>
             </div>
+
         }
         
         if (User.IsInRole("Worker"))
