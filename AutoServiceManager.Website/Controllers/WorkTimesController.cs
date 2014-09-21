@@ -24,7 +24,8 @@ namespace AutoServiceManager.Website.Controllers
             var workedTime = db.WorkedTime.Include(w => w.RelatedWorker).Include(w => w.RelatedWorker.Faults);
             if(User.IsInRole("Worker"))
             {
-                var worker = workedTime.Where(w => w.RelatedWorker.FirstName == User.Identity.Name);
+                Worker currentWorker = db.Workers.FirstOrDefault(f => f.User.UserName == User.Identity.Name);
+                var worker = workedTime.Where(w => w.WorkerId == currentWorker.ID);
                 return View(worker.ToList());
             }
             
@@ -48,12 +49,14 @@ namespace AutoServiceManager.Website.Controllers
                 int.TryParse(year, out intYear);
                 if (0 != intYear)
                 {
-                    var worker = workedTime.Where(w => w.RelatedWorker.FirstName == User.Identity.Name && w.StartTime.Month == temp && w.StartTime.Year == intYear);
+                    var worker = workedTime
+                        .Where(w => w.RelatedWorker.User.UserName == User.Identity.Name && w.StartTime.Month == temp && w.StartTime.Year == intYear);
                     var tmp = worker.ToList();
                     return View(worker.ToList());
                 }
                 else {
-                    var worker = workedTime.Where(w => w.RelatedWorker.FirstName == User.Identity.Name && w.StartTime.Month == temp && w.StartTime.Year == DateTime.Now.Year);
+                    var worker = workedTime
+                        .Where(w => w.RelatedWorker.User.UserName == User.Identity.Name && w.StartTime.Month == temp && w.StartTime.Year == DateTime.Now.Year);
                     return View(worker.ToList());
                 }
                 
@@ -88,7 +91,7 @@ namespace AutoServiceManager.Website.Controllers
             if (User.IsInRole("Worker"))
             foreach(var cos in db.People)
             {
-                if(cos.FirstName == User.Identity.Name)
+                if(cos.User.UserName == User.Identity.Name)
                 {
                     a.Add(cos);
                     ViewBag.WorkerId = new SelectList(a, "ID", "FirstName");

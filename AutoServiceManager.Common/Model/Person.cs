@@ -66,6 +66,5 @@ namespace AutoServiceManager.Common.Model
         public short NotActive { get; set; }
         [DefaultValue(0)]
         public short Blocked { get; set; }
-        public virtual ICollection<Fault> Faults { get; set; }
     }
 }

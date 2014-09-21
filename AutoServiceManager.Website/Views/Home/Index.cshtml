@@ -59,6 +59,20 @@
                 <h2>Panel Pracownika</h2>
                 <p>Sprawdź zlecone zadania oraz zarządzaj swoim czasem pracy</p>
                 <p><a class="btn btn-default" href="@Url.Action("Index", "WorkTimes")">Otwórz &raquo;</a></p>
+
+                <p>Przeglądaj swoje zapotrzebowanie na części</p>
+                <p><a class="btn btn-default" href="@Url.Action("RequestedParts", "PartOperations")">Przeglądaj zapotrzebowanie &raquo;</a></p>
+
+                <p>Przeglądaj zaakceptowane zamówienia</p>
+                <p><a class="btn btn-default" href="@Url.Action("Index", "PartOperations")">Przeglądaj zaakceptowane zamówienia &raquo;</a></p>
+
+                <p>Dowiedz się, które zamówienia zostały odrzucone i przez kogo</p>
+                <p><a class="btn btn-default" href="@Url.Action("RejectedParts", "PartOperations")">Przeglądaj odrzucone zamówienia &raquo;</a></p>
+
+                <p>Sprawdź, które części już otrzymałeś</p>
+                <p><a class="btn btn-default" href="@Url.Action("ReleasedParts", "PartOperations")">Przeglądaj wydane zamówienia &raquo;</a></p>
+
+
             </div>
         }
         

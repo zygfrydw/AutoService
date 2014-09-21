@@ -118,7 +118,7 @@ namespace AutoServiceManager.Website.Controllers
             {
                 userIds.Add(user.UserId);
             }
-            List<Person> workers = db.People.Where(w => userIds.Contains(w.UserID) && w.Blocked != 1 && w.NotActive != 1).ToList();
+            List<Worker> workers = db.Workers.Where(w => userIds.Contains(w.UserID) && w.Blocked != 1 && w.NotActive != 1).ToList();
             IEnumerable<SelectListItem> workersView = 
                 from worker in workers
                 select new SelectListItem
@@ -170,19 +170,10 @@ namespace AutoServiceManager.Website.Controllers
                     fault.RelatedCar = original.RelatedCar;
                     fault.InvoiceID = original.InvoiceID;
                     fault.Invoice = original.Invoice;
+                    
                     db.Entry(original).CurrentValues.SetValues(fault);
                     db.SaveChanges();
 
-                    if (fault.WorkerID != null)
-                    {
-                        Person newWorker = db.People.Find(fault.WorkerID);
-                        if (!newWorker.Faults.Any(f => f.ID == fault.ID))
-                        {
-                            newWorker.Faults.Add(fault);
-                        }
-                        db.SaveChanges();
-                    }
-                    
                     return RedirectToAction("Index");
                 }
             }

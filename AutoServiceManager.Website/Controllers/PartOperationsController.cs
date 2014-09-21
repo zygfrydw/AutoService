@@ -23,6 +23,12 @@ namespace AutoServiceManager.Website.Controllers
                 .Include(p => p.Worker)
                 .Include(p => p.Part.PartFromCatalogue);
 
+            if (User.IsInRole("Worker"))
+            {
+                Worker currentWorker = db.Workers.FirstOrDefault(f => f.User.UserName == User.Identity.Name);
+                partoperations = partoperations.Where(p => p.WorkerId == currentWorker.ID);
+            }
+
             return View(partoperations.ToList());
         }
 
@@ -34,6 +40,12 @@ namespace AutoServiceManager.Website.Controllers
                 .Include(p => p.Part)
                 .Include(p => p.Worker)
                 .Include(p => p.Part.PartFromCatalogue);
+
+            if (User.IsInRole("Worker"))
+            {
+                Worker currentWorker = db.Workers.FirstOrDefault(f => f.User.UserName == User.Identity.Name);
+                partoperations = partoperations.Where(p => p.WorkerId == currentWorker.ID);
+            }
 
             return View(partoperations.ToList());
         }
@@ -47,6 +59,12 @@ namespace AutoServiceManager.Website.Controllers
                 .Include(p => p.Worker)
                 .Include(p => p.Part.PartFromCatalogue);
 
+            if (User.IsInRole("Worker"))
+            {
+                Worker currentWorker = db.Workers.FirstOrDefault(f => f.User.UserName == User.Identity.Name);
+                partoperations = partoperations.Where(p => p.WorkerId == currentWorker.ID);
+            }
+
             return View(partoperations.ToList());
         }
 
@@ -58,6 +76,12 @@ namespace AutoServiceManager.Website.Controllers
                 .Include(p => p.Part)
                 .Include(p => p.Worker)
                 .Include(p => p.Part.PartFromCatalogue);
+
+            if (User.IsInRole("Worker"))
+            {
+                Worker currentWorker = db.Workers.FirstOrDefault(f => f.User.UserName == User.Identity.Name);
+                partoperations = partoperations.Where(p => p.WorkerId == currentWorker.ID);
+            }
 
             return View(partoperations.ToList());
         }
