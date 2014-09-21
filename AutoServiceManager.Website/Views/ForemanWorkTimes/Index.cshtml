@@ -1,0 +1,63 @@
+﻿@model IEnumerable<AutoServiceManager.Common.Model.WorkTime>
+
+@{
+    ViewBag.Title = "Ustalanie stawek dla pracowników";
+}
+
+<h2>Ustalanie stawek dla pracowników</h2>
+
+<p>
+    @Html.ActionLink("Zobacz ustalone stawki", "Rates")
+</p>
+
+<table class="table">
+    <tr>
+        <th>
+            Pracownik
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StartTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EndTime)
+        </th>
+        <th>
+            Opis wykonanej pracy
+        </th>
+        <th>
+            Numer rejestracyjny z naprawy
+        </th>
+        <th>
+            Opis powiązanej naprawy
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.RelatedWorker.FirstName)
+            @Html.DisplayFor(modelItem => item.RelatedWorker.SecondName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StartTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EndTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Fault.RelatedCar.RegistrationNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Fault.Decription)
+        </td>
+        <td>
+            @Html.ActionLink("Ustal stawkę", "Edit", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

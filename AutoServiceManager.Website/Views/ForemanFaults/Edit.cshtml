@@ -133,121 +133,154 @@
     @Scripts.Render("~/bundles/jqueryval")
 }
 
-@if(User.IsInRole("Worker"))
+@if(User.IsInRole("Worker") || User.IsInRole("Foreman"))
 { 
-<div class="row">
-    <div class="col-md-8">
-        <table class="table table-striped">
+
+        <table class="table table-striped" style="width:100%">
             <thead>
                 <tr>
-                    <th>#</th>
-                    <th>#</th>
+                    <th>Opis usterki</th>
+                    <th>Zamówione części</th>
+                    <th></th>
+                    <th></th>
                 </tr>
             </thead>
-            
-                <tbody>
-                    @foreach (var subfault in Model.SubFaults) 
-                    { 
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(x => subfault.Id)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(x => subfault.Description)
-                            </td>
-                            <td >
-                                    @foreach (var part in subfault.UsedParts)
-                                    {
-                                        
-                                        <span>
-                                        &nbsp
-                                        @Html.DisplayFor(x => part.Count)
-                                            &nbsp
-                                        @Html.DisplayFor( x => part.PartFromCatalogue.PartName)                                ;
-                                        &nbsp
-                                        </span>
-                                        
-                                    }
-                            </td>
-                            <td> 
-                                <a href='@Url.Action("Edit", "SubFault", new { id = subfault.Id})'>
-                                    <i class="glyphicon glyphicon-wrench" style=""></i>Zatwierdź
-                                </a>                             
-                            </td>
-                        </tr>
-                    
-                    }
+
+            <tbody>
+                @foreach (var subfault in Model.SubFaults)
+                {
                     <tr>
-                    <form id="add_subfault_for" method="POST" action="@Url.Action("NewSubFault", "ForemanFaults")">
-                        <tr>
-                            <td>
-                                <label class="col-md-2 control-label" for="RepairStatus">Opis:</label>
-                                
-                            </td>
-                            <td>
-                                <input type="text" class="text-box" name="description">
-                            </td>
-                            <td>
-                                <label class="col-md-2 control-label" for="RepairStatus">Dodaj Część:</label>
-                            </td>
-                            <td>
-                                <input type="hidden" name="parts" id="container">
-                                <input type="hidden" name="parent" id="parent" value="@Model.ID">
+                        <td>
+                            @Html.DisplayFor(x => subfault.Description)
+                        </td>
+                        <td>
+                            @foreach (var part in subfault.UsedParts)
+                            {
 
-                                <select name="partslist" form="carform"></select>
-                                <input type="text" class="text-box" name="no">
-                                <i class="glyphicon glyphicon-plus" id="add_part"> </i>
-                            </td>
-                            <td id="parts_in_container"></td>
-                            <td>
-                                <label class="col-md-2 control-label" for="RepairStatus">Dodaj wpis:</label>
-                            </td>
-                            <td>
-                                <i id="add_subfault_action" class="glyphicon glyphicon-plus"></i>
-                            </td>
-                        </tr>
-                    </form>
+                                <span>
+                                    &nbsp
+                                    @Html.DisplayFor(x => part.Count)
+                                    &nbsp
+                                    @Html.DisplayFor(x => part.PartFromCatalogue.PartName)                                ;
+                                    &nbsp
+                                </span>
+
+                            }
+                        </td>
+                        <td>
+                            @if (subfault.Status == SubFaultStatus.Accepted)
+                            {
+                                <font color="green">Zaakceptowane</font>
+                            }
+                            else if (subfault.Status == SubFaultStatus.Rejected)
+                            {
+                                <font color="red">Odrzucone</font>
+                            }
+                            else if (subfault.Status == SubFaultStatus.InProgress)
+                            {
+                                <font color="#FF9900">W trakcie naprawy</font>
+                            }
+                            else if (subfault.Status == SubFaultStatus.Done)
+                            {
+                                <font color="#00CCFF">Oczekiwanie na akceptację</font>
+                            }
+                        </td>
+
+                        <td>
+                            @if (User.IsInRole("Worker") && subfault.Status != SubFaultStatus.Accepted)
+                            {
+                                <a href='@Url.Action("Edit", "SubFault", new { id = subfault.Id})'>
+                                    Edytuj
+                                </a>
+                            }
+                            else if (User.IsInRole("Foreman") && (subfault.Status == SubFaultStatus.Done || subfault.Status == SubFaultStatus.Rejected))
+                            {
+                                <a href='@Url.Action("Accept", "SubFault", new { id = subfault.Id})'>
+                                    Akceptuj
+                                </a>
+                            }
+                            else if (User.IsInRole("Foreman") && (subfault.Status == SubFaultStatus.Done || subfault.Status == SubFaultStatus.Accepted))
+                            {
+                                <a href='@Url.Action("Reject", "SubFault", new { id = subfault.Id})'>
+                                    Odrzuć
+                                </a>
+                            }
+                        </td>
                     </tr>
-                </tbody>
-            
+
+                }
+                
+            </tbody>
+
         </table>
-    </div>
-</div>
-    <script>
-        var container = [];
 
-        $(function () {
+    <table class="table table-striped">
+        <form id="add_subfault_for" method="POST" action="@Url.Action("NewSubFault", "ForemanFaults")">
+            <tr>
+                <td>
+                    <label class="col-md-2 control-label" for="RepairStatus">Opis:</label>
+
+                </td>
+                <td>
+                    <input type="text" class="text-box" name="description">
+                </td>
+                <td>
+                    <label class="col-md-2 control-label" for="RepairStatus">Dodaj Część:</label>
+                </td>
+                <td>
+                    <input type="hidden" name="parts" id="container">
+                    <input type="hidden" name="parent" id="parent" value="@Model.ID">
+
+                    <select name="partslist" form="carform"></select>
+                    <input type="text" class="text-box" name="no">
+                    <i class="glyphicon glyphicon-plus" id="add_part"> </i>
+                </td>
+                <td id="parts_in_container"></td>
+                <td>
+                    <label class="col-md-2 control-label" for="RepairStatus">Dodaj wpis:</label>
+                </td>
+                <td>
+                    <a id="add_subfault_action">Dodaj usterkę</a>
+                </td>
+            </tr>
+        </form>
+        </table>
+
+        <script>
+            var container = [];
+
+            $(function () {
 
 
-        $.ajax({
-            url: '/Parts/Partsapi',
-            success: function (data) {
-                $.each(data, function (index, value) {
-                    $("[name=partslist]").append('<option value="' + value.id + '">' + value.name + '</option>');
+                $.ajax({
+                    url: '/Parts/Partsapi',
+                    success: function (data) {
+                        $.each(data, function (index, value) {
+                            $("[name=partslist]").append('<option value="' + value.id + '">' + value.name + '</option>');
+                        });
+                    },
+                    dataType: 'json'
                 });
-            },
-            dataType: 'json'
-        });
 
 
-        $("#add_part").click(function () {
-            container[container.length] = { id: $("[name=partslist] option:selected").val(), name: $("[name=partslist] option:selected").text(), quantity: $("[name=no]").val() };
-            $("[name=no]").val(null);
+                $("#add_part").click(function () {
+                    container[container.length] = { id: $("[name=partslist] option:selected").val(), name: $("[name=partslist] option:selected").text(), quantity: $("[name=no]").val() };
+                    $("[name=no]").val(null);
 
-            var text = "";
-            $.each(container, function (index, value) {
-                text = text + " " + value.name + " " + value.quantity;
+                    var text = "";
+                    $.each(container, function (index, value) {
+                        text = text + " " + value.name + " " + value.quantity;
+                    });
+                    $("#parts_in_container").text(text);
+                });
+
+
+                $("#add_subfault_action").click(function () {
+                    $("[type=hidden][name=parts]").val(JSON.stringify(container));
+                    $("#add_subfault_for").submit();
+                });
             });
-            $("#parts_in_container").text(text);
-        });
-
-
-        $("#add_subfault_action").click(function () {
-            $("[type=hidden][name=parts]").val(JSON.stringify(container));
-            $("#add_subfault_for").submit();
-        });
-    });
-</script>
+        </script>
 }
 
 

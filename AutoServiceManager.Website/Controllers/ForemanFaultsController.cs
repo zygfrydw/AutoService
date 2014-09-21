@@ -43,6 +43,7 @@ namespace AutoServiceManager.Website.Controllers
 
             subFault.Worker = assigned;
             subFault.WorkerID = assigned.ID;
+            subFault.Status = SubFaultStatus.InProgress;
 
             List<Part> temp = new List<Part>();
 

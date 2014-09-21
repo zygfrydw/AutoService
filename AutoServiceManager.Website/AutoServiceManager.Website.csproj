@@ -189,6 +189,7 @@
     <Compile Include="Controllers\CountrySelectable.cs" />
     <Compile Include="Controllers\FaultReportController.cs" />
     <Compile Include="Controllers\ForemanFaultsController.cs" />
+    <Compile Include="Controllers\ForemanWorkTimesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PartOperationsController.cs" />
     <Compile Include="Controllers\PartsController.cs" />
@@ -480,6 +481,9 @@
     <Content Include="Views\WorkerFaults\Details.cshtml" />
     <Content Include="Views\WorkerFaults\Edit.cshtml" />
     <Content Include="Views\WorkerFaults\Index.cshtml" />
+    <Content Include="Views\ForemanWorkTimes\Edit.cshtml" />
+    <Content Include="Views\ForemanWorkTimes\Index.cshtml" />
+    <Content Include="Views\ForemanWorkTimes\Rates.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

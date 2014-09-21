@@ -7,30 +7,23 @@ namespace AutoServiceManager.Common.Model
 {
     public enum SubFaultStatus
     {
-        [Description("Zg³oszenie oczekuje na zatwierdzenie")]
-        [Color("red")]
-        [HtmlClass("danger")]
-        ReportedByCustomer,
-        [Description("Zg³oszenie zosta³o przyjête")]
+        [Description("W trakcie naprawy")]
         [Color("red")]
         [HtmlClass("warning")]
-        Approved,
-        [Description("Samochód zosta³ przyjêty do serwisu")]
-        [Color("red")]
-        [HtmlClass("info")]
-        NewInService,
-        [Description("W trakcie naprawy")]
-        [Color("#FF9966")]
-        [HtmlClass("info")]
         InProgress,
         [Description("Naprawa zakoñczona")]
-        [Color("green")]
+        [Color("red")]
         [HtmlClass("success")]
         Done,
-        [Description("Odebrane przez klienta")]
+        [Description("Odrzucone przez majstra")]
+        [Color("red")]
+        [HtmlClass("error")]
+        Rejected,
+        [Description("Zaakceptowane")]
         [Color("green")]
         [HtmlClass("success")]
-        Relesed
+        Accepted
+        
     }
     public class SubFault
     {

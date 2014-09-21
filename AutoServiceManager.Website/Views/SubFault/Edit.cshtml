@@ -18,14 +18,6 @@
         @Html.HiddenFor(model => model.Id)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.FaultId, "FaultId", new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("FaultId", String.Empty)
-                @Html.ValidationMessageFor(model => model.FaultId)
-            </div>
-        </div>
-
-        <div class="form-group">
             @Html.LabelFor(model => model.Description, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Description)
@@ -33,37 +25,12 @@
             </div>
         </div>
 
-        @*<div class="form-group">
-            @Html.LabelFor(model => model.RemainingHours, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.RemainingHours)
-                @Html.ValidationMessageFor(model => model.RemainingHours)
-            </div>
-        </div>*@
-
-        @*<div class="form-group">
-            @Html.LabelFor(model => model.EstimatedCost, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.EstimatedCost)
-                @Html.ValidationMessageFor(model => model.EstimatedCost)
-            </div>
-        </div>*@
-
         <div class="form-group">
-            @Html.LabelFor(model => model.WorkerID, "WorkerID", new { @class = "control-label col-md-2" })
+            @Html.LabelFor(m => m.Status, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
-                @Html.DropDownList("WorkerID", String.Empty)
-                @Html.ValidationMessageFor(model => model.WorkerID)
+                @Html.DropDownListFor(model => model.Status, (List<SelectListItem>)ViewBag.Statuses)
             </div>
         </div>
-
-        @*<div class="form-group">
-            @Html.LabelFor(model => model.Status, "WorkerID", new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("Status", String.Empty)
-                @Html.ValidationMessageFor(model => model.Status)
-            </div>
-        </div>*@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">

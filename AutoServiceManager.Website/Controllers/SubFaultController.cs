@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using AutoServiceManager.Common.Model;
+using System.Reflection;
+using System.ComponentModel;
 
 namespace AutoServiceManager.Website.Controllers
 {
@@ -75,8 +77,28 @@ namespace AutoServiceManager.Website.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.FaultId = new SelectList(db.Faults, "ID", "Decription", subfault.FaultId);
-            ViewBag.WorkerID = new SelectList(db.People, "ID", "FirstName", subfault.WorkerID);
+
+            List<SelectListItem> statuses = new List<SelectListItem>();
+            foreach (SubFaultStatus status in (SubFaultStatus[])Enum.GetValues(typeof(SubFaultStatus)))
+            {
+                FieldInfo fi = status.GetType().GetField(status.ToString());
+                DescriptionAttribute[] attributes =
+                    (DescriptionAttribute[])fi.GetCustomAttributes(typeof(DescriptionAttribute), false);
+                String description = (attributes.Length > 0) ? attributes[0].Description : status.ToString();
+
+                if (status != SubFaultStatus.Rejected)
+                {
+                    statuses.Add(new SelectListItem()
+                    {
+                        Text = description,
+                        Value = ((int)status).ToString(),
+                        Selected = status == subfault.Status
+                    });
+                }
+            }
+
+            ViewBag.Statuses = statuses;
+
             return View(subfault);
         }
 
@@ -85,18 +107,66 @@ namespace AutoServiceManager.Website.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="Id,FaultId,Description,RemainingHours,EstimatedCost,WorkerID")] SubFault subfault)
+        public ActionResult Edit([Bind(Include="Id,Description,Status")] SubFault subfault)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(subfault).State = EntityState.Modified;
-                db.SaveChanges();
+                SubFault original = db.SubFaults.Find(subfault.Id);
+
+                if (original != null)
+                {
+                    original.Status = subfault.Status;
+                    original.Description = subfault.Description;
+
+                    db.Entry(original);
+                    db.SaveChanges();
+                }
                 //Redirect("~/ForemanFaults/Edit/"+subfault.FaultId)
-                return RedirectToAction("Edit/" + subfault.FaultId.ToString(), "ForemanFaults");
+                return RedirectToAction("Edit/" + original.FaultId.ToString(), "ForemanFaults");
             }
-            ViewBag.FaultId = new SelectList(db.Faults, "ID", "Decription", subfault.FaultId);
-            ViewBag.WorkerID = new SelectList(db.People, "ID", "FirstName", subfault.WorkerID);
             return View(subfault);
+        }
+
+        public ActionResult Accept(long? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            SubFault original = db.SubFaults.Find(id);
+            if (original == null)
+            {
+                return HttpNotFound();
+            }
+
+            original.Status = SubFaultStatus.Accepted;
+
+            db.Entry(original);
+            db.SaveChanges();
+
+            return RedirectToAction("Edit/" + original.FaultId.ToString(), "ForemanFaults");
+        }
+
+        public ActionResult Reject(long? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            SubFault original = db.SubFaults.Find(id);
+            if (original == null)
+            {
+                return HttpNotFound();
+            }
+
+            original.Status = SubFaultStatus.Rejected;
+
+            db.Entry(original);
+            db.SaveChanges();
+
+            return RedirectToAction("Edit/" + original.FaultId.ToString(), "ForemanFaults");
         }
 
         // GET: /SubFault/Delete/5

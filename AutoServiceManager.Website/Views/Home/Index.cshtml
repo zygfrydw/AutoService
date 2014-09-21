@@ -25,21 +25,15 @@
             <p><a class="btn btn-default" href="@Url.Action("Index", "RepairStatus")">Sprawdź status &raquo;</a></p>
         </div>
         
-        @*if (User.IsInRole("Worker"))
-        { 
-            <div class="col-md-4">
-                <h2>Zgłoś brak części</h2>
-                <p>Zanim przyjedziesz do naszego serwisu, zgłoś nam usterkę, pomoże nam to wybrać dla ciebie najlepszy termi.</p>
-                <p><a class="btn btn-default" href="@Url.Action("Index", "Parts")">Zgłoś brak części &raquo;</a></p>
-            </div>
-        }*@
-        
         if (User.IsInRole("Foreman"))
         { 
             <div class="col-md-4">
                 <h2>Panel majstra</h2>
                 <p>Zmiana statusu napraw i przydzielanie mechaników</p>
                 <p><a class="btn btn-default" href="@Url.Action("Index", "ForemanFaults")">Zarządzaj naprawami &raquo;</a></p>
+
+                <p>Ustalanie stawek godzinowych dla mechaników</p>
+                <p><a class="btn btn-default" href="@Url.Action("Index", "ForemanWorkTimes")">Zarządzaj stawkami &raquo;</a></p>
 
                 <p>Przeglądanie zgłoszonego zapotrzebowania na części i akceptacja lub odrzucenie</p>
                 <p><a class="btn btn-default" href="@Url.Action("RequestedParts", "PartOperations")">Zarządzaj zapotrzebowaniem &raquo;</a></p>

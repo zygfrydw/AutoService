@@ -1,0 +1,99 @@
+﻿@model AutoServiceManager.Common.Model.WorkTime
+
+@{
+    ViewBag.Title = "Stawka godzinowa";
+}
+
+<h2>Stawka godzinowa</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Ustal stawkę godzinową dla pracownika</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.Id)
+
+        <dl class="dl-horizontal">
+            <h4>Dane o wykonanej pracy</h4>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.StartTime):
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.StartTime)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.EndTime):
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.EndTime)
+            </dd>
+
+            <dt>
+                Pracownik:
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.RelatedWorker.FirstName)
+                @Html.DisplayFor(model => model.RelatedWorker.SecondName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.description):
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.description)
+            </dd>
+
+            <dt>&nbsp;</dt>
+            <dd>&nbsp;</dd>
+
+            <h4>Dane o naprawie</h4>
+
+            <dt>
+                Numer rejestracyjny:
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Fault.RelatedCar.RegistrationNumber)
+            </dd>
+
+            <dt>
+                Opis:
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Fault.Decription)
+            </dd>
+
+            <dt>&nbsp;</dt>
+            <dd>&nbsp;</dd>
+
+            <h4>Stawka za godzinę</h4>
+
+            <dt>
+                @Html.LabelFor(model => model.WorkerRate):
+            </dt>
+            <dd>
+                @Html.EditorFor(model => model.WorkerRate)
+                @Html.ValidationMessageFor(model => model.WorkerRate)
+            </dd>
+        </dl>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Zmień stawkę" class="btn btn-default" />
+                </div>
+            </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("Powrót do listy", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
