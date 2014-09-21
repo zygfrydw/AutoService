@@ -95,10 +95,10 @@
         <hr />
         <h4></h4>
 
-        <p>
+        @*<p>
             @Html.ActionLink("Dodaj nowy rekord", "Create")
 
-        </p>
+        </p>*@
         <table class="table">
             <tr>
                 <th>
@@ -115,6 +115,12 @@
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.WorkerRate)
+                </th>
+                <th>
+                    Godziny łącznie
+                </th>
+                <th>
+                    Zarobione pieniądze
                 </th>
                 <th>
                     Nr rej samochodu
@@ -150,7 +156,14 @@
                                     @Html.DisplayFor(modelItem => item.WorkDuration)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.WorkCost)
+                                    @if(item.WorkCost == 0)
+                                    {
+                                        <text> nie ustalono </text>
+                                    }
+                                    else
+                                    {
+                                        @Html.DisplayFor(modelItem => item.WorkCost)    
+                                    }
                                 </td>
                                 <td>
                                     @if (item.Fault != null)
@@ -252,5 +265,5 @@
     </div>*@
 
     <a href='@Url.Action("Index", "WorkerFaults")'>
-        <i class="glyphicon glyphicon-wrench" style=""></i>Pokaż przydzielone prace
+        <i class="glyphicon glyphicon-wrench" style=""></i>Pokaż wszystkie przydzielone prace
     </a>
