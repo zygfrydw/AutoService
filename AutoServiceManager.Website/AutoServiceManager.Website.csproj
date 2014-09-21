@@ -196,6 +196,7 @@
     <Compile Include="Controllers\SecretaryController.cs" />
     <Compile Include="Controllers\SubFaultController.cs" />
     <Compile Include="Controllers\UserAccountsController.cs" />
+    <Compile Include="Controllers\WorkerFaultsController.cs" />
     <Compile Include="Controllers\WorkTimesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -474,6 +475,11 @@
     <Content Include="Views\PartOperations\RejectedParts.cshtml" />
     <Content Include="Views\PartOperations\Approve.cshtml" />
     <Content Include="Views\PartOperations\Reject.cshtml" />
+    <Content Include="Views\WorkerFaults\Create.cshtml" />
+    <Content Include="Views\WorkerFaults\Delete.cshtml" />
+    <Content Include="Views\WorkerFaults\Details.cshtml" />
+    <Content Include="Views\WorkerFaults\Edit.cshtml" />
+    <Content Include="Views\WorkerFaults\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

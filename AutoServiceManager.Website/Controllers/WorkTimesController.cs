@@ -22,10 +22,13 @@ namespace AutoServiceManager.Website.Controllers
         public ActionResult Index()
         {
             var workedTime = db.WorkedTime.Include(w => w.RelatedWorker).Include(w => w.RelatedWorker.Faults);
+            //var workedTime = db.WorkedTime.Include(w => w.RelatedWorker);
+            
             if(User.IsInRole("Worker"))
             {
                 Worker currentWorker = db.Workers.FirstOrDefault(f => f.User.UserName == User.Identity.Name);
                 var worker = workedTime.Where(w => w.WorkerId == currentWorker.ID);
+                ViewBag.Faults = currentWorker.Faults;
                 return View(worker.ToList());
             }
             
@@ -88,18 +91,20 @@ namespace AutoServiceManager.Website.Controllers
         public ActionResult Create()
         {
             List<Person> a = new List<Person>();
-            if (User.IsInRole("Worker"))
-            foreach(var cos in db.People)
-            {
-                if(cos.User.UserName == User.Identity.Name)
-                {
-                    a.Add(cos);
-                    ViewBag.WorkerId = new SelectList(a, "ID", "FirstName");
-                    return View();
-                }
-            }
+            //if (User.IsInRole("Worker"))
+            //{
+            //    foreach (var cos in db.People)
+            //    {
+            //        if (cos.User != null && cos.User.UserName == User.Identity.Name)
+            //        {
+            //            a.Add(cos);
+            //            ViewBag.WorkerId = new SelectList(a, "ID", "FirstName");
+            //            return View();
+            //        }
+            //    }
+            //}
 
-            ViewBag.WorkerId = new SelectList(db.People, "ID", "FirstName");
+            //ViewBag.WorkerId = new SelectList(db.People, "ID", "FirstName");
             return View();
         }
 
@@ -112,6 +117,11 @@ namespace AutoServiceManager.Website.Controllers
         {
             if (ModelState.IsValid)
             {
+                Worker currentWorker = db.Workers.FirstOrDefault(f => f.User.UserName == User.Identity.Name);
+                workTime.RelatedWorker = currentWorker;
+                workTime.WorkerId = currentWorker.ID;
+                Fault fault = db.Faults.FirstOrDefault(f => f.ID == workTime.FaultId);
+                workTime.Fault = fault;
                 db.WorkedTime.Add(workTime);
                 db.SaveChanges();
                 return RedirectToAction("Details/"+workTime.Id.ToString());

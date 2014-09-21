@@ -105,6 +105,9 @@
                     @Html.DisplayNameFor(model => model.RelatedWorker.FirstName)
                 </th>
                 <th>
+                    Opis
+                </th>
+                <th>
                     @Html.DisplayNameFor(model => model.StartTime)
                 </th>
                 <th>
@@ -112,6 +115,12 @@
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.WorkerRate)
+                </th>
+                <th>
+                    Nr rej samochodu
+                </th>
+                <th>
+                    Opis naprawy
                 </th>
                 <th></th>
             </tr>
@@ -143,11 +152,24 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.WorkCost)
                                 </td>
-
                                 <td>
-                                    @Html.ActionLink("Edycja", "Edit", new { id = item.Id }) |
+                                    @if (item.Fault != null)
+                                    {
+                                        @Html.DisplayFor(modelItem => item.Fault.RelatedCar.RegistrationNumber)
+                                    }
+
+                                </td>
+                                <td>
+                                    @if (item.Fault != null)
+                                    {
+                                        @Html.DisplayFor(modelItem => item.Fault.Decription)
+                                    }
+
+                                </td>
+                                <td>
+                                    @*@Html.ActionLink("Edycja", "Edit", new { id = item.Id }) |
                                     @Html.ActionLink("Szczegóły", "Details", new { id = item.Id }) |
-                                    @Html.ActionLink("Usuń", "Delete", new { id = item.Id })
+                                    @Html.ActionLink("Usuń", "Delete", new { id = item.Id })*@
                                 </td>
                             </tr>
     
@@ -168,6 +190,20 @@
                             @Html.DisplayFor(modelItem => item.WorkerRate)
                         </td>
                         <td>
+                            @if (item.Fault != null)
+                            {
+                                @Html.DisplayFor(modelItem => item.Fault.RelatedCar.RegistrationNumber)
+                            }
+                          
+                        </td>
+                        <td>
+                            @if(item.Fault != null)
+                            {
+                                @Html.DisplayFor(modelItem => item.Fault.Decription)    
+                            }
+                            
+                        </td>
+                        <td>
                             @Html.ActionLink("Edycja", "Edit", new { id = item.Id }) |
                             @Html.ActionLink("Szczegóły", "Details", new { id = item.Id }) |
                             @Html.ActionLink("Usuń", "Delete", new { id = item.Id })
@@ -179,38 +215,42 @@
 
         </table>
 
-        <div class="row">
-            <div class="col-md-8">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Nazwa Modelu</th>
-                            <th>Producent</th>
-                            <th>NR Rejestracyjny</th>
-                            <th>Opis</th>
-                            <th>Edycja</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (Model.Count() != 0)
+        @*<div class="row">
+        <div class="col-md-8">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Nazwa Modelu</th>
+                        <th>Producent</th>
+                        <th>NR Rejestracyjny</th>
+                        <th>Opis</th>
+                        <th>Edycja</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Count() != 0)
+                    {
+                        @foreach (var fault in Model.FirstOrDefault().RelatedWorker.Faults)
                         {
-                            foreach (var fault in Model.FirstOrDefault().RelatedWorker.Faults)
-                            {
-                                <tr>
-                                    <td>@Html.DisplayFor(x => fault.ID)</td>
-                                    <td>@Html.DisplayFor(x => fault.RelatedCar.Model.ModelName)</td>
-                                    <td>@Html.DisplayFor(x => fault.RelatedCar.Model.Manufacturer.Name)</td>
-                                    <td>@Html.DisplayFor(x => fault.RelatedCar.RegistrationNumber)</td>
-                                    <td>@Html.DisplayFor(x => fault.Decription)</td>
-                                    <td>
-                                        <a href='@Url.Action("Edit", "ForemanFaults", new { id = fault.ID })'>
-                                            <i class="glyphicon glyphicon-wrench" style=""></i>Edytuj
-                                        </a>
-                                </tr>
-                            }
+                            <tr>
+                                <td>@Html.DisplayFor(x => fault.ID)</td>
+                                <td>@Html.DisplayFor(x => fault.RelatedCar.Model.ModelName)</td>
+                                <td>@Html.DisplayFor(x => fault.RelatedCar.Model.Manufacturer.Name)</td>
+                                <td>@Html.DisplayFor(x => fault.RelatedCar.RegistrationNumber)</td>
+                                <td>@Html.DisplayFor(x => fault.Decription)</td>
+                                <td>
+                                    <a href='@Url.Action("Edit", "ForemanFaults", new { id = fault.ID })'>
+                                        <i class="glyphicon glyphicon-wrench" style=""></i>Edytuj
+                                    </a>
+                            </tr>
                         }
-                    </tbody>
-                </table>
-            </div>
+                    }
+                </tbody>
+            </table>
         </div>
+    </div>*@
+
+    <a href='@Url.Action("Index", "WorkerFaults")'>
+        <i class="glyphicon glyphicon-wrench" style=""></i>Pokaż przydzielone prace
+    </a>

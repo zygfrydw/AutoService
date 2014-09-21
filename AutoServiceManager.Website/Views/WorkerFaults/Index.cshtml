@@ -1,0 +1,55 @@
+﻿@using AutoServiceManager.Common.Model
+@using AutoServiceManager.Website.Models
+@model IEnumerable<AutoServiceManager.Common.Model.Fault>
+
+@{
+    ViewBag.Title = "Moje naprawy";
+}
+
+<h2>Moje naprawy</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.RelatedCar.RegistrationNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Worker.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RepairStatus)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Decription)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.RelatedCar.RegistrationNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Worker.FirstName)
+        </td>
+        <td>
+            @Html.DescriptionFor(item.RepairStatus)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Decription)
+        </td>
+        <td>
+            @*@Html.ActionLink("Edit", "ForemanFaults", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })*@
+            
+            <a href='@Url.Action("Edit", "ForemanFaults", new { id = item.ID })'>
+                <i class="glyphicon glyphicon-wrench" style=""></i>Edytuj
+            </a>
+        </td>
+    </tr>
+}
+
+</table>
